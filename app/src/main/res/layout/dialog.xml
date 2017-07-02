@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.uncolor.aroundme.Dialog">
+
+    <com.stfalcon.chatkit.messages.MessagesList
+        android:id="@+id/messagesList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.0">
+
+    </com.stfalcon.chatkit.messages.MessagesList>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#f0f0f0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.974"
+        android:id="@+id/linearLayout">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:tint="#898989"
+            app:srcCompat="@drawable/clip" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:hint="Cообщение"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:background="@drawable/corner_radius_send_msg_edit_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:text="Отпр"
+            android:gravity="center|top"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:textColor="#898989"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"/>
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

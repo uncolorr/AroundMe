@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.uncolor.aroundme.Authorization">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/bg" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="50dp"
+            android:layout_marginTop="50dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:orientation="vertical"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <EditText
+                android:id="@+id/editTextLogin"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:ems="10"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"
+                android:hint="Логин"
+                android:padding="10dp"
+                android:alpha="0.7"
+                android:background="@drawable/edit_text_auth_style"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:ems="10"
+                android:paddingLeft="10dp"
+                android:hint="Пароль"
+                android:alpha="0.7"
+                android:background="@drawable/edit_text_auth_style"
+                android:textSize="20sp"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/corner_radius_auth_buttons"
+            android:onClick="onButtonLoginClick"
+            android:text="Логин"
+            android:textAllCaps="false"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:alpha="0.9"
+            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:text="Зарегистрироваться"
+            android:onClick="onButtonRegisterClick"
+            android:background="@drawable/corner_radius_auth_buttons"
+            android:textAllCaps="false"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:alpha="0.9"
+            app:layout_constraintBottom_toTopOf="@+id/politicsButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/politicsButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Политика конфиденциальности"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBarAuth"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" />
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>
+
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal"
+    android:focusable="true" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_vertical|fill_horizontal|center_horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButtonProfileSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|center_vertical"
+            android:onClick="onImageButtonClickProfileSettings"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            android:tint="#fff"
+            app:srcCompat="@drawable/profile"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Поиск"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+
+        <ImageButton
+            android:id="@+id/imageButtonCreateRoom"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:tint="#fff"
+            android:layout_gravity="end|center_vertical"
+            android:onClick="onImageButtonClickCreateRoom"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            app:srcCompat="@drawable/add_room"
+            />
+
+    </FrameLayout>
+
+</RelativeLayout>
