@@ -35,11 +35,13 @@
         android:id="@+id/linearLayout">
 
         <ImageButton
+            android:id="@+id/imageButtonAddMultimedia"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
+            android:onClick="onClickImageButtonAddMultimedia"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:tint="#898989"

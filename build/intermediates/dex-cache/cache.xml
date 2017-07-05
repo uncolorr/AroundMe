@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.neovisionaries/nv-websocket-client/2.3/693289a243a778fafb081365d47b19f53031aded/nv-websocket-client-2.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="693289a243a778fafb081365d47b19f53031aded">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/nv-websocket-client-2.3_6c1b1c2b385f6703683ec635611fb5b695501052/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -70,7 +79,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="75158aa8affd30295720956d87bc4f2b52a0d752">
+        sha1="64134a85b5542bdda231688a64726cd5ebbaf7df">
         <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_15c66c37f9ea032149b5b40f3862e131f3b5cf70/classes.dex" />
     </item>
     <item

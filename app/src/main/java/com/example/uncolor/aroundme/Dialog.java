@@ -8,15 +8,23 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketFactory;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.messages.MessagesList;
@@ -26,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,6 +42,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class Dialog extends AppCompatActivity {
 
+    final int MENU_ADD_IMAGE = 1;
+    final int MENU_ADD_LOCATION = 2;
     private static final String STATUS_FAIL = "failed";
     private static final String STATUS_SUCCESS = "success";
     View actionBarDialog;
@@ -40,10 +51,13 @@ public class Dialog extends AppCompatActivity {
     TextView textViewRoomChatName;
     LayoutInflater inflater;
     AsyncHttpClient client = new AsyncHttpClient();
+    WebSocket webSocket;
+    WebSocketFactory webSocketFactory;
     User user;
     String room_id;
     MessagesList messagesList;
     String room_name;
+    ImageButton imageButtonAddMultimedia;
     MessagesListAdapter<MyMessage> adapter;
 
 
@@ -53,6 +67,7 @@ public class Dialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
         messagesList = (MessagesList)findViewById(R.id.messagesList);
+
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url) {
@@ -70,10 +85,13 @@ public class Dialog extends AppCompatActivity {
         actionBarDialog = inflater.inflate(R.layout.dialog_action_bar, null);
         textViewRoomChatName = (TextView)actionBarDialog.findViewById(R.id.roomChatName);
         textViewRoomChatName.setText(room_name);
+        imageButtonAddMultimedia = (ImageButton)findViewById(R.id.imageButtonAddMultimedia);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(actionBarDialog);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
+
+
 
         loadDialog();
     }
@@ -124,6 +142,45 @@ public class Dialog extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         finish();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo){
+        switch (v.getId()){
+            case R.id.imageButtonAddMultimedia:
+                menu.add(0, MENU_ADD_IMAGE, 0, "Отправить фотографию");
+                menu.add(0, MENU_ADD_LOCATION, 0, "Отправить геопозицию");
+                break;
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_ADD_IMAGE:
+
+                break;
+            case MENU_ADD_LOCATION:
+
+                break;
+        }
+        return super.onContextItemSelected(item);
+
+    }
+
+    public void onClickImageButtonAddMultimedia(View view){
+        PopupMenu popupMenu = new PopupMenu(Dialog.this, imageButtonAddMultimedia, Gravity.CENTER);
+        popupMenu.inflate(R.menu.menu_multimedia);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                return true;
+            }
+        });
+        popupMenu.show();
+
     }
 
 }

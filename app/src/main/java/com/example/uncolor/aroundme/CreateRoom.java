@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,7 +69,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     AsyncHttpClient client = new AsyncHttpClient();
     LocationRequest locationRequest;
     User user;
-
+    private Room room = null;
     private double longitude;
     private double latitude;
     int markersCount = 0;
@@ -79,6 +82,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         return fragment;
     }
 
+    public boolean isGoodData(){
+        return (!editTextNewRoomTitle.getText().toString().isEmpty() && markersCount != 0);
+    }
 
     public Room createNewRoom() {
 
@@ -93,9 +99,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         params.put("longitude", Double.toString(longitude));
 
 
-
         client.post(URL, params, new JsonHttpResponseHandler() {
-            Room room = null;
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i("fg", response.toString());
@@ -131,6 +136,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
                         }
 
+
                     }
 
                 } catch (JSONException e) {
@@ -143,9 +149,32 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
             }
 
+            @Override
+            protected Object parseResponse(byte[] responseBody) throws JSONException {
+                Log.i("fg", "response body" + JsonHttpResponseHandler.getResponseString(responseBody, getCharset()));
+                return super.parseResponse(responseBody);
 
+            }
         });
-        if(room == null){
+
+
+       /* new CountDownTimer(client.getConnectTimeout(), 250) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(room != null){
+                    this.cancel();
+                    this.
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();*/
+
+
+        if (room == null) {
             Log.i("fg", "bad room");
         }
         return room;
@@ -158,12 +187,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         super.onCreate(savedInstanceState);
         user = getArguments().getParcelable("user");
         Context context = getActivity();
-        ResponseHandler responseHandler;
-
-
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-
     }
 
     @Override
@@ -189,7 +213,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
 
     }
 
@@ -218,6 +241,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(india));
         mMap.setOnMarkerDragListener(this);
         mMap.setOnMapLongClickListener(this);
+
 
 
     }
@@ -277,7 +301,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         }
         Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
-        if(location == null){
+        if (location == null) {
             startLocationUpdates();
         }
         if (location != null) {
@@ -300,17 +324,20 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     private void moveMap() {
 
-        LatLng latLng = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .draggable(true)
-                .title("Мы знаем, где ты :)"));
-        markersCount++;
+        if(latitude != 0.0 && longitude != 0.0) {
+
+            LatLng latLng = new LatLng(latitude, longitude);
+            mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .draggable(true)
+                    .title("Мы знаем, где ты :)"));
+            markersCount++;
 
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+        }
     }
 
 
@@ -322,8 +349,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(1000);
+        locationRequest.setInterval(5);
+        locationRequest.setFastestInterval(10);
 
     }
 

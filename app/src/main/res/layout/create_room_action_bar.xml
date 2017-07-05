@@ -15,7 +15,7 @@
         android:layout_gravity="center_vertical|fill_horizontal|center_horizontal">
 
         <ImageButton
-            android:id="@+id/imageButtonCancel"
+            android:id="@+id/imageButtonUpdate"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="start|center_vertical"
@@ -23,8 +23,8 @@
             android:scaleType="fitCenter"
             android:tint="#fff"
             android:padding="4dp"
-            android:onClick="onClickImageButtonCancel"
-            app:srcCompat="@drawable/cancel"/>
+            android:onClick="onClickImageButtonUpdate"
+            app:srcCompat="@drawable/update"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,6 +39,7 @@
 
 
         <ImageButton
+            android:id="@+id/imageButtonCreateRoom"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="0dp"
