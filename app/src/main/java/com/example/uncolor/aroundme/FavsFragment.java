@@ -97,14 +97,14 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
 
     public void loadFavs(double latitude, double longitude) {
 
-        Log.i("fg", "in load favs " +   + " " + Double.toString(longitude));
+        Log.i("fg", "in load favs " + Double.toString(longitude));
 
         String URL = new String("http://aroundme.lwts.ru/getFavs?");
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
-        params.put("latitude", "55");
-        params.put("longitude", "55");
+        params.put("latitude", Double.toString(latitude));
+        params.put("longitude", Double.toString(longitude));
         params.put("offset", "0");
         params.put("limit", "100");
 

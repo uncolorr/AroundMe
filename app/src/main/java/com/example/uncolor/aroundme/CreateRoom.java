@@ -82,7 +82,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         return fragment;
     }
 
-    public boolean isGoodData(){
+    public boolean isGoodData() {
         return (!editTextNewRoomTitle.getText().toString().isEmpty() && markersCount != 0);
     }
 
@@ -158,22 +158,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         });
 
 
-       /* new CountDownTimer(client.getConnectTimeout(), 250) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(room != null){
-                    this.cancel();
-                    this.
-                }
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();*/
-
-
         if (room == null) {
             Log.i("fg", "bad room");
         }
@@ -196,9 +180,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
         View view = inflater.inflate(R.layout.create_room, container, false);
         editTextNewRoomTitle = (EditText) view.findViewById(R.id.editTextNewRoomTitle);
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.mapToday);
-        mapFragment.getMapAsync(this);
+
         createLocationRequest();
 
         return view;
@@ -208,6 +190,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
 
         Log.i("fg", "onViewCreated");
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.mapToday);
+        mapFragment.getMapAsync(this);
         googleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -221,8 +206,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         Log.i("fg", "onStart");
         super.onStart();
         googleApiClient.connect();
-
-
     }
 
     @Override
@@ -230,6 +213,10 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         Log.i("fg", "onMapReady");
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         // Add a marker in Sydney and move the camera
        /* LatLng india = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(india).title("Marker in India"));
@@ -327,11 +314,11 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         if(latitude != 0.0 && longitude != 0.0) {
 
             LatLng latLng = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions()
+           /* mMap.addMarker(new MarkerOptions()
                     .position(latLng)
                     .draggable(true)
                     .title("Мы знаем, где ты :)"));
-            markersCount++;
+            markersCount++;*/
 
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -361,8 +348,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                mMap.clear();
-                markersCount = 0;
+             //   mMap.clear();
+              //  markersCount = 0;
                 moveMap();
             }
         });

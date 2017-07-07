@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity   {
 
         roomsFragment.getArguments().putParcelable("user", user);
         favsFragment.getArguments().putParcelable("user", user);
+        mapFragment.getArguments().putParcelable("user", user);
         PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), roomsFragment, mapFragment, favsFragment);
         viewPager = (CustomViewPager)findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(15);
