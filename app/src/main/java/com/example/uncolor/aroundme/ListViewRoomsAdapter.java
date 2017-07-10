@@ -20,10 +20,11 @@ public class ListViewRoomsAdapter extends BaseAdapter {
     private ArrayList<Room> roomsList = new ArrayList<Room>();
     private LayoutInflater layoutInflater;
 
-    public ListViewRoomsAdapter(Context context, ArrayList<Room> roomsList){
-        layoutInflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public ListViewRoomsAdapter(Context context, ArrayList<Room> roomsList) {
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.roomsList = roomsList;
     }
+
     @Override
     public int getCount() {
         return roomsList.size();
@@ -42,14 +43,15 @@ public class ListViewRoomsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-       if (view == null)
-        {
-            view  = layoutInflater.inflate(R.layout.room_item, parent, false);
+        if (view == null) {
+            view = layoutInflater.inflate(R.layout.room_item, parent, false);
         }
 
-        TextView textViewUsersCount = (TextView)view.findViewById(R.id.textViewUsersCount);
+        TextView textViewUsersCount = (TextView) view.findViewById(R.id.textViewUsersCount);
         textViewUsersCount.setText(roomsList.get(position).getUsersCount());
-        TextView textViewRoomsTitle = (TextView)view.findViewById(R.id.textViewRoomsTitle);
+        TextView textViewDistance = (TextView) view.findViewById(R.id.textViewDistance);
+        textViewDistance.setText(Float.toString(roomsList.get(position).getDistance()) + "m");
+        TextView textViewRoomsTitle = (TextView) view.findViewById(R.id.textViewRoomsTitle);
         textViewRoomsTitle.setText(roomsList.get(position).getTitle());
         return view;
     }

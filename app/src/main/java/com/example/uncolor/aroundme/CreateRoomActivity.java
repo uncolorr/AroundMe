@@ -68,7 +68,7 @@ public class CreateRoomActivity extends AppCompatActivity {
             }
         }
         else {
-            Toast.makeText(CreateRoomActivity.this, "Не удалось создать комнату",Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateRoomActivity.this, "Не удалось создать комнату", Toast.LENGTH_LONG).show();
         }
 
     }

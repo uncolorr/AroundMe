@@ -60,6 +60,7 @@ public class Authorization extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 progressBarAuth.setAlpha(0.0f);
                 try {
+
                         String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Authorization.this);
@@ -79,6 +80,7 @@ public class Authorization extends AppCompatActivity {
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
                         progressBarAuth.setAlpha(0.0f);
+                        Log.i("fg", "user: " + response.toString());
                         JSONArray responseArray = response.getJSONArray("response");
                         JSONObject data = responseArray.getJSONObject(0);
                         String token = data.getString("token");

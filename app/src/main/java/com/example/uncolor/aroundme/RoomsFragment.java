@@ -91,7 +91,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         return view;
     }
 
-    private void loadRooms(double latitude, double longitude) {
+    private void loadRooms(final double latitude, final double longitude) {
 
 
         Log.i("fg", "in load rooms " + Double.toString(latitude) + Double.toString(longitude));
@@ -103,7 +103,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         params.put("longitude", Double.toString(longitude));
         params.put("offset", "0");
         params.put("limit", "100");
-        params.put("shownews", "1");
+        params.put("shownews", "0");
 
 
         client.get(URL, params, new JsonHttpResponseHandler() {
@@ -117,22 +117,28 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
-                        JSONArray responseArray = response.getJSONArray("response");
-                        for (int i = 0; i < responseArray.length(); i++) {
+                        roomsList.clear();
+                        if (response.has("response")) {
+                            JSONArray responseArray = response.getJSONArray("response");
+                            for (int i = 0; i < responseArray.length(); i++) {
 
-                            Room room = new Room();
-                            JSONObject data = responseArray.getJSONObject(i);
-                            if (data.has("title")) {
-                                room.setTitle(data.getString("title"));
+                                Room room = new Room();
+                                JSONObject data = responseArray.getJSONObject(i);
+                                if (data.has("title")) {
+                                    room.setTitle(data.getString("title"));
+                                }
+                                room.setUsersCount(data.getString("usersCount"));
+                                room.setRoom_id(data.getString("room_id"));
+                                double roomLatitude = data.getDouble("latitude");
+                                double roomLongitude = data.getDouble("longitude");
+                                float[] distance = new float[1];
+                                Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
+                                room.setDistance(distance[0]);
+                                roomsList.add(room);
                             }
-                            room.setUsersCount(data.getString("usersCount"));
-                            room.setRoom_id(data.getString("room_id"));
-                            roomsList.add(room);
-
+                            listViewRoomsAdapter.notifyDataSetChanged();
 
                         }
-
-                        listViewRoomsAdapter.notifyDataSetChanged();
 
 
                     }
@@ -184,9 +190,16 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location) {///
         Log.i("fg", "onLocationChanged " + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
         listViewRoomsAdapter.notifyDataSetChanged();
+        Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewRoomsAdapter.getCount()));
+        if (listViewRoomsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
+            roomsList.clear();
+            googleApiClient.disconnect();
+            googleApiClient.connect();
+            Log.i("fg", "Updated");
+        }
         Log.i("fg", "roooms list " + Integer.toString(roomsList.size()));
     }
 
@@ -204,12 +217,13 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
 
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            Log.i("fg","get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
+            Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
             roomsList.clear();
             loadRooms(latitude, longitude);
 
         }
     }
+
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);

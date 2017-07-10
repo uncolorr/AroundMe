@@ -49,6 +49,7 @@
             android:scaleType="fitCenter"
             android:tint="#fff"
             android:padding="5dp"
+            android:onClick="onClickImageButtonOpenMenu"
             android:background="?android:attr/selectableItemBackground"
             app:srcCompat="@drawable/open_menu"
 

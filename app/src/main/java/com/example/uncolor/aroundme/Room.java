@@ -9,12 +9,13 @@ public class Room {
     private String title;
     private String usersCount;
     private String room_id;
+    private float distance;
 
-    public Room(){
+    public Room() {
 
     }
 
-    public Room(String title, String usersCount){
+    public Room(String title, String usersCount) {
         this.title = title;
         this.usersCount = usersCount;
     }
@@ -43,4 +44,13 @@ public class Room {
     public void setRoom_id(String room_id) {
         this.room_id = room_id;
     }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 }
+

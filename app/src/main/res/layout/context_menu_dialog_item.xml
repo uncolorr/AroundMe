@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:paddingBottom="1dp"
+    android:alpha="1.0">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Добавить в избранное"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:paddingRight="20dp"
+        android:layout_gravity="center_vertical"
+        android:textAlignment="textEnd" />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="#ff0000"
+        android:tint="#fff"
+        android:padding="20dp"
+        app:srcCompat="@drawable/bnv_favs"
+        />
+
+</LinearLayout>

@@ -51,6 +51,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <TextView
+        android:id="@+id/textViewDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0м"

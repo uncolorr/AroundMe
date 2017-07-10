@@ -57,7 +57,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     LocationRequest locationRequest;
     double latitude;
     double longitude;
-  //  ArrayList<LatLng> chatsCoordinates = new ArrayList<LatLng>();
     User user;
 
     public MapFragment() {
@@ -162,19 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             return;
         }
         mMap.setMyLocationEnabled(true);
-        if (mMap != null) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(34, 121))
-                    .title("Hey"));
-        }
-        // Add a marker in Sydney and move the camera
-       /* LatLng india = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(india).title("Marker in India"));
-       if (mMap != null){
-            Marker hamburg = mMap.addMarker(new MarkerOptions().position(new LatLng(india.latitude, india.longitude))
-                    .title("Hello Maps"));*/
-
-        //    }
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(india));
+        mMap.setBuildingsEnabled(true);
         mMap.setOnMarkerDragListener(this);
         mMap.setOnMapLongClickListener(this);
     }
@@ -213,6 +200,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
                         JSONArray responseArray = response.getJSONArray("response");
                         Log.i("fg", "response array " + Integer.toString(responseArray.length()));
+                        mMap.clear();
                         for (int i = 0; i < responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
                             String title = "";
@@ -249,6 +237,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         Log.i("fg", "onStart");
         super.onStart();
         googleApiClient.connect();
+
+
     }
 
     @Override
@@ -256,9 +246,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         Log.i("fg", "onStop");
         super.onStop();
         googleApiClient.disconnect();
+
     }
 
-    private void getCurrentLocation() {
+    public void getCurrentLocation() {
 
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -295,4 +286,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .title(title));
         }
     }
+
+    public void updateMap(){
+        getCurrentLocation();
+    }
+
 }

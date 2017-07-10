@@ -43,10 +43,14 @@ public class MainActivity extends AppCompatActivity   {
     RoomsFragment roomsFragment = RoomsFragment.newInstance();
     MapFragment mapFragment = MapFragment.newInstance();
     FavsFragment favsFragment = FavsFragment.newInstance();
+    PageAdapter pageAdapter;
 
 
     LayoutInflater inflater;
     View actionBarRooms;
+    View actionBarMapChats;
+    View actionBarFavs;
+
     ImageButton imageButtonCreateRoom;
     ImageButton imageButtonProfileSettings;
     User user;
@@ -62,6 +66,8 @@ public class MainActivity extends AppCompatActivity   {
         Log.i("fg", "login " + login);
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarRooms = inflater.inflate(R.layout.rooms_action_bar, null);
+        actionBarMapChats = inflater.inflate(R.layout.map_chats_action_bar, null);
+        actionBarFavs = inflater.inflate(R.layout.favs_action_bar, null);
         imageButtonCreateRoom = (ImageButton)actionBarRooms.findViewById(R.id.imageButtonCreateRoom);
         imageButtonProfileSettings = (ImageButton)actionBarRooms.findViewById(R.id.imageButtonProfileSettings);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -72,7 +78,8 @@ public class MainActivity extends AppCompatActivity   {
         roomsFragment.getArguments().putParcelable("user", user);
         favsFragment.getArguments().putParcelable("user", user);
         mapFragment.getArguments().putParcelable("user", user);
-        PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), roomsFragment, mapFragment, favsFragment);
+
+        pageAdapter = new PageAdapter(getSupportFragmentManager(), roomsFragment, mapFragment, favsFragment);
         viewPager = (CustomViewPager)findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(15);
         viewPager.setAdapter(pageAdapter);
@@ -89,14 +96,17 @@ public class MainActivity extends AppCompatActivity   {
 
             switch (item.getItemId()) {
                 case R.id.navigation_search:
+                    getSupportActionBar().setCustomView(actionBarRooms);
                     viewPager.setCurrentItem(0);
                     return true;
 
                 case R.id.navigation_map:
+                    getSupportActionBar().setCustomView(actionBarMapChats);
                     viewPager.setCurrentItem(1);
                     return true;
 
                 case R.id.navigation_favs:
+                    getSupportActionBar().setCustomView(actionBarFavs);
                     viewPager.setCurrentItem(2);
                     return true;
 
@@ -123,6 +133,10 @@ public class MainActivity extends AppCompatActivity   {
         intent.putExtra("user", user);
         intent.putExtra("login", login);
         startActivity(intent);
+    }
+
+    public void onClickImageButtonUpdateMapAllChats(View view){
+        mapFragment.updateMap();
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.uncolor.aroundme;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,7 +40,7 @@ import java.util.Objects;
 import cz.msebera.android.httpclient.Header;
 
 
-public class FavsFragment extends Fragment implements  GoogleApiClient.ConnectionCallbacks,
+public class FavsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
@@ -50,7 +52,7 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
     double longitude;
 
     ListView listView;
-    ListViewRoomsAdapter listViewRoomsAdapter;
+    ListViewRoomsAdapter listViewFavsAdapter;
     User user;
     LocationRequest locationRequest;
     GoogleApiClient googleApiClient;
@@ -80,17 +82,25 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favs, container, false);
-        listView = (ListView)view.findViewById(R.id.listViewFavs);
-        listViewRoomsAdapter = new ListViewRoomsAdapter(getActivity(),favsList);
-        listView.setAdapter(listViewRoomsAdapter);
+        listView = (ListView) view.findViewById(R.id.listViewFavs);
+        listViewFavsAdapter = new ListViewRoomsAdapter(getActivity(), favsList);
+        listView.setAdapter(listViewFavsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), Dialog.class);
+                intent.putExtra("user", user);
+                intent.putExtra("room_id", favsList.get(position).getRoom_id());
+                intent.putExtra("room_name", favsList.get(position).getTitle());
+                startActivity(intent);
+            }
+        });
         googleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
         createLocationRequest();
-
-
 
         return view;
     }
@@ -113,7 +123,7 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("fg" ,response.toString());
+                Log.i("fg","favs response " + response.toString());
                 try {
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
@@ -134,24 +144,22 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
-                        JSONArray responseArray = response.getJSONArray("response");
-                        for (int i = 0; i < responseArray.length(); i++) {
+                        favsList.clear();
+                        if (response.has("response")) {
+                            JSONArray responseArray = response.getJSONArray("response");
+                            for (int i = 0; i < responseArray.length(); i++) {
 
-                            Room room = new Room();
-                            JSONObject data = responseArray.getJSONObject(i);
-                            if (data.has("title")) {
-                                room.setTitle(data.getString("title"));
+                                Room room = new Room();
+                                JSONObject data = responseArray.getJSONObject(i);
+                                if (data.has("title")) {
+                                    room.setTitle(data.getString("title"));
+                                }
+                                room.setUsersCount(data.getString("usersCount"));
+                                room.setRoom_id(data.getString("room_id"));
+                                favsList.add(room);
                             }
-                            room.setUsersCount(data.getString("usersCount"));
-                            room.setRoom_id(data.getString("room_id"));
-                            favsList.add(room);
-
-
+                            listViewFavsAdapter.notifyDataSetChanged();
                         }
-
-                        listViewRoomsAdapter.notifyDataSetChanged();
-
-
                     }
 
                 } catch (JSONException e) {
@@ -184,7 +192,16 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.i("fg", "onLocationChanged " + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
+        listViewFavsAdapter.notifyDataSetChanged();
+        Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewFavsAdapter.getCount()));
+        if (listViewFavsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
+           // favsList.clear();
+            googleApiClient.disconnect();
+            googleApiClient.connect();
+            Log.i("fg", "Updated");
+        }
+        Log.i("fg", "favs list " + Integer.toString(favsList.size()));
     }
 
     private void getCurrentLocation() {
@@ -201,12 +218,14 @@ public class FavsFragment extends Fragment implements  GoogleApiClient.Connectio
 
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            Log.i("fg","get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
+            Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
+            favsList.clear();
             loadFavs(latitude, longitude);
 
 
         }
     }
+
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);

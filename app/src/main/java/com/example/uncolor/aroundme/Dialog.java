@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -58,15 +61,17 @@ public class Dialog extends AppCompatActivity {
     MessagesList messagesList;
     String room_name;
     ImageButton imageButtonAddMultimedia;
+    ImageButton imageButtonOpenMenu;
+    PopupWindow pw;
     MessagesListAdapter<MyMessage> adapter;
-
+    ListViewContextMenuAdapter listViewContextMenuAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
-        messagesList = (MessagesList)findViewById(R.id.messagesList);
+        messagesList = (MessagesList) findViewById(R.id.messagesList);
 
         imageLoader = new ImageLoader() {
             @Override
@@ -83,20 +88,21 @@ public class Dialog extends AppCompatActivity {
         messagesList.setAdapter(adapter);
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarDialog = inflater.inflate(R.layout.dialog_action_bar, null);
-        textViewRoomChatName = (TextView)actionBarDialog.findViewById(R.id.roomChatName);
+        textViewRoomChatName = (TextView) actionBarDialog.findViewById(R.id.roomChatName);
         textViewRoomChatName.setText(room_name);
-        imageButtonAddMultimedia = (ImageButton)findViewById(R.id.imageButtonAddMultimedia);
+
+        imageButtonAddMultimedia = (ImageButton) findViewById(R.id.imageButtonAddMultimedia);
+        imageButtonOpenMenu = (ImageButton) actionBarDialog.findViewById(R.id.imageButtonOpenMenu);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(actionBarDialog);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
 
 
-
         loadDialog();
     }
 
-    public void loadDialog(){
+    public void loadDialog() {
         String URL = new String("http://aroundme.lwts.ru/getMessages?");
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
@@ -111,43 +117,49 @@ public class Dialog extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
 
-                        JSONArray responseArray = response.getJSONArray("messages");
-                        for (int i = 0; i < responseArray.length(); i++) {
+                    JSONArray responseArray = response.getJSONArray("messages");
+                    for (int i = 0; i < responseArray.length(); i++) {
 
-                            JSONObject data = responseArray.getJSONObject(i);
-                            MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                                    data.getString("login"), data.getString("unix_time"),data.getString("user_id"), data.getString("avatar"));
-                            adapter.addToStart(myMessage, true);
+                        JSONObject data = responseArray.getJSONObject(i);
+                        MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
+                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                        adapter.addToStart(myMessage, true);
 
-                        }
+                    }
 
-                        adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-                @Override
+            @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
 
             }
         });
     }
 
-    public void onImageButtonClickBackToRooms(View view){
+    public void onImageButtonClickBackToRooms(View view) {
         onBackPressed();
     }
 
     @Override
-    public void onBackPressed(){
-        finish();
+    public void onBackPressed() {
+        if (pw == null) {
+            finish();
+        } else if (pw.isShowing()) {
+            pw.dismiss();
+        } else {
+            finish();
+        }
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo){
-        switch (v.getId()){
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        switch (v.getId()) {
             case R.id.imageButtonAddMultimedia:
                 menu.add(0, MENU_ADD_IMAGE, 0, "Отправить фотографию");
                 menu.add(0, MENU_ADD_LOCATION, 0, "Отправить геопозицию");
@@ -169,7 +181,7 @@ public class Dialog extends AppCompatActivity {
 
     }
 
-    public void onClickImageButtonAddMultimedia(View view){
+    public void onClickImageButtonAddMultimedia(View view) {
         PopupMenu popupMenu = new PopupMenu(Dialog.this, imageButtonAddMultimedia, Gravity.CENTER);
         popupMenu.inflate(R.menu.menu_multimedia);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -182,6 +194,27 @@ public class Dialog extends AppCompatActivity {
         popupMenu.show();
 
     }
+
+    public void onClickImageButtonOpenMenu(View view) {
+        try {
+
+            LayoutInflater inflater = (LayoutInflater) Dialog.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.context_menu_dialog, null);
+            ListView listViewContextMenu = (ListView) layout.findViewById(R.id.listViewContextMenu);
+            listViewContextMenu.getAdapter();
+            listViewContextMenuAdapter = new ListViewContextMenuAdapter(layout.getContext());
+            listViewContextMenu.setAdapter(listViewContextMenuAdapter);
+            pw = new PopupWindow(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("fg", "bDGFDGDGDGDGD DBDG DGDBD");
+        }
+
+    }
+
 
 }
 
