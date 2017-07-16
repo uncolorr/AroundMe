@@ -19,6 +19,11 @@ public class MyMessage implements IMessage {
     private String user_id;
     private String avatar;
 
+    public MyMessage(String text){
+        this.text = text;
+    }
+
+
 
 
     public MyMessage(String message_id, String text, String login, String date, String user_id, String avatar) {

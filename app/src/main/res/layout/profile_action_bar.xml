@@ -15,7 +15,9 @@
         android:layout_gravity="center_vertical|fill_horizontal|center_horizontal">
 
         <ImageButton
+            android:id="@+id/imageButtonProfileBack"
             android:layout_width="40dp"
+            android:onClick="onClickImageButtonProfileBack"
             android:layout_height="40dp"
             android:layout_gravity="start|center_vertical"
             android:background="?android:attr/selectableItemBackground"
@@ -37,12 +39,14 @@
 
         <ImageButton
 
+            android:id="@+id/imageButtonExit"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:tint="#fff"
+            android:onClick="onClickImageButtonExit"
             android:layout_gravity="end|center_vertical"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"

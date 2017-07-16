@@ -50,9 +50,25 @@ public class ListViewRoomsAdapter extends BaseAdapter {
         TextView textViewUsersCount = (TextView) view.findViewById(R.id.textViewUsersCount);
         textViewUsersCount.setText(roomsList.get(position).getUsersCount());
         TextView textViewDistance = (TextView) view.findViewById(R.id.textViewDistance);
-        textViewDistance.setText(Float.toString(roomsList.get(position).getDistance()) + "m");
+        textViewDistance.setText(getDistanceFormat(roomsList.get(position).getDistance()));
         TextView textViewRoomsTitle = (TextView) view.findViewById(R.id.textViewRoomsTitle);
         textViewRoomsTitle.setText(roomsList.get(position).getTitle());
         return view;
     }
+
+    private String getDistanceFormat(float distance){
+
+        String result = "";
+        int intDistance = (int) distance;
+        if(intDistance < 1000){
+            result = Integer.toString(intDistance) + "м";
+            return result;
+        }
+        float floatDistance = (float) intDistance;
+        floatDistance /= 1000;
+        result = Float.toString(floatDistance) + "км";
+
+        return result;
+    }
+
 }

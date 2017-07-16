@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.CountDownTimer;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ public class CreateRoomActivity extends AppCompatActivity {
         imageButtonCreateRoom = (ImageButton)actionBarCreateRoom.findViewById(R.id.imageButtonCreateRoom);
         user = getIntent().getParcelableExtra("user");
 
+        Log.i("fg", user.getUser_id());
+
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(actionBarCreateRoom);
@@ -55,17 +58,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     public void onClickImageButtonCreateRoom(View view)  {
 
         if (createRoom.isGoodData()) {
-            Room room = createRoom.createNewRoom();
-            if (room == null) {
-                Log.i("fg", "room null");
-            }
-            if (room != null) {
-                Intent intent = new Intent(CreateRoomActivity.this, Dialog.class);
-                intent.putExtra("user", user);
-                intent.putExtra("room_id", room.getRoom_id());
-                intent.putExtra("room_name", room.getTitle());
-                startActivity(intent);
-            }
+             Room room = createRoom.createNewRoom();
         }
         else {
             Toast.makeText(CreateRoomActivity.this, "Не удалось создать комнату", Toast.LENGTH_LONG).show();

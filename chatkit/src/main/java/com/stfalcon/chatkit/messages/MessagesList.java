@@ -34,16 +34,25 @@ public class MessagesList extends RecyclerView {
 
     public MessagesList(Context context) {
         super(context);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setStackFromEnd(true);
+        super.setLayoutManager(linearLayoutManager);
     }
 
     public MessagesList(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         parseStyle(context, attrs);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setStackFromEnd(true);
+        super.setLayoutManager(linearLayoutManager);
     }
 
     public MessagesList(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         parseStyle(context, attrs);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setStackFromEnd(true);
+        super.setLayoutManager(linearLayoutManager);
     }
 
     /**
@@ -73,6 +82,8 @@ public class MessagesList extends RecyclerView {
         setLayoutManager(layoutManager);
         adapter.setLayoutManager(layoutManager);
         adapter.setStyle(messagesListStyle);
+
+
 
         addOnScrollListener(new RecyclerScrollMoreListener(layoutManager, adapter));
         super.setAdapter(adapter);

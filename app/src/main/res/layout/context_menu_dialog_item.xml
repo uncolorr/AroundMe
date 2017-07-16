@@ -9,6 +9,7 @@
     android:alpha="1.0">
 
     <TextView
+        android:id="@+id/textViewContextMenuItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -20,9 +21,10 @@
         android:textAlignment="textEnd" />
 
     <ImageView
+        android:id="@+id/imageViewContextMenuItem"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="#ff0000"
+        android:background="@color/main_color"
         android:tint="#fff"
         android:padding="20dp"
         app:srcCompat="@drawable/bnv_favs"

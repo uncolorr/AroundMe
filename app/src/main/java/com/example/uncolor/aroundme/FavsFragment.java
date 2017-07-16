@@ -192,7 +192,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("fg", "onLocationChanged " + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
+        Log.i("fg", "onLocationChanged on favs" + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
         listViewFavsAdapter.notifyDataSetChanged();
         Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewFavsAdapter.getCount()));
         if (listViewFavsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
@@ -218,7 +218,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
 
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
+            Log.i("fg", "get Current location on favs" + Double.toString(latitude) + " " + Double.toString(longitude));
             favsList.clear();
             loadFavs(latitude, longitude);
 
@@ -238,13 +238,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.i("fg", "onLocationChanged " + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
-
-            }
-        });
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 
     @Override

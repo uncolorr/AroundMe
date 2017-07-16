@@ -2,9 +2,13 @@ package com.example.uncolor.aroundme;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,17 +21,26 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.neovisionaries.ws.client.ThreadType;
 import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.WebSocketFrame;
+import com.neovisionaries.ws.client.WebSocketListener;
+import com.neovisionaries.ws.client.WebSocketState;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.messages.MessagesList;
@@ -38,7 +51,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
@@ -47,8 +64,18 @@ public class Dialog extends AppCompatActivity {
 
     final int MENU_ADD_IMAGE = 1;
     final int MENU_ADD_LOCATION = 2;
+
     private static final String STATUS_FAIL = "failed";
     private static final String STATUS_SUCCESS = "success";
+
+    private static final String BACK_ITEM = " ";
+    private static final String FAVS_ITEM = "Добавить в избранное";
+    private static final String EDIT_ITEM = " Редактировать";
+    private static final String PEOPLE_ITEM = "People";
+    private static final String INFO_ITEM = "Инфомация";
+    private static final String COMPLAIN_ITEM = "Пожаловаться";
+    private static final String DELETE_ITEM = "Удалить";
+
     View actionBarDialog;
     ImageLoader imageLoader;
     TextView textViewRoomChatName;
@@ -62,7 +89,9 @@ public class Dialog extends AppCompatActivity {
     String room_name;
     ImageButton imageButtonAddMultimedia;
     ImageButton imageButtonOpenMenu;
+    EditText editTextMessage;
     PopupWindow pw;
+    Button buttonSend;
     MessagesListAdapter<MyMessage> adapter;
     ListViewContextMenuAdapter listViewContextMenuAdapter;
 
@@ -71,7 +100,10 @@ public class Dialog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
+
+        webSocketFactory = new WebSocketFactory().setConnectionTimeout(5000);
         messagesList = (MessagesList) findViewById(R.id.messagesList);
+        messagesList.invalidate();
 
         imageLoader = new ImageLoader() {
             @Override
@@ -83,13 +115,14 @@ public class Dialog extends AppCompatActivity {
         user = getIntent().getParcelableExtra("user");
         room_id = getIntent().getStringExtra("room_id");
         room_name = getIntent().getStringExtra("room_name");
-
         adapter = new MessagesListAdapter<MyMessage>(user.getUser_id(), imageLoader);
         messagesList.setAdapter(adapter);
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarDialog = inflater.inflate(R.layout.dialog_action_bar, null);
+        buttonSend = (Button) findViewById(R.id.buttonSend);
         textViewRoomChatName = (TextView) actionBarDialog.findViewById(R.id.roomChatName);
         textViewRoomChatName.setText(room_name);
+        editTextMessage = (EditText) findViewById(R.id.editTextMessage);
 
         imageButtonAddMultimedia = (ImageButton) findViewById(R.id.imageButtonAddMultimedia);
         imageButtonOpenMenu = (ImageButton) actionBarDialog.findViewById(R.id.imageButtonOpenMenu);
@@ -97,9 +130,204 @@ public class Dialog extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(actionBarDialog);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
+        try {
+            webSocket = webSocketFactory.createSocket("http://aroundme.lwts.ru/chat?room_id=" + room_id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
+        webSocket.connectAsynchronously();
         loadDialog();
+
+        webSocket.addListener(new WebSocketListener() {
+            @Override
+            public void onStateChanged(WebSocket websocket, WebSocketState newState) throws Exception {
+                Log.i("fg", "onStateChanged");
+            }
+
+            @Override
+            public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
+                Log.i("fg", "onConnected");
+                Log.i("fg", Integer.toString(adapter.getItemCount()));
+
+            }
+
+            @Override
+            public void onConnectError(WebSocket websocket, WebSocketException cause) throws Exception {
+                Log.i("fg", "onConnectError");
+            }
+
+            @Override
+            public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
+                Log.i("fg", "onDisconnected");
+            }
+
+            @Override
+            public void onFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onFrame");
+                JSONObject data = new JSONObject(frame.getPayloadText());
+                if (data.has("data")) {
+                    MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
+                            data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                    Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                    adapter.addToStart(myMessage, true);
+                    adapter.update(myMessage);
+                }
+                Log.i("fg", "after " + Integer.toString(adapter.getItemCount()));
+
+            }
+
+            @Override
+            public void onContinuationFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onContinuationFrame");
+
+            }
+
+            @Override
+            public void onTextFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onTextFrame");
+                adapter.notifyDataSetChanged();
+                Log.i("fg", Integer.toString(adapter.getItemCount()));
+                messagesList.smoothScrollToPosition(1);
+            }
+
+            @Override
+            public void onBinaryFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onBinaryFrame");
+            }
+
+            @Override
+            public void onCloseFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onCloseFrame");
+            }
+
+            @Override
+            public void onPingFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onPingFrame");
+            }
+
+            @Override
+            public void onPongFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onPongFrame");
+            }
+
+            @Override
+            public void onTextMessage(WebSocket websocket, String text) throws Exception {
+                Log.i("fg", "onTextMessage");
+            }
+
+            @Override
+            public void onBinaryMessage(WebSocket websocket, byte[] binary) throws Exception {
+                Log.i("fg", "onBinaryMessage");
+            }
+
+            @Override
+            public void onSendingFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onSendingFrame");
+            }
+
+            @Override
+            public void onFrameSent(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onFrameSent");
+                Log.i("fg", Integer.toString(adapter.getItemCount()));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFrameUnsent(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onFrameUnsent");
+            }
+
+            @Override
+            public void onThreadCreated(WebSocket websocket, ThreadType threadType, Thread thread) throws Exception {
+                Log.i("fg", "onThreadCreated");
+            }
+
+            @Override
+            public void onThreadStarted(WebSocket websocket, ThreadType threadType, Thread thread) throws Exception {
+                Log.i("fg", "");
+            }
+
+            @Override
+            public void onThreadStopping(WebSocket websocket, ThreadType threadType, Thread thread) throws Exception {
+                Log.i("fg", "onThreadStarted");
+            }
+
+            @Override
+            public void onError(WebSocket websocket, WebSocketException cause) throws Exception {
+                Log.i("fg", "onError");
+            }
+
+            @Override
+            public void onFrameError(WebSocket websocket, WebSocketException cause, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onFrameError");
+            }
+
+            @Override
+            public void onMessageError(WebSocket websocket, WebSocketException cause, List<WebSocketFrame> frames) throws Exception {
+                Log.i("fg", "onMessageError");
+            }
+
+            @Override
+            public void onMessageDecompressionError(WebSocket websocket, WebSocketException cause, byte[] compressed) throws Exception {
+                Log.i("fg", "onMessageDecompressionError");
+            }
+
+            @Override
+            public void onTextMessageError(WebSocket websocket, WebSocketException cause, byte[] data) throws Exception {
+                Log.i("fg", "onTextMessageError");
+            }
+
+
+            @Override
+            public void onSendError(WebSocket websocket, WebSocketException cause, WebSocketFrame frame) throws Exception {
+                Log.i("fg", "onSendError");
+            }
+
+            @Override
+            public void onUnexpectedError(WebSocket websocket, WebSocketException cause) throws Exception {
+                Log.i("fg", "onUnexpectedError");
+            }
+
+            @Override
+            public void handleCallbackError(WebSocket websocket, Throwable cause) throws Exception {
+                Log.i("fg", "handleCallbackError");
+                messagesList.smoothScrollToPosition(1);
+            }
+
+            @Override
+            public void onSendingHandshake(WebSocket websocket, String requestLine, List<String[]> headers) throws Exception {
+                Log.i("fg", "onSendingHandshake");
+            }
+        });
+
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject message = new JSONObject();
+
+                if (webSocket.isOpen() && !editTextMessage.getText().toString().isEmpty()) {
+
+                    try {
+                        message.put("user_id", user.getUser_id());
+                        message.put("room_id", room_id);
+                        message.put("data", editTextMessage.getText().toString());
+                        message.put("token", user.getToken());
+                        message.put("type", "Text");
+                        webSocket.sendText(message.toString());
+                        editTextMessage.getText().clear();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(Dialog.this, "Не удалось отправить сообщение", Toast.LENGTH_SHORT).show();
+                }
+
+                messagesList.smoothScrollToPosition(1);
+            }
+        });
     }
 
     public void loadDialog() {
@@ -121,9 +349,11 @@ public class Dialog extends AppCompatActivity {
                     for (int i = 0; i < responseArray.length(); i++) {
 
                         JSONObject data = responseArray.getJSONObject(i);
-                        MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                        adapter.addToStart(myMessage, true);
+                        if (data.has("data")) {
+                            MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
+                                    data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                            adapter.addToStart(myMessage, true);
+                        }
 
                     }
 
@@ -148,10 +378,13 @@ public class Dialog extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (pw == null) {
+            webSocket.disconnect();
             finish();
+
         } else if (pw.isShowing()) {
             pw.dismiss();
         } else {
+            webSocket.disconnect();
             finish();
         }
     }
@@ -200,19 +433,184 @@ public class Dialog extends AppCompatActivity {
 
             LayoutInflater inflater = (LayoutInflater) Dialog.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.context_menu_dialog, null);
-            ListView listViewContextMenu = (ListView) layout.findViewById(R.id.listViewContextMenu);
-            listViewContextMenu.getAdapter();
-            listViewContextMenuAdapter = new ListViewContextMenuAdapter(layout.getContext());
+            final ListView listViewContextMenu = (ListView) layout.findViewById(R.id.listViewContextMenu);
+            ArrayList<String> items = new ArrayList<>();
+
+            items.add(BACK_ITEM);
+            items.add(FAVS_ITEM);
+            items.add(EDIT_ITEM);
+            items.add(PEOPLE_ITEM);
+            items.add(INFO_ITEM);
+            items.add(COMPLAIN_ITEM);
+            items.add(DELETE_ITEM);
+
+            Map<String, Integer> imageResourses = new HashMap<String, Integer>();
+            imageResourses.put(BACK_ITEM, R.drawable.close_menu);
+            imageResourses.put(FAVS_ITEM, R.drawable.bnv_favs);
+            imageResourses.put(EDIT_ITEM, R.drawable.edit);
+            imageResourses.put(PEOPLE_ITEM, R.drawable.people);
+            imageResourses.put(INFO_ITEM, R.drawable.info);
+            imageResourses.put(COMPLAIN_ITEM, R.drawable.complain);
+            imageResourses.put(DELETE_ITEM, R.drawable.trash);
+
+
+            listViewContextMenuAdapter = new ListViewContextMenuAdapter(layout.getContext(), items, imageResourses);
             listViewContextMenu.setAdapter(listViewContextMenuAdapter);
             pw = new PopupWindow(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            listViewContextMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (view.getTag().toString()) {
+                        case BACK_ITEM:
+                            pw.dismiss();
+                            break;
+                        case FAVS_ITEM:
+                            addToFavs();
+                            break;
+                        case EDIT_ITEM:
+                            editRoom();
+                            break;
+                        case PEOPLE_ITEM:
+                            showPeoples();
+                            break;
+                        case INFO_ITEM:
+                            showInfo();
+                            break;
+                        case COMPLAIN_ITEM:
+                            complain();
+                            break;
+                        case DELETE_ITEM:
+                            deleteRoom();
+                            break;
+                    }
 
+                    if (pw.isShowing()) {
+                        pw.dismiss();
+                    }
+
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("fg", "bDGFDGDGDGDGD DBDG DGDBD");
         }
+    }
 
+    public void addToFavs() {
+
+        String URL = "http://aroundme.lwts.ru/favs?";
+        RequestParams params = new RequestParams();
+        params.put("token", user.getToken());
+        params.put("user_id", user.getUser_id());
+        params.put("room_id", room_id);
+
+        client.get(URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    Log.i("fg", "add to favs " + response.toString());
+                    String status = response.getString("status");
+                    if (Objects.equals(status, STATUS_FAIL)) {
+                        Toast.makeText(Dialog.this, "Ошибка", Toast.LENGTH_LONG).show();
+
+                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                        String roomStatus = response.getString("response");
+                        if (Objects.equals(roomStatus, "added")){
+                            Toast.makeText(Dialog.this, "Комната успешно добавлена в избранное", Toast.LENGTH_LONG).show();
+                        }
+                        else if(Objects.equals(roomStatus, "deleted")){
+                            Toast.makeText(Dialog.this, "Комната успешно удалена из избранного", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    public void editRoom() {
+
+    }
+
+    public void showPeoples() {
+        String URL = "http://aroundme.lwts.ru/usersList?";
+        RequestParams params = new RequestParams();
+        params.put("token", user.getToken());
+        params.put("user_id", user.getUser_id());
+        params.put("room_id", room_id);
+        params.put("offset", "0");
+        params.put("limit", "100");
+
+
+        client.get(URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    Log.i("fg", "show peoples " + response.toString());
+                    String status = response.getString("status");
+                    if (Objects.equals(status, STATUS_FAIL)) {
+                        Toast.makeText(Dialog.this, "Ошибка", Toast.LENGTH_LONG).show();
+
+                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    public void showInfo() {
+
+    }
+
+    public void complain() {
+
+    }
+
+    public void deleteRoom() {
+
+        String URL = "http://aroundme.lwts.ru/deleteRoom?";
+        RequestParams params = new RequestParams();
+        params.put("token", user.getToken());
+        params.put("user_id", user.getUser_id());
+        params.put("room_id", room_id);
+
+        client.post(URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    Log.i("fg", "delete room" + response.toString());
+                    String status = response.getString("status");
+                    if (Objects.equals(status, STATUS_FAIL)) {
+                        Toast.makeText(Dialog.this, "Ошибка", Toast.LENGTH_LONG).show();
+
+                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                        String str = response.getString("response");
+                        if(Objects.equals(str, "You have not admin's rights"))
+                        {
+                            Toast.makeText(Dialog.this, "У вас нет прав для этого", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(Dialog.this, "Комната успешно удалена", Toast.LENGTH_LONG).show();
+                            webSocket.disconnect();
+                            finish();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
 

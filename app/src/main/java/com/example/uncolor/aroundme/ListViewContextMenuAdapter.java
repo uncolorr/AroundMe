@@ -1,10 +1,20 @@
 package com.example.uncolor.aroundme;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by uncolor on 09.07.17.
@@ -13,13 +23,20 @@ import android.widget.BaseAdapter;
 public class ListViewContextMenuAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
+    ArrayList<String> items;
+    Map<String, Integer> imageResources;
 
-    public ListViewContextMenuAdapter(Context context){
+
+    public ListViewContextMenuAdapter(Context context, ArrayList<String> items, Map<String, Integer> imageResources){
         layoutInflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.items = items;
+        this.imageResources = imageResources;
+
     }
+
     @Override
     public int getCount() {
-        return 5;
+        return items.size();
     }
 
     @Override
@@ -38,7 +55,13 @@ public class ListViewContextMenuAdapter extends BaseAdapter {
 
         if (view == null){
             view = layoutInflater.inflate(R.layout.context_menu_dialog_item, parent, false);
+
         }
+        view.setTag(items.get(position));
+        TextView textViewContextMenuItem = (TextView)view.findViewById(R.id.textViewContextMenuItem);
+        textViewContextMenuItem.setText(items.get(position));
+        ImageView imageViewContextMenuItem = (ImageView)view.findViewById(R.id.imageViewContextMenuItem);
+        imageViewContextMenuItem.setImageResource(imageResources.get(items.get(position)));
         return view;
     }
 }

@@ -314,4 +314,19 @@ public class ProfileSettings extends AppCompatActivity {
         }
     }
 
+
+    public void onClickImageButtonProfileBack(View view){
+        onBackPressed();
+    }
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
+
+    public void onClickImageButtonExit(View view){
+        finishAffinity();
+        Intent intent = new Intent(ProfileSettings.this, Authorization.class);
+        startActivity(intent);
+    }
+
 }

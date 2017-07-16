@@ -103,7 +103,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         params.put("longitude", Double.toString(longitude));
         params.put("offset", "0");
         params.put("limit", "100");
-        params.put("shownews", "0");
+        params.put("shownews", "1");
 
 
         client.get(URL, params, new JsonHttpResponseHandler() {

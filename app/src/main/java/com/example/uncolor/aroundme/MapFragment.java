@@ -23,6 +23,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -266,6 +267,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
             mMap.clear();
             loadAllChatsOnMap(latitude, longitude);
+
 
         }
     }
