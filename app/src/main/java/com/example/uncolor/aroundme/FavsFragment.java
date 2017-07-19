@@ -105,7 +105,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
         return view;
     }
 
-    public void loadFavs(double latitude, double longitude) {
+    public void loadFavs(final double latitude, final double longitude) {
 
         Log.i("fg", "in load favs " + Double.toString(longitude));
 
@@ -156,6 +156,11 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
                                 }
                                 room.setUsersCount(data.getString("usersCount"));
                                 room.setRoom_id(data.getString("room_id"));
+                                double roomLatitude = data.getDouble("latitude");
+                                double roomLongitude = data.getDouble("longitude");
+                                float[] distance = new float[1];
+                                Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
+                                room.setDistance(distance[0]);
                                 favsList.add(room);
                             }
                             listViewFavsAdapter.notifyDataSetChanged();

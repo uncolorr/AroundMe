@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -72,6 +73,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = getArguments().getParcelable("user");
+
 
     }
 

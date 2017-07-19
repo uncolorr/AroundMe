@@ -23,7 +23,19 @@
 
     <permission
         android:name="com.example.uncolor.lobsang.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"
+        />
+
+    <permission
+        android:name="com.example.uncolor.aroundme.permission.ACCESS_COARSE_LOCATION"
+        android:protectionLevel="signature"
+        />
+
+    <permission
+        android:name="com.example.uncolor.aroundme.permission.ACCESS_FINE_LOCATION"
+        android:protectionLevel="signature"
+        />
+
 
     <uses-permission android:name="com.example.uncolor.lobsang.permission.MAPS_RECEIVE" />
 

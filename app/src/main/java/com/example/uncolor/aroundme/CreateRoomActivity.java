@@ -1,11 +1,14 @@
 package com.example.uncolor.aroundme;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.os.CountDownTimer;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +26,14 @@ public class CreateRoomActivity extends AppCompatActivity {
     FragmentTransaction transaction = null;
     User user;
     CreateRoom createRoom = CreateRoom.newInstance();
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        checkLocationEnabled();
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarCreateRoom = inflater.inflate(R.layout.create_room_action_bar, null);
@@ -71,5 +77,33 @@ public class CreateRoomActivity extends AppCompatActivity {
         transaction.remove(createRoom);
         transaction.replace(R.id.createRoomMainLayout, createRoom);
         transaction.commit();
+        createRoom.resetCircle();
+        checkLocationEnabled();
+    }
+
+    private void checkLocationEnabled(){
+
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder
+                    .setMessage("Передача геоданных сейчас выключена. Хотите ли вы включить ее?")
+                    .setPositiveButton("Включить",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(callGPSSettingIntent);
+                                }
+                            });
+            alertDialogBuilder.setNegativeButton("Отмена",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
+        }
     }
 }
