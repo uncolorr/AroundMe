@@ -36,9 +36,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -99,12 +101,13 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     public Room createNewRoom() {
 
+        int radius = (int) circle.getRadius();
 
         String URL = new String("http://aroundme.lwts.ru/addroom?");
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
-        params.put("radius", "3000");
+        params.put("radius", Integer.toString(radius));
         params.put("title", editTextNewRoomTitle.getText().toString());
         params.put("latitude", Double.toString(latitude));
         params.put("longitude", Double.toString(longitude));
@@ -182,8 +185,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        Log.i("fg", "onCreate");
         super.onCreate(savedInstanceState);
         user = getArguments().getParcelable("user");
         Context context = getActivity();
@@ -211,8 +212,11 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (circle != null) {
+                    if(progress == 0){
+                        progress = 1;
+                    }
                     textViewRadius.setText(Integer.toString(progress) + "м");
-                    circle.setRadius(seekBar.getProgress());
+                    circle.setRadius(progress);
 
                 }
             }
@@ -224,7 +228,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                moveMap();
             }
         });
 
@@ -376,8 +380,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
             LatLng latLng = new LatLng(latitude, longitude);
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(getZoomLevel(circle)));
             mMap.getUiSettings().setZoomControlsEnabled(true);
+
         }
     }
 
@@ -385,19 +390,25 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     @Override
     public void onLocationChanged(Location location) {
         Log.i("fg", "update");
-
-        if(latitude == 0.0 && longitude == 0.0){
             getCurrentLocation();
-        }
 
         if (circle != null) {
             circle.setCenter(new LatLng(location.getLatitude(), location.getLongitude()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
         }
         if (circle == null) {
 
+            int radius = 0;
+            if(seekBarRadius.getProgress() == 0){
+                radius = 1;
+            }
+            else {
+                radius = seekBarRadius.getProgress();
+            }
+
             circle = mMap.addCircle(new CircleOptions()
                     .center(new LatLng(latitude, longitude))
-                    .radius(seekBarRadius.getProgress())
+                    .radius(radius)
                     .strokeColor(Color.RED));
         }
 
@@ -424,7 +435,16 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     public void resetCircle() {
         circle = null;
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
 
+    }
+
+    public float getZoomLevel(Circle circle) {
+        float zoomLevel = 0;
+        if (circle != null){
+            double radius = circle.getRadius();
+            double scale = radius / 500;
+            zoomLevel = (float) (16 - Math.log(scale) / Math.log(2)) - 1.2f;
+        }
+        return zoomLevel;
     }
 }
