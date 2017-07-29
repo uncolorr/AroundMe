@@ -1,9 +1,13 @@
 package com.example.uncolor.aroundme;
 
+import android.util.Log;
+
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.IUser;
+import com.stfalcon.chatkit.commons.models.MessageContentType;
 
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  * Created by uncolor on 22.06.17.
@@ -19,12 +23,6 @@ public class MyMessage implements IMessage {
     private String user_id;
     private String avatar;
 
-    public MyMessage(String text){
-        this.text = text;
-    }
-
-
-
 
     public MyMessage(String message_id, String text, String login, String date, String user_id, String avatar) {
 
@@ -35,8 +33,6 @@ public class MyMessage implements IMessage {
         long_date = Long.valueOf(date).longValue();
         this.user_id = user_id;
         this.avatar = avatar;
-
-
     }
 
     @Override
@@ -59,4 +55,6 @@ public class MyMessage implements IMessage {
     public Date getCreatedAt() {
         return new Date(long_date);
     }
+
+
 }

@@ -1,9 +1,14 @@
 package com.stfalcon.chatkit.messages;
 
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.text.Spannable;
+import android.text.format.DateFormat;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -495,12 +500,17 @@ public class MessageHolders {
         protected ViewGroup bubble;
         protected TextView text;
         protected TextView author;
+        protected TextView time;
+      //  protected Date date;
 
         public IncomingTextMessageViewHolder(View itemView) {
             super(itemView);
             bubble = (ViewGroup) itemView.findViewById(R.id.bubble);
             text = (TextView) itemView.findViewById(R.id.messageText);
             author = (TextView)itemView.findViewById(R.id.messageAuthor);
+            time = (TextView)itemView.findViewById(R.id.messageTime);
+           // date = new Date();
+
         }
 
         @Override
@@ -518,6 +528,18 @@ public class MessageHolders {
             if(author != null){
                 author.setText(message.getUser().getName());
             }
+
+            if(time != null){
+
+               // DateFormat dateFormat = (DateFormat) DateFormat.format("yyyy-MM-dd hh:mm:ss a", message.getCreatedAt());
+                time.setText(Long.toString(message.getCreatedAt().getTime()));
+                // time.setText(Long.toString(message.getCreatedAt().getTime()));
+              //  time.setText();
+
+            }
+
+
+
         }
 
         @Override
@@ -550,12 +572,15 @@ public class MessageHolders {
 
         protected ViewGroup bubble;
         protected TextView text;
+        protected TextView time;
 
         public OutcomingTextMessageViewHolder(View itemView) {
             super(itemView);
             bubble = (ViewGroup) itemView.findViewById(R.id.bubble);
             text = (TextView) itemView.findViewById(R.id.messageText);
+            time = (TextView) itemView.findViewById(R.id.messageTime);
         }
+
 
         @Override
         public void onBind(MESSAGE message) {
@@ -567,6 +592,10 @@ public class MessageHolders {
             if (text != null) {
                 text.setText(message.getText());
             }
+
+            if(time != null){
+                time.setText(Long.toString(message.getCreatedAt().getTime()));
+            }
         }
 
         @Override
@@ -577,8 +606,6 @@ public class MessageHolders {
                         style.getOutcomingDefaultBubblePaddingTop(),
                         style.getOutcomingDefaultBubblePaddingRight(),
                         style.getOutcomingDefaultBubblePaddingBottom());
-               // bubble.setBackground(style.getOutcomingBubbleDrawable());
-               // bubble.setBackground(style.);
             }
 
             if (text != null) {
@@ -620,7 +647,10 @@ public class MessageHolders {
         public void onBind(MESSAGE message) {
             super.onBind(message);
             if (image != null && imageLoader != null) {
+                Log.i("fg", "was here " + message.getImageUrl());
+
                 imageLoader.loadImage(image, message.getImageUrl());
+
             }
 
             if (imageOverlay != null) {

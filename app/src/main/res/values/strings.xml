@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AroundMe</string>
     <string name="main_color">#a20022</string>
+    <string name="showNews">showNews</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

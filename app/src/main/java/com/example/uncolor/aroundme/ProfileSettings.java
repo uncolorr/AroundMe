@@ -3,26 +3,28 @@ package com.example.uncolor.aroundme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Environment;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +34,6 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.stfalcon.chatkit.commons.models.MessageContentType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,17 +41,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.example.uncolor.aroundme.R.id.imageView;
 
 public class ProfileSettings extends AppCompatActivity {
 
@@ -64,6 +60,7 @@ public class ProfileSettings extends AppCompatActivity {
     ListView listViewAbout;
     ListViewAboutAdapter arrayAdapter;
     ArrayList<String> arrayListAbout;
+
     View actionBarProfile;
     EditText editTextNewPassword;
     EditText editTextRepeatPassword;
@@ -71,8 +68,11 @@ public class ProfileSettings extends AppCompatActivity {
     TextView textViewLogin;
     CircleImageView imageViewAvatar;
     ImageLoader imageLoader;
+    Switch switchShowNews;
+
     User user;
     String login;
+
     AsyncHttpClient client = new AsyncHttpClient();
 
     @Override
@@ -88,6 +88,7 @@ public class ProfileSettings extends AppCompatActivity {
         user = getIntent().getParcelableExtra("user");
         Log.i("fg","user avatar: " + user.getAvatar_url());
         imageViewAvatar = (CircleImageView) findViewById(R.id.imageViewAvatar);
+        //http://aroundme.lwts.ru/photos/562b64846ba43bb62060ec63d7394cd6
         imageLoader.loadImage(user.getAvatar_url(), new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -95,6 +96,29 @@ public class ProfileSettings extends AppCompatActivity {
                 imageViewAvatar.setImageBitmap(loadedImage);
             }
         });
+
+        /*imageLoader.loadImage("http://aroundme.lwts.ru/photos/562b64846ba43bb62060ec63d7394cd6",  new ImageLoadingListener(){
+
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
+            }
+        });*/
 
         login = getIntent().getStringExtra("login");
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -104,6 +128,21 @@ public class ProfileSettings extends AppCompatActivity {
         getSupportActionBar().setCustomView(actionBarProfile);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
         imageButtonChangePassword = (ImageButton) findViewById(R.id.imageButtonChangePassword);
+        switchShowNews = (Switch) findViewById(R.id.switchShowNews);
+        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS",Context.MODE_PRIVATE);
+        switchShowNews.setChecked(sharedPref.getBoolean(getString(R.string.showNews), false));
+
+
+        switchShowNews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS",Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("showNews", isChecked);
+                editor.apply();
+            }
+        });
 
 
 
@@ -271,9 +310,15 @@ public class ProfileSettings extends AppCompatActivity {
             try {
 
                 final Uri imageUri = data.getData();
+
+                Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
+
+
+                Log.i("fg","picture " + imageUri.getEncodedPath());
+                Log.i("fg","scheme " + imageUri.getScheme());
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                File file = new File(imageUri.toString());
+                File file = new File(getRealPathFromURI(imageUri));
 
                 String URL = "http://aroundme.lwts.ru/changeavatar?";
                 RequestParams requestParams = new RequestParams();
@@ -293,6 +338,10 @@ public class ProfileSettings extends AppCompatActivity {
 
                             } else if (Objects.equals(status, STATUS_SUCCESS)) {
                                 imageViewAvatar.setImageBitmap(selectedImage);
+                                JSONArray responseArray = response.getJSONArray("response");
+                                JSONObject data = responseArray.getJSONObject(0);
+                                user.setAvatar_url(data.getString("avatar_url"));
+                                Toast.makeText(ProfileSettings.this, "Аватар успешно загружен", Toast.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e) {
@@ -327,6 +376,20 @@ public class ProfileSettings extends AppCompatActivity {
         finishAffinity();
         Intent intent = new Intent(ProfileSettings.this, Authorization.class);
         startActivity(intent);
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.uncolor.aroundme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -97,6 +98,8 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
 
 
         Log.i("fg", "in load rooms " + Double.toString(latitude) + Double.toString(longitude));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS",Context.MODE_PRIVATE);
+        boolean showNews = sharedPref.getBoolean(getString(R.string.showNews), false);
         String URL = new String("http://aroundme.lwts.ru/getrooms?");
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
@@ -105,7 +108,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         params.put("longitude", Double.toString(longitude));
         params.put("offset", "0");
         params.put("limit", "100");
-        params.put("shownews", "1");
+        params.put("shownews", Boolean.toString(showNews));
 
 
         client.get(URL, params, new JsonHttpResponseHandler() {

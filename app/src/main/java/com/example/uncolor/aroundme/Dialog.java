@@ -3,22 +3,18 @@ package com.example.uncolor.aroundme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
-import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v7.app.ActionBar;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +37,10 @@ import com.neovisionaries.ws.client.WebSocketFactory;
 import com.neovisionaries.ws.client.WebSocketFrame;
 import com.neovisionaries.ws.client.WebSocketListener;
 import com.neovisionaries.ws.client.WebSocketState;
-import com.stfalcon.chatkit.commons.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -50,9 +49,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +62,13 @@ import cz.msebera.android.httpclient.Header;
 
 public class Dialog extends AppCompatActivity {
 
-    final int MENU_ADD_IMAGE = 1;
-    final int MENU_ADD_LOCATION = 2;
+    final int MENU_SEND_IMAGE = 0;
+    final int MENU_SEND_LOCATION = 1;
+
+    final int RESULT_LOAD_IMAGE = 2;
+    private static final String MSG_TYPE_TEXT = "Text";
+    private static final String MSG_TYPE_LOCATION = "Location";
+    private static final String MSG_TYPE_PHOTO = "Photo";
 
     private static final String STATUS_FAIL = "failed";
     private static final String STATUS_SUCCESS = "success";
@@ -77,7 +82,8 @@ public class Dialog extends AppCompatActivity {
     private static final String DELETE_ITEM = "Удалить";
 
     View actionBarDialog;
-    ImageLoader imageLoader;
+    com.stfalcon.chatkit.commons.ImageLoader imageLoader;
+    com.nostra13.universalimageloader.core.ImageLoader normalImageLoader;
     TextView textViewRoomChatName;
     LayoutInflater inflater;
     AsyncHttpClient client = new AsyncHttpClient();
@@ -92,8 +98,9 @@ public class Dialog extends AppCompatActivity {
     EditText editTextMessage;
     PopupWindow pw;
     Button buttonSend;
-    MessagesListAdapter<MyMessage> adapter;
+    MessagesListAdapter<IMessage> adapter;
     ListViewContextMenuAdapter listViewContextMenuAdapter;
+    ListViewMultimediaAdapter listViewMultimediaAdapter;
 
 
     @Override
@@ -105,17 +112,43 @@ public class Dialog extends AppCompatActivity {
         messagesList = (MessagesList) findViewById(R.id.messagesList);
         messagesList.invalidate();
 
-        imageLoader = new ImageLoader() {
-            @Override
-            public void loadImage(ImageView imageView, String url) {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+        normalImageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
 
+        imageLoader = new com.stfalcon.chatkit.commons.ImageLoader() {
+            @Override
+            public void loadImage(final ImageView imageView, String url) {
+                
+                normalImageLoader.loadImage(url, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        Log.i("fg", "onLoadingStarted");
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.i("fg", "onLoadingFailed");
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        Log.i("fg", "onLoadingComplete");
+                        imageView.setImageBitmap(loadedImage);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+                        Log.i("fg", "onLoadingCancelled");
+                    }
+                });
             }
         };
 
         user = getIntent().getParcelableExtra("user");
         room_id = getIntent().getStringExtra("room_id");
         room_name = getIntent().getStringExtra("room_name");
-        adapter = new MessagesListAdapter<MyMessage>(user.getUser_id(), imageLoader);
+        adapter = new MessagesListAdapter<IMessage>(user.getUser_id(), imageLoader);
         messagesList.setAdapter(adapter);
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarDialog = inflater.inflate(R.layout.dialog_action_bar, null);
@@ -123,15 +156,22 @@ public class Dialog extends AppCompatActivity {
         textViewRoomChatName = (TextView) actionBarDialog.findViewById(R.id.roomChatName);
         textViewRoomChatName.setText(room_name);
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
-
         imageButtonAddMultimedia = (ImageButton) findViewById(R.id.imageButtonAddMultimedia);
         imageButtonOpenMenu = (ImageButton) actionBarDialog.findViewById(R.id.imageButtonOpenMenu);
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("Отправить изображение");
+        arrayList.add("Отправить геолокацию");
+
+        listViewMultimediaAdapter = new ListViewMultimediaAdapter(this, arrayList);
+
+
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(actionBarDialog);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
         try {
-            webSocket = webSocketFactory.createSocket("http://aroundme.lwts.ru/chat?room_id=" + room_id);
+            webSocket = webSocketFactory.createSocket("http://aroundme.lwts.ru/chat?room_id=" + room_id, 5000);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,6 +184,18 @@ public class Dialog extends AppCompatActivity {
             @Override
             public void onStateChanged(WebSocket websocket, WebSocketState newState) throws Exception {
                 Log.i("fg", "onStateChanged");
+                if (newState == WebSocketState.CLOSED) {
+
+                    if (!webSocket.isOpen()) {
+                        try {
+                            Log.i("fg", "was here c:");
+                            webSocket = webSocket.recreate(5000).connectAsynchronously();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
             }
 
             @Override
@@ -189,7 +241,7 @@ public class Dialog extends AppCompatActivity {
                 Log.i("fg", "onTextFrame");
                 adapter.notifyDataSetChanged();
                 Log.i("fg", Integer.toString(adapter.getItemCount()));
-                messagesList.smoothScrollToPosition(1);
+                messagesList.smoothScrollToPosition(0);
             }
 
             @Override
@@ -307,8 +359,22 @@ public class Dialog extends AppCompatActivity {
             public void onClick(View v) {
                 JSONObject message = new JSONObject();
 
+
+                if (!webSocket.isOpen()) {
+                    try {
+                        webSocket = webSocket.recreate(5000).connectAsynchronously();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                Log.i("fg", Boolean.toString(webSocket.isOpen()));
+
                 if (webSocket.isOpen() && !editTextMessage.getText().toString().isEmpty()) {
 
+
+                    Log.i("fg", "connected");
                     try {
                         message.put("user_id", user.getUser_id());
                         message.put("room_id", room_id);
@@ -325,12 +391,14 @@ public class Dialog extends AppCompatActivity {
                     Toast.makeText(Dialog.this, "Не удалось отправить сообщение", Toast.LENGTH_SHORT).show();
                 }
 
-                messagesList.smoothScrollToPosition(1);
+                messagesList.smoothScrollToPosition(0);
             }
         });
     }
 
     public void loadDialog() {
+
+        Log.i("fg", "room id  " + room_id);
         String URL = new String("http://aroundme.lwts.ru/getMessages?");
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
@@ -345,16 +413,26 @@ public class Dialog extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
 
+                    Log.i("fg", "messages: " + response.toString());
+
                     JSONArray responseArray = response.getJSONArray("messages");
                     for (int i = 0; i < responseArray.length(); i++) {
 
                         JSONObject data = responseArray.getJSONObject(i);
-                        if (data.has("data")) {
-                            MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                                    data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                            adapter.addToStart(myMessage, true);
-                        }
+                        if (Objects.equals(data.getString("type"), MSG_TYPE_PHOTO)) {
+                            if (data.has("data")) {
+                                MyImageMessage myImageMessage = new MyImageMessage(data.getString("user_id"), data.getString("data"),
+                                        data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                                adapter.addToStart(myImageMessage, true);
+                            }
 
+                        } else if (Objects.equals(data.getString("type"), MSG_TYPE_TEXT)) {
+                            if (data.has("data")) {
+                                MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
+                                        data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                                adapter.addToStart(myMessage, true);
+                            }
+                        }
                     }
 
                     adapter.notifyDataSetChanged();
@@ -389,43 +467,21 @@ public class Dialog extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        switch (v.getId()) {
-            case R.id.imageButtonAddMultimedia:
-                menu.add(0, MENU_ADD_IMAGE, 0, "Отправить фотографию");
-                menu.add(0, MENU_ADD_LOCATION, 0, "Отправить геопозицию");
-                break;
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_ADD_IMAGE:
-
-                break;
-            case MENU_ADD_LOCATION:
-
-                break;
-        }
-        return super.onContextItemSelected(item);
-
-    }
-
     public void onClickImageButtonAddMultimedia(View view) {
-        PopupMenu popupMenu = new PopupMenu(Dialog.this, imageButtonAddMultimedia, Gravity.CENTER);
-        popupMenu.inflate(R.menu.menu_multimedia);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        new AlertDialog.Builder(this).setAdapter(listViewMultimediaAdapter, new DialogInterface.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                return true;
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case MENU_SEND_IMAGE:
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                        break;
+                    case MENU_SEND_LOCATION:
+                        break;
+                }
             }
-        });
-        popupMenu.show();
-
+        }).create().show();
     }
 
     public void onClickImageButtonOpenMenu(View view) {
@@ -516,10 +572,9 @@ public class Dialog extends AppCompatActivity {
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
                         String roomStatus = response.getString("response");
-                        if (Objects.equals(roomStatus, "added")){
+                        if (Objects.equals(roomStatus, "added")) {
                             Toast.makeText(Dialog.this, "Комната успешно добавлена в избранное", Toast.LENGTH_LONG).show();
-                        }
-                        else if(Objects.equals(roomStatus, "deleted")){
+                        } else if (Objects.equals(roomStatus, "deleted")) {
                             Toast.makeText(Dialog.this, "Комната успешно удалена из избранного", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -594,11 +649,9 @@ public class Dialog extends AppCompatActivity {
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
                         String str = response.getString("response");
-                        if(Objects.equals(str, "You have not admin's rights"))
-                        {
+                        if (Objects.equals(str, "You have not admin's rights")) {
                             Toast.makeText(Dialog.this, "У вас нет прав для этого", Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(Dialog.this, "Комната успешно удалена", Toast.LENGTH_LONG).show();
                             webSocket.disconnect();
                             finish();
@@ -611,6 +664,78 @@ public class Dialog extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            try {
+
+                final Uri imageUri = data.getData();
+
+                Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
+
+                // final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                // final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                File file = new File(getRealPathFromURI(imageUri));
+
+                String URL = "http://aroundme.lwts.ru/sendPhoto?";
+                RequestParams requestParams = new RequestParams();
+                requestParams.put("photo", file);
+                requestParams.put("token", user.getToken());
+                requestParams.put("room_id", room_id);
+                requestParams.put("user_id", user.getUser_id());
+
+                client.post(URL, requestParams, new JsonHttpResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        Log.i("fg", "send photo " + response.toString());
+                        try {
+                            String status = response.getString("status");
+                            if (Objects.equals(status, STATUS_FAIL)) {
+
+
+                            } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                              /*  imageViewAvatar.setImageBitmap(selectedImage);
+                                JSONArray responseArray = response.getJSONArray("response");
+                                JSONObject data = responseArray.getJSONObject(0);
+                                user.setAvatar_url(data.getString("avatar_url"));
+                                Toast.makeText(ProfileSettings.this, "Аватар успешно загружен", Toast.LENGTH_LONG).show();*/
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(Dialog.this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        } else {
+            Toast.makeText(Dialog.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
 
