@@ -3,15 +3,14 @@ package com.example.uncolor.aroundme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
-import android.os.CountDownTimer;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -32,6 +31,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         checkLocationEnabled();
 
@@ -40,8 +40,6 @@ public class CreateRoomActivity extends AppCompatActivity {
         imageButtonUpdate = (ImageButton)actionBarCreateRoom.findViewById(R.id.imageButtonUpdate);
         imageButtonCreateRoom = (ImageButton)actionBarCreateRoom.findViewById(R.id.imageButtonCreateRoom);
         user = getIntent().getParcelableExtra("user");
-
-        Log.i("fg", user.getUser_id());
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

@@ -1,7 +1,10 @@
 package com.example.uncolor.aroundme;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,14 +38,33 @@ public class Authorization extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().hide();
+        user = new User();
+
+
+        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        String token = sharedPref.getString(getString(R.string.token), "");
+        String user_id = sharedPref.getString(getString(R.string.user_id), "");
+        String avatar_url = sharedPref.getString(getString(R.string.avatar_url), "");
+        String type = sharedPref.getString(getString(R.string.type), "");
+        String login = sharedPref.getString(getString(R.string.login), "");
+
+        if(!token.isEmpty()){
+            user.setData(user_id, token, avatar_url, type);
+            Intent intent = new Intent(Authorization.this, MainActivity.class);
+            intent.putExtra("user", user);
+            intent.putExtra("login", login);
+            startActivity(intent);
+        }
+
         editTextLogin = (EditText) findViewById(R.id.editTextLogin);
         editTextLogin.setText("colorblind6");
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextPassword.setText("123456");
         progressBarAuth = (ProgressBar)findViewById(R.id.progressBarAuth);
         progressBarAuth.setAlpha(0.0f);
-        user = new User();
+
 
     }
 
@@ -88,6 +110,18 @@ public class Authorization extends AppCompatActivity {
                         String avatar_url = data.getString("avatar_url");
                         String user_id = data.getString("user_id");
                         user.setData(user_id, token, avatar_url, type);
+
+                        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.token), token);
+                        editor.putString(getString(R.string.type), type);
+                        editor.putString(getString(R.string.avatar_url), avatar_url);
+                        editor.putString(getString(R.string.user_id), user_id);
+                        editor.putString(getString(R.string.login), editTextLogin.getText().toString());
+
+                        editor.apply();
+
                         Intent intent = new Intent(Authorization.this, MainActivity.class);
                         intent.putExtra("user", user);
                         intent.putExtra("login", editTextLogin.getText().toString());
@@ -155,6 +189,19 @@ public class Authorization extends AppCompatActivity {
                         String avatar_url = data.getString("avatar_url");
                         String user_id = data.getString("user_id");
                         user.setData(user_id, token, avatar_url, type);
+
+                        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                        editor.putString(getString(R.string.token), token);
+                        editor.putString(getString(R.string.type), type);
+                        editor.putString(getString(R.string.avatar_url), avatar_url);
+                        editor.putString(getString(R.string.user_id), user_id);
+                        editor.putString(getString(R.string.login), editTextLogin.getText().toString());
+
+                        editor.apply();
+
                         Intent intent = new Intent(Authorization.this, MainActivity.class);
                         intent.putExtra("user", user);
                         intent.putExtra("login", editTextLogin.getText().toString());

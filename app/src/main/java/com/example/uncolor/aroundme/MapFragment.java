@@ -1,16 +1,14 @@
 package com.example.uncolor.aroundme;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
@@ -63,6 +59,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     public MapFragment() {
 
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        user.setAvatar_url(sharedPref.getString(getString(R.string.avatar_url), ""));
+    }
+
 
 
     public static MapFragment newInstance() {
@@ -282,7 +286,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     private void addMarker(double latitude, double longitude, String title) {
         LatLng latLng = new LatLng(latitude, longitude);
-       // mMap.addMarker(new MarkerOptions().position(marker).title());
         if (mMap != null) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude))
                     .title(title));

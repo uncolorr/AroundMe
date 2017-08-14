@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -50,17 +49,22 @@ public class ListViewRoomsAdapter extends BaseAdapter {
         TextView textViewUsersCount = (TextView) view.findViewById(R.id.textViewUsersCount);
         textViewUsersCount.setText(roomsList.get(position).getUsersCount());
         TextView textViewDistance = (TextView) view.findViewById(R.id.textViewDistance);
-        textViewDistance.setText(getDistanceFormat(roomsList.get(position).getDistance()));
+        if (roomsList.get(position).getDistance() == 0) {
+            textViewDistance.setVisibility(View.INVISIBLE);
+        } else {
+            textViewDistance.setText(getDistanceFormat(roomsList.get(position).getDistance()));
+        }
+
         TextView textViewRoomsTitle = (TextView) view.findViewById(R.id.textViewRoomsTitle);
         textViewRoomsTitle.setText(roomsList.get(position).getTitle());
         return view;
     }
 
-    private String getDistanceFormat(float distance){
+    private String getDistanceFormat(float distance) {
 
         String result = "";
         int intDistance = (int) distance;
-        if(intDistance < 1000){
+        if (intDistance < 1000) {
             result = Integer.toString(intDistance) + "м";
             return result;
         }

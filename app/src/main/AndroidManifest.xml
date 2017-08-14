@@ -24,18 +24,15 @@
 
     <permission
         android:name="com.example.uncolor.lobsang.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature"
-        />
+        android:protectionLevel="signature" />
 
     <permission
         android:name="com.example.uncolor.aroundme.permission.ACCESS_COARSE_LOCATION"
-        android:protectionLevel="signature"
-        />
+        android:protectionLevel="signature" />
 
     <permission
         android:name="com.example.uncolor.aroundme.permission.ACCESS_FINE_LOCATION"
-        android:protectionLevel="signature"
-        />
+        android:protectionLevel="signature" />
 
 
     <uses-permission android:name="com.example.uncolor.lobsang.permission.MAPS_RECEIVE" />
@@ -49,6 +46,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Authorization"
+            android:theme="@style/AuthTheme"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

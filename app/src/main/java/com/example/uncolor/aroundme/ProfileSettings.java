@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,8 +53,8 @@ public class ProfileSettings extends AppCompatActivity {
 
     private static final String STATUS_FAIL = "failed";
     private static final String STATUS_SUCCESS = "success";
-    private final static String URI_POLITICS = "https://bigbadbird.ru/around-me/privacy_policy.php?lang=ru";
-    private final static String URI_OUR_WEBSITE = "https://bigbadbird.ru/around-me";
+    private final static String URI_POLITICS = "http://aroundme.bigbadbird.ru/privacy_policy.php?lang=ru";
+    private final static String URI_OUR_WEBSITE = "http://aroundme.bigbadbird.ru";
     private final static int RESULT_LOAD_IMAGE = 1;
 
     LayoutInflater inflater;
@@ -79,6 +80,7 @@ public class ProfileSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_settings);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -86,39 +88,14 @@ public class ProfileSettings extends AppCompatActivity {
 
 
         user = getIntent().getParcelableExtra("user");
-        Log.i("fg","user avatar: " + user.getAvatar_url());
+        Log.i("fg", "user avatar: " + user.getAvatar_url());
         imageViewAvatar = (CircleImageView) findViewById(R.id.imageViewAvatar);
-        //http://aroundme.lwts.ru/photos/562b64846ba43bb62060ec63d7394cd6
         imageLoader.loadImage(user.getAvatar_url(), new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                // Do whatever you want with Bitmap
                 imageViewAvatar.setImageBitmap(loadedImage);
             }
         });
-
-        /*imageLoader.loadImage("http://aroundme.lwts.ru/photos/562b64846ba43bb62060ec63d7394cd6",  new ImageLoadingListener(){
-
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        });*/
 
         login = getIntent().getStringExtra("login");
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -129,25 +106,19 @@ public class ProfileSettings extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
         imageButtonChangePassword = (ImageButton) findViewById(R.id.imageButtonChangePassword);
         switchShowNews = (Switch) findViewById(R.id.switchShowNews);
-        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS",Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
         switchShowNews.setChecked(sharedPref.getBoolean(getString(R.string.showNews), false));
-
 
         switchShowNews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS",Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean("showNews", isChecked);
                 editor.apply();
             }
         });
-
-
-
-
-
 
         textViewLogin = (TextView) findViewById(R.id.textViewLogin);
         textViewLogin.setText(login);
@@ -218,14 +189,12 @@ public class ProfileSettings extends AppCompatActivity {
                         startActivity(Intent.createChooser(openLink, "Открыть с помощью"));
                         break;
                     case 1: {
-                        Intent gmail = new Intent(Intent.ACTION_VIEW);
-                        gmail.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-                        gmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"jckdsilva@gmail.com"});
-                        gmail.setData(Uri.parse("jckdsilva@gmail.com"));
-                        gmail.putExtra(Intent.EXTRA_SUBJECT, "enter something");
-                        gmail.setType("plain/text");
-                        gmail.putExtra(Intent.EXTRA_TEXT, "hi android jack!");
-                        startActivity(gmail);
+
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                                "mailto", "support@lwts.ru", null));
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+                        startActivity(Intent.createChooser(emailIntent, "Send email..."));
                     }
                     break;
                     case 2:
@@ -314,8 +283,8 @@ public class ProfileSettings extends AppCompatActivity {
                 Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
 
 
-                Log.i("fg","picture " + imageUri.getEncodedPath());
-                Log.i("fg","scheme " + imageUri.getScheme());
+                Log.i("fg", "picture " + imageUri.getEncodedPath());
+                Log.i("fg", "scheme " + imageUri.getScheme());
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 File file = new File(getRealPathFromURI(imageUri));
@@ -323,7 +292,7 @@ public class ProfileSettings extends AppCompatActivity {
                 String URL = "http://aroundme.lwts.ru/changeavatar?";
                 RequestParams requestParams = new RequestParams();
                 requestParams.put("photo", file);
-                requestParams.put("token",user.getToken());
+                requestParams.put("token", user.getToken());
                 requestParams.put("user_id", user.getUser_id());
 
                 client.post(URL, requestParams, new JsonHttpResponseHandler() {
@@ -341,6 +310,12 @@ public class ProfileSettings extends AppCompatActivity {
                                 JSONArray responseArray = response.getJSONArray("response");
                                 JSONObject data = responseArray.getJSONObject(0);
                                 user.setAvatar_url(data.getString("avatar_url"));
+                                SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.avatar_url), data.getString("avatar_url"));
+                                editor.apply();
+
                                 Toast.makeText(ProfileSettings.this, "Аватар успешно загружен", Toast.LENGTH_LONG).show();
                             }
 
@@ -350,7 +325,6 @@ public class ProfileSettings extends AppCompatActivity {
                     }
 
                 });
-
 
 
             } catch (FileNotFoundException e) {
@@ -364,15 +338,27 @@ public class ProfileSettings extends AppCompatActivity {
     }
 
 
-    public void onClickImageButtonProfileBack(View view){
+    public void onClickImageButtonProfileBack(View view) {
         onBackPressed();
     }
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 
-    public void onClickImageButtonExit(View view){
+    public void onClickImageButtonExit(View view) {
+        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.token), "");
+        editor.putString(getString(R.string.type), "");
+        editor.putString(getString(R.string.avatar_url), "");
+        editor.putString(getString(R.string.user_id), "");
+        editor.putString(getString(R.string.login), "");
+
+        editor.apply();
+
         finishAffinity();
         Intent intent = new Intent(ProfileSettings.this, Authorization.class);
         startActivity(intent);
@@ -381,7 +367,7 @@ public class ProfileSettings extends AppCompatActivity {
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
+        if (cursor == null) {
             result = contentURI.getPath();
         } else {
             cursor.moveToFirst();

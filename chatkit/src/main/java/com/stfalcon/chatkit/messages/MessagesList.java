@@ -37,6 +37,7 @@ public class MessagesList extends RecyclerView {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setStackFromEnd(true);
         super.setLayoutManager(linearLayoutManager);
+
     }
 
     public MessagesList(Context context, @Nullable AttributeSet attrs) {
@@ -59,10 +60,13 @@ public class MessagesList extends RecyclerView {
      * Don't use this method for setting your adapter, otherwise exception will by thrown.
      * Call {@link #setAdapter(MessagesListAdapter)} instead.
      */
+
+
     @Override
     public void setAdapter(Adapter adapter) {
         throw new IllegalArgumentException("You can't set adapter to MessagesList. Use #setAdapter(MessagesListAdapter) instead.");
     }
+
 
     /**
      * Set adapter for MessagesList
@@ -82,7 +86,6 @@ public class MessagesList extends RecyclerView {
         setLayoutManager(layoutManager);
         adapter.setLayoutManager(layoutManager);
         adapter.setStyle(messagesListStyle);
-
 
 
         addOnScrollListener(new RecyclerScrollMoreListener(layoutManager, adapter));

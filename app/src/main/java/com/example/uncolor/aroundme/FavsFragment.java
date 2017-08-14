@@ -3,9 +3,9 @@ package com.example.uncolor.aroundme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,11 +21,8 @@ import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -54,6 +51,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
     ListView listView;
     ListViewRoomsAdapter listViewFavsAdapter;
     User user;
+    Room room;
     LocationRequest locationRequest;
     GoogleApiClient googleApiClient;
     AsyncHttpClient client = new AsyncHttpClient();
@@ -63,6 +61,13 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
     public FavsFragment() {
 
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        user.setAvatar_url(sharedPref.getString(getString(R.string.avatar_url), ""));
+    }
+
 
 
     public static FavsFragment newInstance() {
@@ -90,8 +95,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), Dialog.class);
                 intent.putExtra("user", user);
-                intent.putExtra("room_id", favsList.get(position).getRoom_id());
-                intent.putExtra("room_name", favsList.get(position).getTitle());
+                intent.putExtra("room", favsList.get(position));
                 startActivity(intent);
             }
         });
@@ -123,7 +127,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("fg","favs response " + response.toString());
+                Log.i("fg", "favs response " + response.toString());
                 try {
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
@@ -156,11 +160,16 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
                                 }
                                 room.setUsersCount(data.getString("usersCount"));
                                 room.setRoom_id(data.getString("room_id"));
-                                double roomLatitude = data.getDouble("latitude");
-                                double roomLongitude = data.getDouble("longitude");
-                                float[] distance = new float[1];
-                                Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
-                                room.setDistance(distance[0]);
+                                double roomLatitude;
+                                double roomLongitude;
+                                if (data.has("latitude") && data.has("longitude")) {
+
+                                    roomLatitude = data.getDouble("latitude");
+                                    roomLongitude = data.getDouble("longitude");
+                                    float[] distance = new float[1];
+                                    Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
+                                    room.setDistance(distance[0]);
+                                }
                                 favsList.add(room);
                             }
                             listViewFavsAdapter.notifyDataSetChanged();
@@ -201,7 +210,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
         listViewFavsAdapter.notifyDataSetChanged();
         Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewFavsAdapter.getCount()));
         if (listViewFavsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
-           // favsList.clear();
+            // favsList.clear();
             googleApiClient.disconnect();
             googleApiClient.connect();
             Log.i("fg", "Updated");

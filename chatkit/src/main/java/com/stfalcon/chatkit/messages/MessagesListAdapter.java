@@ -23,6 +23,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,6 +51,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     private MessageHolders holders;
     private String senderId;
     private List<Wrapper> items;
+
 
     private int selectedItemsCount;
     private SelectionListener selectionListener;
@@ -91,17 +93,22 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.i("fg","view type: " + Integer.toString(viewType));
         return holders.getHolder(parent, viewType, messagesListStyle);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+      //  Log.i("fg","onBindViewHolder position: " + Integer.toString(position));
         Wrapper wrapper = items.get(position);
         holders.bind(holder, wrapper.item, wrapper.isSelected, imageLoader,
                 getMessageClickListener(wrapper),
                 getMessageLongClickListener(wrapper),
                 dateHeadersFormatter);
+
+
+
     }
 
     @Override
@@ -111,6 +118,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     @Override
     public int getItemViewType(int position) {
+       // Log.i("fg", "position: " + Integer.toString(position));
         return holders.getViewType(items.get(position).item, senderId);
     }
 
@@ -387,6 +395,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     * PRIVATE METHODS
     * */
     private void recountDateHeaders() {
+        Log.i("fg", "recountDateHeaders");
         List<Integer> indicesToDelete = new ArrayList<>();
 
         for (int i = 0; i < items.size(); i++) {
@@ -410,11 +419,14 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     }
 
     private void generateDateHeaders(List<MESSAGE> messages) {
+        Log.i("fg", "generateDateHeaders");
         for (int i = 0; i < messages.size(); i++) {
             MESSAGE message = messages.get(i);
             this.items.add(new Wrapper<>(message));
             if (messages.size() > i + 1) {
                 MESSAGE nextMessage = messages.get(i + 1);
+                message.getCreatedAt().setTime(message.getCreatedAt().getTime());
+                nextMessage.getCreatedAt().setTime(message.getCreatedAt().getTime());
                 if (!DateFormatter.isSameDay(message.getCreatedAt(), nextMessage.getCreatedAt())) {
                     this.items.add(new Wrapper<>(message.getCreatedAt()));
                 }
@@ -747,7 +759,9 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
          * Returns weather is selection mode enabled
          *
          * @return weather is selection mode enabled.
+         *
          */
+
         public boolean isSelectionModeEnabled() {
             return isSelectionModeEnabled;
         }

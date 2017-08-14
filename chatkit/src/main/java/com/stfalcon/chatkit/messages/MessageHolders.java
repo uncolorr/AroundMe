@@ -1,12 +1,8 @@
 package com.stfalcon.chatkit.messages;
 
-import android.icu.text.SimpleDateFormat;
-import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.text.Spannable;
-import android.text.format.DateFormat;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
@@ -26,6 +22,8 @@ import com.stfalcon.chatkit.utils.DateFormatter;
 import com.stfalcon.chatkit.utils.RoundedImageView;
 
 import java.lang.reflect.Constructor;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -501,15 +499,14 @@ public class MessageHolders {
         protected TextView text;
         protected TextView author;
         protected TextView time;
-      //  protected Date date;
+        //  protected Date date;
 
         public IncomingTextMessageViewHolder(View itemView) {
             super(itemView);
             bubble = (ViewGroup) itemView.findViewById(R.id.bubble);
             text = (TextView) itemView.findViewById(R.id.messageText);
-            author = (TextView)itemView.findViewById(R.id.messageAuthor);
-            time = (TextView)itemView.findViewById(R.id.messageTime);
-           // date = new Date();
+            author = (TextView) itemView.findViewById(R.id.messageAuthor);
+            time = (TextView) itemView.findViewById(R.id.messageTime);
 
         }
 
@@ -525,19 +522,18 @@ public class MessageHolders {
 
             }
 
-            if(author != null){
+            if (author != null) {
                 author.setText(message.getUser().getName());
             }
 
-            if(time != null){
+            if (time != null) {
 
-               // DateFormat dateFormat = (DateFormat) DateFormat.format("yyyy-MM-dd hh:mm:ss a", message.getCreatedAt());
-                time.setText(Long.toString(message.getCreatedAt().getTime()));
-                // time.setText(Long.toString(message.getCreatedAt().getTime()));
-              //  time.setText();
-
+                Date date = new Date();
+                date.setTime(message.getCreatedAt().getTime() * 1000);
+                DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+                String dateFormatted = formatter.format(date);
+                time.setText(dateFormatted);
             }
-
 
 
         }
@@ -593,8 +589,13 @@ public class MessageHolders {
                 text.setText(message.getText());
             }
 
-            if(time != null){
-                time.setText(Long.toString(message.getCreatedAt().getTime()));
+
+            if (time != null) {
+                Date date = new Date();
+                date.setTime(message.getCreatedAt().getTime() * 1000);
+                DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+                String dateFormatted = formatter.format(date);
+                time.setText(dateFormatted);
             }
         }
 
@@ -627,11 +628,15 @@ public class MessageHolders {
 
         protected ImageView image;
         protected View imageOverlay;
+        protected TextView messageTime;
+        protected TextView author;
 
         public IncomingImageMessageViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image);
             imageOverlay = itemView.findViewById(R.id.imageOverlay);
+            messageTime = (TextView) itemView.findViewById(R.id.messageTime);
+            author = (TextView) itemView.findViewById(R.id.messageAuthor);
 
             if (image != null && image instanceof RoundedImageView) {
                 ((RoundedImageView) image).setCorners(
@@ -640,6 +645,7 @@ public class MessageHolders {
                         R.dimen.message_bubble_corners_radius,
                         0
                 );
+
             }
         }
 
@@ -655,6 +661,19 @@ public class MessageHolders {
 
             if (imageOverlay != null) {
                 imageOverlay.setSelected(isSelected());
+            }
+
+            if (messageTime != null) {
+
+                Date date = new Date();
+                date.setTime(message.getCreatedAt().getTime() * 1000);
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
+                String dateFormatted = formatter.format(date);
+                messageTime.setText(dateFormatted);
+            }
+
+            if (author != null) {
+                author.setText(message.getUser().getName());
             }
         }
 
@@ -681,11 +700,14 @@ public class MessageHolders {
 
         protected ImageView image;
         protected View imageOverlay;
+        protected TextView messageTime;
 
         public OutcomingImageMessageViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image);
             imageOverlay = itemView.findViewById(R.id.imageOverlay);
+            messageTime = (TextView) itemView.findViewById(R.id.messageTime);
+
 
             if (image != null && image instanceof RoundedImageView) {
                 ((RoundedImageView) image).setCorners(
@@ -695,6 +717,7 @@ public class MessageHolders {
                         R.dimen.message_bubble_corners_radius
                 );
             }
+
         }
 
         @Override
@@ -706,6 +729,15 @@ public class MessageHolders {
 
             if (imageOverlay != null) {
                 imageOverlay.setSelected(isSelected());
+            }
+
+            if (messageTime != null) {
+
+                Date date = new Date();
+                date.setTime(message.getCreatedAt().getTime() * 1000);
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
+                String dateFormatted = formatter.format(date);
+                messageTime.setText(dateFormatted);
             }
         }
 
@@ -742,6 +774,9 @@ public class MessageHolders {
         @Override
         public void onBind(Date date) {
             if (text != null) {
+                if(isInMilliseconds(date)) {
+                    date.setTime(date.getTime() * 1000);
+                }
                 String formattedDate = null;
                 if (dateHeadersFormatter != null) formattedDate = dateHeadersFormatter.format(date);
                 text.setText(formattedDate == null ? DateFormatter.format(date, dateFormat) : formattedDate);
@@ -759,6 +794,10 @@ public class MessageHolders {
             }
             dateFormat = style.getDateHeaderFormat();
             dateFormat = dateFormat == null ? DateFormatter.Template.STRING_DAY_MONTH_YEAR.get() : dateFormat;
+        }
+
+        private  boolean isInMilliseconds(Date date){
+            return date.getTime() < 5000000000L;
         }
     }
 
@@ -906,4 +945,6 @@ public class MessageHolders {
             this.layout = layout;
         }
     }
+
+
 }

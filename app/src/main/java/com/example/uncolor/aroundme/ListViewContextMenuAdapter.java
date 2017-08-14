@@ -1,8 +1,6 @@
 package com.example.uncolor.aroundme;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by uncolor on 09.07.17.
@@ -55,8 +50,8 @@ public class ListViewContextMenuAdapter extends BaseAdapter {
 
         if (view == null){
             view = layoutInflater.inflate(R.layout.context_menu_dialog_item, parent, false);
-
         }
+
         view.setTag(items.get(position));
         TextView textViewContextMenuItem = (TextView)view.findViewById(R.id.textViewContextMenuItem);
         textViewContextMenuItem.setText(items.get(position));

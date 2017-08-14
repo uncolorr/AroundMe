@@ -5,47 +5,34 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.CountDownTimer;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -54,12 +41,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.client.ResponseHandler;
 
 public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -117,7 +101,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("fg", response.toString());
+                Log.i("fg","SRGDG DGDGD DDGDG DBD" + response.toString());
                 try {
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
@@ -147,12 +131,16 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                             room.setTitle(editTextNewRoomTitle.getText().toString());
                             room.setUsersCount("1");
                             room.setRoom_id(data.getString("room_id"));
+                            Log.i("fg", "Room id " + room.getRoom_id());
                         }
 
                         Intent intent = new Intent(getActivity(), Dialog.class);
                         intent.putExtra("user", user);
+                        intent.putExtra("room", room);
                         intent.putExtra("room_id", room.getRoom_id());
                         intent.putExtra("room_name", room.getTitle());
+                        intent.putExtra("latitude", latitude);
+                        intent.putExtra("longitude", longitude);
                         startActivity(intent);
                         getActivity().finish();
 

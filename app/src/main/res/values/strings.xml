@@ -2,6 +2,12 @@
     <string name="app_name">AroundMe</string>
     <string name="main_color">#a20022</string>
     <string name="showNews">showNews</string>
+    <string name="token">token</string>
+    <string name="type">type</string>
+    <string name="avatar_url">avatar_url</string>
+    <string name="user_id">user_id</string>
+    <string name="login">login</string>
+    <string name="previous_messages">Предыдущие сообщения</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
