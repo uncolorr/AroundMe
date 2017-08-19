@@ -85,8 +85,8 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setIndeterminate(true);
             progressBar.getIndeterminateDrawable().setColorFilter(0xFFA20022, PorterDuff.Mode.MULTIPLY);
-
         }
+
         listViewRooms = (ListView) view.findViewById(R.id.listViewRooms);
         listViewRoomsAdapter = new ListViewRoomsAdapter(getActivity(), roomsList);
         listViewRooms.setAdapter(listViewRoomsAdapter);
@@ -152,15 +152,23 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                                 } else {
                                     room.setAdmin(false);
                                 }
-                                double roomLatitude;
-                                double roomLongitude;
+                                double roomLatitude = 0.0;
+                                double roomLongitude = 0.0;
                                 if (data.has("latitude") && data.has("longitude")) {
+
+                                    Log.i("fg", "was here!!!");
 
                                     roomLatitude = data.getDouble("latitude");
                                     roomLongitude = data.getDouble("longitude");
+                                    Log.i("fg", Double.toString(roomLatitude));
+                                    Log.i("fg", Double.toString(roomLongitude));
+
                                     float[] distance = new float[1];
                                     Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
                                     room.setDistance(distance[0]);
+                                    room.setLatitude(roomLatitude);
+                                    room.setLongitude(roomLongitude);
+                                    room.setRadius(data.getInt("meters"));
                                 }
                                 roomsList.add(room);
                             }
@@ -223,12 +231,12 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         Log.i("fg", "onLocationChanged " + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
         listViewRoomsAdapter.notifyDataSetChanged();
         Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewRoomsAdapter.getCount()));
-      /*  if (listViewRoomsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
+        if (listViewRoomsAdapter.getCount() == 0 && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
             roomsList.clear();
-            googleApiClient.disconnect();
-            googleApiClient.connect();
+            progressBar.setVisibility(View.VISIBLE);
+            loadRooms(location.getLatitude(),location.getLongitude());
             Log.i("fg", "Updated");
-        }*/
+        }
         progressBar.setVisibility(View.INVISIBLE);
         Log.i("fg", "roooms list " + Integer.toString(roomsList.size()));
     }

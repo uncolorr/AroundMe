@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public void onImageButtonClickCreateRoom(View view) {
         Intent intent = new Intent(MainActivity.this, CreateRoomActivity.class);
         intent.putExtra("user", user);
+        intent.putExtra("isEdit", false);
         startActivity(intent);
     }
 

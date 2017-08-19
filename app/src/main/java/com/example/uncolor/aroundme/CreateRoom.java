@@ -63,6 +63,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     AsyncHttpClient client = new AsyncHttpClient();
     LocationRequest locationRequest;
     User user;
+    String room_name;
+    int radius;
+    boolean isEdit;
     private Room room = null;
     private double longitude;
     private double latitude;
@@ -83,11 +86,16 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         return (!editTextNewRoomTitle.getText().toString().isEmpty() && latitude != 0.0 && longitude != 0.0);
     }
 
+    public void editRoom() {
+
+    }
+
+
     public Room createNewRoom() {
 
         int radius = (int) circle.getRadius();
 
-        String URL = new String("http://aroundme.lwts.ru/addroom?");
+        String URL = "http://aroundme.lwts.ru/addroom?";
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
@@ -101,7 +109,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("fg","SRGDG DGDGD DDGDG DBD" + response.toString());
                 try {
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
@@ -175,6 +182,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = getArguments().getParcelable("user");
+        room_name = getArguments().getString("room_name");
+        radius = getArguments().getInt("radius");
+        isEdit = getArguments().getBoolean("isEdit");
         Context context = getActivity();
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
@@ -185,14 +195,23 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
         View view = inflater.inflate(R.layout.create_room, container, false);
         editTextNewRoomTitle = (EditText) view.findViewById(R.id.editTextNewRoomTitle);
+        if(isEdit){
+            editTextNewRoomTitle.setText(room_name);
+        }
         textViewRadius = (TextView) view.findViewById(R.id.textViewRadius);
-
+        if(isEdit){
+            textViewRadius.setText(Integer.toString(radius) + "м");
+        }
         seekBarRadius = (SeekBar) view.findViewById(R.id.seekBarRadius);
         seekBarRadius.setMax(25000);
         seekBarRadius.post(new Runnable() {
             @Override
             public void run() {
-                seekBarRadius.setProgress(3000);
+                if (isEdit) {
+                    seekBarRadius.setProgress(radius);
+                } else {
+                    seekBarRadius.setProgress(3000);
+                }
             }
         });
 
@@ -200,7 +219,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (circle != null) {
-                    if(progress == 0){
+                    if (progress == 0) {
                         progress = 1;
                     }
                     textViewRadius.setText(Integer.toString(progress) + "м");
@@ -339,7 +358,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                 circle = mMap.addCircle(new CircleOptions()
                         .center(new LatLng(latitude, longitude))
                         .radius(seekBarRadius.getProgress())
-                        .strokeColor(Color.RED));
+                        .strokeColor(Color.BLACK).fillColor(0x33000000));
+
 // radius
 
             } else {
@@ -378,7 +398,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     @Override
     public void onLocationChanged(Location location) {
         Log.i("fg", "update");
-            getCurrentLocation();
+        getCurrentLocation();
 
         if (circle != null) {
             circle.setCenter(new LatLng(location.getLatitude(), location.getLongitude()));
@@ -387,10 +407,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         if (circle == null) {
 
             int radius = 0;
-            if(seekBarRadius.getProgress() == 0){
+            if (seekBarRadius.getProgress() == 0) {
                 radius = 1;
-            }
-            else {
+            } else {
                 radius = seekBarRadius.getProgress();
             }
 
@@ -427,8 +446,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     }
 
     public float getZoomLevel(Circle circle) {
-        float zoomLevel = 0;
-        if (circle != null){
+        float zoomLevel = 0.0f;
+        if (circle != null) {
             double radius = circle.getRadius();
             double scale = radius / 500;
             zoomLevel = (float) (16 - Math.log(scale) / Math.log(2)) - 1.2f;

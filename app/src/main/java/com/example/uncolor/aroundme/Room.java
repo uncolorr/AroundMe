@@ -15,6 +15,9 @@ public class Room implements Parcelable{
     private boolean inFavs;
     private boolean isAdmin;
     private float distance;
+    private double latitude;
+    private double longitude;
+    private int meters;
 
     public Room() {
 
@@ -33,6 +36,9 @@ public class Room implements Parcelable{
         inFavs = in.readByte() != 0;
         isAdmin = in.readByte() != 0;
         distance = in.readFloat();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        meters = in.readInt();
     }
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
@@ -79,6 +85,14 @@ public class Room implements Parcelable{
         this.distance = distance;
     }
 
+    public float getRadius() {
+        return meters;
+    }
+
+    public void setRadius(int meters) {
+        this.meters = meters;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -92,6 +106,10 @@ public class Room implements Parcelable{
         dest.writeByte((byte) (inFavs ? 1 : 0));
         dest.writeByte((byte) (isAdmin ? 1 : 0));
         dest.writeFloat(distance);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeInt(meters);
+
     }
 
     public boolean isInFavs() {
@@ -108,6 +126,22 @@ public class Room implements Parcelable{
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
 

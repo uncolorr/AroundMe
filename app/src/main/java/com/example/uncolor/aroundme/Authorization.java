@@ -31,7 +31,6 @@ public class Authorization extends AppCompatActivity {
     EditText editTextLogin;
     EditText editTextPassword;
     ProgressBar progressBarAuth;
-
     AsyncHttpClient client = new AsyncHttpClient();
 
     @Override
@@ -63,12 +62,8 @@ public class Authorization extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextPassword.setText("123456");
         progressBarAuth = (ProgressBar)findViewById(R.id.progressBarAuth);
-        progressBarAuth.setAlpha(0.0f);
-
-
+        progressBarAuth.setVisibility(View.INVISIBLE);
     }
-
-
 
     public void onButtonLoginClick(View view) {
         progressBarAuth.setAlpha(1.0f);
@@ -80,7 +75,7 @@ public class Authorization extends AppCompatActivity {
         client.post(URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                progressBarAuth.setAlpha(0.0f);
+                progressBarAuth.setVisibility(View.INVISIBLE);
                 try {
 
                         String status = response.getString("status");
@@ -101,7 +96,7 @@ public class Authorization extends AppCompatActivity {
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
-                        progressBarAuth.setAlpha(0.0f);
+                        progressBarAuth.setVisibility(View.INVISIBLE);
                         Log.i("fg", "user: " + response.toString());
                         JSONArray responseArray = response.getJSONArray("response");
                         JSONObject data = responseArray.getJSONObject(0);
@@ -130,7 +125,7 @@ public class Authorization extends AppCompatActivity {
                     }
 
                 } catch (JSONException e) {
-                    progressBarAuth.setAlpha(0.0f);
+                    progressBarAuth.setVisibility(View.INVISIBLE);
                     e.printStackTrace();
                 }
             }
@@ -142,7 +137,7 @@ public class Authorization extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                progressBarAuth.setAlpha(0.0f);
+                progressBarAuth.setVisibility(View.INVISIBLE);
                 Log.i("fg" , responseString);
 
             }
@@ -152,8 +147,8 @@ public class Authorization extends AppCompatActivity {
     }
     public void onButtonRegisterClick(View view){
 
-        progressBarAuth.setAlpha(1.0f);
-        String URL = new String("http://aroundme.lwts.ru/register?");
+        progressBarAuth.setVisibility(View.VISIBLE);
+        String URL = "http://aroundme.lwts.ru/register?";
         RequestParams params = new RequestParams();
         params.put("login", editTextLogin.getText().toString());
         params.put("password", editTextPassword.getText().toString());
@@ -181,7 +176,7 @@ public class Authorization extends AppCompatActivity {
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
-                        progressBarAuth.setAlpha(0.0f);
+                        progressBarAuth.setVisibility(View.INVISIBLE);
                         JSONArray responseArray = response.getJSONArray("response");
                         JSONObject data = responseArray.getJSONObject(0);
                         String token = data.getString("token");
@@ -210,7 +205,7 @@ public class Authorization extends AppCompatActivity {
                     }
 
                 } catch (JSONException e) {
-                    progressBarAuth.setAlpha(0.0f);
+                    progressBarAuth.setVisibility(View.INVISIBLE);
                     e.printStackTrace();
                 }
             }
@@ -222,16 +217,10 @@ public class Authorization extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                progressBarAuth.setAlpha(0.0f);
+                progressBarAuth.setVisibility(View.INVISIBLE);
                 Log.i("fg" , responseString);
 
             }
-
-
         });
     }
 }
-
-
-//colorblind6
-//123456

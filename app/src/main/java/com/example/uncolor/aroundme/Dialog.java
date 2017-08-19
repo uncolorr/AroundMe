@@ -7,7 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,11 +109,13 @@ public class Dialog extends AppCompatActivity {
     ImageButton imageButtonOpenMenu;
     EditText editTextMessage;
     PopupWindow pw;
+    PopupWindow popupWindowInfo;
     Button buttonSend;
     Button buttonLoadMore;
     MessagesListAdapter<IMessage> adapter;
     ListViewContextMenuAdapter listViewContextMenuAdapter;
     ListViewMultimediaAdapter listViewMultimediaAdapter;
+    DisplayImageOptions options = null;
 
 
     double latitude;
@@ -130,13 +132,12 @@ public class Dialog extends AppCompatActivity {
         messagesList = (MessagesList) findViewById(R.id.messagesList);
         messagesList.invalidate();
         messagesList.setItemViewCacheSize(10000);
-      //  messagesList.addItemDecoration(new SpaceItemDecoration());
 
         final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
         normalImageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
 
-        final DisplayImageOptions options = new DisplayImageOptions.Builder()
+        options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
@@ -174,6 +175,7 @@ public class Dialog extends AppCompatActivity {
 
         user = getIntent().getParcelableExtra("user");
         room = getIntent().getParcelableExtra("room");
+        Log.i("fg","Longitude: " + Double.toString(room.getLongitude()));
         room_name = getIntent().getStringExtra("room_name");
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
@@ -480,24 +482,20 @@ public class Dialog extends AppCompatActivity {
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
-            //    Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
-            //    Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
-            //    Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
+                Log.i("fg", Integer.toString(dy));
+                //    Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
+                //    Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
+                //    Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
                 boolean endHasBeenReached = lastVisible + 1 >= totalItemCount;
-                if (totalItemCount > 0 && endHasBeenReached) {
-                    //logic
-                   // Log.i("fg", "worked!");
+                if (totalItemCount > 0 && endHasBeenReached && dy < 0) {
+                    // Log.i("fg", "worked!");
                     buttonLoadMore.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     buttonLoadMore.setVisibility(View.GONE);
                 }
             }
         });
     }
-
-
-
 
 
     public void loadDialog(final boolean isLoadMore) {
@@ -508,15 +506,14 @@ public class Dialog extends AppCompatActivity {
         Log.i("fg", "room id  " + room.getRoom_id());
 
         Log.i("fg", Integer.toString(adapter.getItemCount()));
-        String URL = new String("http://aroundme.lwts.ru/getMessages?");
+        String URL = "http://aroundme.lwts.ru/getMessages?";
         final RequestParams params = new RequestParams();
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
         params.put("room_id", room.getRoom_id());
-        if(adapter.getItemCount() != 0) {
+        if (adapter.getItemCount() != 0) {
             params.put("offset", Integer.toString(adapter.getItemCount() - 1));
-        }
-        else {
+        } else {
             params.put("offset", Integer.toString(adapter.getItemCount()));
         }
         params.put("limit", "20");
@@ -601,16 +598,22 @@ public class Dialog extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (pw == null) {
-            webSocket.disconnect();
-            finish();
-
-        } else if (pw.isShowing()) {
-            pw.dismiss();
-        } else {
-            webSocket.disconnect();
-            finish();
+        if (popupWindowInfo != null) {
+            if (popupWindowInfo.isShowing()) {
+                popupWindowInfo.dismiss();
+                return;
+            }
         }
+        if (pw != null) {
+            if (pw.isShowing()) {
+                pw.dismiss();
+                return;
+            }
+        }
+        webSocket.disconnect();
+        finish();
+
+
     }
 
     public void onClickImageButtonAddMultimedia(View view) {
@@ -628,7 +631,7 @@ public class Dialog extends AppCompatActivity {
                         String URL = "https://maps.googleapis.com/maps/api/staticmap?";
                         RequestParams params = new RequestParams();
                         params.put("center", Double.toString(latitude) + "," + Double.toString(longitude));
-                        params.put("zoom", "14");
+                        params.put("zoom", "17");
                         params.put("size", "1000x800");
                         params.put("key", "AIzaSyDKfZkd7pQ1FXbSACL9jrmGw-tbkl34icE");
 
@@ -668,8 +671,8 @@ public class Dialog extends AppCompatActivity {
     }
 
     public void onClickImageButtonOpenMenu(View view) {
-        try {
 
+        try {
             LayoutInflater inflater = (LayoutInflater) Dialog.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.context_menu_dialog, null);
             final ListView listViewContextMenu = (ListView) layout.findViewById(R.id.listViewContextMenu);
@@ -692,7 +695,6 @@ public class Dialog extends AppCompatActivity {
             if (room.isAdmin()) {
                 items.add(DELETE_ITEM);
             }
-
 
             Map<String, Integer> imageResourses = new HashMap<String, Integer>();
             imageResourses.put(BACK_ITEM, R.drawable.close_menu);
@@ -777,8 +779,10 @@ public class Dialog extends AppCompatActivity {
                         String roomStatus = response.getString("response");
                         if (Objects.equals(roomStatus, "added")) {
                             Toast.makeText(Dialog.this, "Комната успешно добавлена в избранное", Toast.LENGTH_LONG).show();
+                            room.setInFavs(true);
                         } else if (Objects.equals(roomStatus, "deleted")) {
                             Toast.makeText(Dialog.this, "Комната успешно удалена из избранного", Toast.LENGTH_LONG).show();
+                            room.setInFavs(false);
                         }
                     }
 
@@ -792,44 +796,93 @@ public class Dialog extends AppCompatActivity {
 
     public void editRoom() {
 
+        Intent intent = new Intent(Dialog.this, CreateRoomActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("room_name", room.getTitle());
+        intent.putExtra("radius", room.getRadius());
+        intent.putExtra("isEdit", true);
+        startActivity(intent);
     }
 
     public void showPeoples() {
-        String URL = "http://aroundme.lwts.ru/usersList?";
-        RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("room_id", room.getRoom_id());
-        params.put("offset", "0");
-        params.put("limit", "100");
 
-
-        client.get(URL, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    Log.i("fg", "show peoples " + response.toString());
-                    String status = response.getString("status");
-                    if (Objects.equals(status, STATUS_FAIL)) {
-                        Toast.makeText(Dialog.this, "Ошибка", Toast.LENGTH_LONG).show();
-
-                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
+        Intent intent = new Intent(Dialog.this, UserGrid.class);
+        intent.putExtra("user", user);
+        intent.putExtra("room", room);
+        startActivity(intent);
     }
 
     public void showInfo() {
 
+        LayoutInflater inflater = (LayoutInflater) Dialog.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.context_menu_dialog_info, null);
+        popupWindowInfo = new PopupWindow(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+        popupWindowInfo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        ImageButton imageButtonCloseInfo = (ImageButton) layout.findViewById(R.id.imageButtonCloseInfo);
+        imageButtonCloseInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindowInfo.dismiss();
+            }
+        });
+        TextView textViewInfoAddress = (TextView) layout.findViewById(R.id.textViewInfoAddress);
+        TextView textViewInfoRoomName = (TextView) layout.findViewById(R.id.textViewInfoRoomName);
+        textViewInfoRoomName.setText(room_name);
+
+        final ProgressBar progressBarInfo = (ProgressBar) layout.findViewById(R.id.progressBarLoadInfoMap);
+        if (progressBarInfo != null) {
+            progressBarInfo.setIndeterminate(true);
+            progressBarInfo.getIndeterminateDrawable().setColorFilter(0xFFA20022, PorterDuff.Mode.MULTIPLY);
+        }
+        final ImageView imageViewInfoMap = (ImageView) layout.findViewById(R.id.imageViewInfoMap);
+        String URL = "https://maps.googleapis.com/maps/api/staticmap?";
+        RequestParams params = new RequestParams();
+        params.put("center", Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
+        params.put("zoom", "17");
+        params.put("size", "500x300");
+        params.put("scale", "2");
+        params.put("markers", "color:red|" + Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
+        params.put("key", "AIzaSyDKfZkd7pQ1FXbSACL9jrmGw-tbkl34icE");
+
+        URL += params.toString();
+
+        normalImageLoader.loadImage(URL, options, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                Log.i("fg", "onLoadingStarted");
+                progressBarInfo.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                Log.i("fg", "onLoadingFailed");
+                progressBarInfo.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                Log.i("fg", "onLoadingComplete");
+                imageViewInfoMap.setImageBitmap(loadedImage);
+                progressBarInfo.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                Log.i("fg", "onLoadingCancelled");
+                progressBarInfo.setVisibility(View.INVISIBLE);
+            }
+
+        });
+
+
     }
 
     public void complain() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "support@lwts.ru", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Жалоба на комнату " + "\"" + room.getTitle() + "\"" +  " (id: " + room.getRoom_id() + ")");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
 
     }
 
@@ -937,22 +990,6 @@ public class Dialog extends AppCompatActivity {
         super.onStop();
     }
 
-
-
-    private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-
-            // вычисление пикселей по DP. Здесь отступ будет *8dp*
-            int margin = 150;
-            int space = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, margin, view.getResources().getDisplayMetrics());
-            if(parent.getChildAdapterPosition(view) == 0){
-                outRect.top = space;
-                outRect.bottom = 0;
-            }
-        }
-    }
 }
 
 

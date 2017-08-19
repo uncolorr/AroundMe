@@ -36,12 +36,14 @@ public class MessageHolders {
     private static final short VIEW_TYPE_DATE_HEADER = 130;
     private static final short VIEW_TYPE_TEXT_MESSAGE = 131;
     private static final short VIEW_TYPE_IMAGE_MESSAGE = 132;
+    private static final short VIEW_TYPE_HEADER = 1;
 
     private Class<? extends ViewHolder<Date>> dateHeaderHolder;
     private int dateHeaderLayout;
 
     private HolderConfig<IMessage> incomingTextConfig;
     private HolderConfig<IMessage> outcomingTextConfig;
+    private HolderConfig<IMessage> headerConfig;
     private HolderConfig<MessageContentType.Image> incomingImageConfig;
     private HolderConfig<MessageContentType.Image> outcomingImageConfig;
 
@@ -56,6 +58,7 @@ public class MessageHolders {
         this.outcomingTextConfig = new HolderConfig<>(DefaultOutcomingTextMessageViewHolder.class, R.layout.item_outcoming_text_message);
         this.incomingImageConfig = new HolderConfig<>(DefaultIncomingImageMessageViewHolder.class, R.layout.item_incoming_image_message);
         this.outcomingImageConfig = new HolderConfig<>(DefaultOutcomingImageMessageViewHolder.class, R.layout.item_outcoming_image_message);
+        this.headerConfig = new HolderConfig<>(DefaultIncomingTextMessageViewHolder.class, R.layout.item_header);
     }
 
     /**
@@ -334,6 +337,8 @@ public class MessageHolders {
                 return getHolder(parent, incomingImageConfig, messagesListStyle);
             case -VIEW_TYPE_IMAGE_MESSAGE:
                 return getHolder(parent, outcomingImageConfig, messagesListStyle);
+            case VIEW_TYPE_HEADER:
+                return getHolder(parent, headerConfig, messagesListStyle);
             default:
                 for (ContentTypeConfig typeConfig : customContentTypes) {
                     if (Math.abs(typeConfig.type) == Math.abs(viewType)) {
@@ -530,7 +535,7 @@ public class MessageHolders {
 
                 Date date = new Date();
                 date.setTime(message.getCreatedAt().getTime() * 1000);
-                DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
                 String dateFormatted = formatter.format(date);
                 time.setText(dateFormatted);
             }
@@ -593,7 +598,7 @@ public class MessageHolders {
             if (time != null) {
                 Date date = new Date();
                 date.setTime(message.getCreatedAt().getTime() * 1000);
-                DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
                 String dateFormatted = formatter.format(date);
                 time.setText(dateFormatted);
             }
@@ -943,6 +948,10 @@ public class MessageHolders {
         HolderConfig(Class<? extends BaseMessageViewHolder<? extends T>> holder, int layout) {
             this.holder = holder;
             this.layout = layout;
+        }
+
+        public int getLayoutResId(){
+            return layout;
         }
     }
 

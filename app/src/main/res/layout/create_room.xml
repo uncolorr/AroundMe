@@ -63,13 +63,15 @@
         android:gravity="center"
         android:layout_marginTop="8dp"
         android:textSize="20dp"
+        android:textColor="@color/mainColor"
         android:text="3000м"/>
 
 
     <SeekBar
         android:id="@+id/seekBarRadius"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:theme="@style/SwitchStyle"/>
 
 
 

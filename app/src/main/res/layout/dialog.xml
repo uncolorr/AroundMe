@@ -29,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="0dp"
+            android:paddingTop="30dp"
+            android:clipToPadding="false"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent">
@@ -77,7 +79,6 @@
             android:background="@drawable/corner_radius_send_msg_edit_text"
             android:hint="Cообщение"
             android:inputType="textCapSentences|textMultiLine"
-
             android:maxLength="2000"
             android:maxLines="4"
             android:padding="5dp"

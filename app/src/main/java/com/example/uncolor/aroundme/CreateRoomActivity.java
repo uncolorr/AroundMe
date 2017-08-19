@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -24,6 +25,9 @@ public class CreateRoomActivity extends AppCompatActivity {
     ImageButton imageButtonCreateRoom;
     FragmentTransaction transaction = null;
     User user;
+    boolean isEdit;
+    String room_name;
+    int radius;
     CreateRoom createRoom = CreateRoom.newInstance();
     LocationManager locationManager;
 
@@ -37,9 +41,21 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarCreateRoom = inflater.inflate(R.layout.create_room_action_bar, null);
-        imageButtonUpdate = (ImageButton)actionBarCreateRoom.findViewById(R.id.imageButtonUpdate);
-        imageButtonCreateRoom = (ImageButton)actionBarCreateRoom.findViewById(R.id.imageButtonCreateRoom);
+        imageButtonUpdate = (ImageButton) actionBarCreateRoom.findViewById(R.id.imageButtonUpdate);
+        imageButtonCreateRoom = (ImageButton) actionBarCreateRoom.findViewById(R.id.imageButtonCreateRoom);
         user = getIntent().getParcelableExtra("user");
+        isEdit = getIntent().getBooleanExtra("isEdit", false);
+
+        if (isEdit){
+
+            Log.i("fg" ,"true");
+            room_name = getIntent().getStringExtra("room_name");
+            radius = getIntent().getIntExtra("radius", 1);
+            createRoom.getArguments().putString("room_name", room_name);
+            createRoom.getArguments().putInt("radius", radius);
+            createRoom.getArguments().putBoolean("isEdit", isEdit);
+        }
+
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -55,21 +71,23 @@ public class CreateRoomActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 
-    public void onClickImageButtonCreateRoom(View view)  {
+    public void onClickImageButtonCreateRoom(View view) {
 
-        if (createRoom.isGoodData()) {
-             Room room = createRoom.createNewRoom();
-        }
-        else {
+        if (createRoom.isGoodData() && !isEdit) {
+            Room room = createRoom.createNewRoom();
+        } else if (createRoom.isGoodData() && isEdit) {
+            createRoom.editRoom();
+        } else {
             Toast.makeText(CreateRoomActivity.this, "Не удалось создать комнату", Toast.LENGTH_LONG).show();
         }
 
     }
-    public void onClickImageButtonUpdate(View view){
+
+    public void onClickImageButtonUpdate(View view) {
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.remove(createRoom);
@@ -79,9 +97,9 @@ public class CreateRoomActivity extends AppCompatActivity {
         checkLocationEnabled();
     }
 
-    private void checkLocationEnabled(){
+    private void checkLocationEnabled() {
 
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder

@@ -25,6 +25,7 @@ import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,9 @@ import java.util.List;
 public class MessagesListAdapter<MESSAGE extends IMessage>
         extends RecyclerView.Adapter<ViewHolder>
         implements RecyclerScrollMoreListener.OnLoadMoreListener {
+
+    private final int VIEW_ITEM_HEADER = 1;  // type: name/value
+    private final int VIEW_ITEM_FOOTER = 0;
 
     private MessageHolders holders;
     private String senderId;
@@ -93,6 +97,10 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        if (viewType == VIEW_ITEM_HEADER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_header, parent, false);
+        }
         Log.i("fg","view type: " + Integer.toString(viewType));
         return holders.getHolder(parent, viewType, messagesListStyle);
     }
@@ -853,6 +861,14 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
         public OutcomingMessageViewHolder(View itemView) {
             super(itemView);
+        }
+    }
+
+    public class HeaderHolder extends RecyclerView.ViewHolder {
+
+        public HeaderHolder(View itemView) {
+            super(itemView);
+            // declare your header views
         }
     }
 }

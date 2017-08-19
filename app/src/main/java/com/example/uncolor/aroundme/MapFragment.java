@@ -61,12 +61,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
         user.setAvatar_url(sharedPref.getString(getString(R.string.avatar_url), ""));
     }
-
 
 
     public static MapFragment newInstance() {
@@ -130,7 +129,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.i("fg", "on MapFragment location changed");
     }
 
     @Override
@@ -199,8 +198,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
 
-                        Log.i("fg","FAIL!");
-
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
                         JSONArray responseArray = response.getJSONArray("response");
@@ -259,18 +256,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (googleApiClient.isConnected()) {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
-        if (location == null || (location.getLatitude() == 0.0 && location.getLongitude() == 0.0)) {
-            startLocationUpdates();
-        }
-        if (location != null) {
+            if (location == null || (location.getLatitude() == 0.0 && location.getLongitude() == 0.0)) {
+                startLocationUpdates();
+            }
+            if (location != null) {
 
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
-            mMap.clear();
-            loadAllChatsOnMap(latitude, longitude);
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
+                mMap.clear();
+                loadAllChatsOnMap(latitude, longitude);
+            }
 
 
         }
@@ -292,7 +291,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
     }
 
-    public void updateMap(){
+    public void updateMap() {
         getCurrentLocation();
     }
 
