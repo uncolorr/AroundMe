@@ -28,6 +28,7 @@
             app:srcCompat="@drawable/update"/>
 
         <TextView
+            android:id="@+id/textViewCreateRoomTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

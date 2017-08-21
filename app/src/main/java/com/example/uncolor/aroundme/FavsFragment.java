@@ -180,7 +180,10 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
                                     float[] distance = new float[1];
                                     Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
                                     room.setDistance(distance[0]);
+                                    room.setLatitude(roomLatitude);
+                                    room.setLongitude(roomLongitude);
                                     room.setRadius(data.getInt("meters"));
+
                                 }
                                 favsList.add(room);
                             }

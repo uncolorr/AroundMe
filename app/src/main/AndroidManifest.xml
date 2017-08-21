@@ -2,24 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.uncolor.aroundme">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <!--
-     The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
-    -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <permission
@@ -68,8 +63,9 @@
             android:name=".ProfileSettings"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".CreateRoomActivity" />
-        <activity android:name=".UserListActivity" />
-        <activity android:name=".UserGrid"></activity>
+        <activity android:name=".UserGrid">
+
+        </activity>
     </application>
 
 </manifest>

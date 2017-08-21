@@ -64,9 +64,11 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     LocationRequest locationRequest;
     User user;
     String room_name;
+    String room_id;
     int radius;
     boolean isEdit;
-    private Room room = null;
+   // private Room room = null;
+
     private double longitude;
     private double latitude;
 
@@ -88,10 +90,69 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     public void editRoom() {
 
+        int radius = (int) circle.getRadius();
+
+        String URL = "http://aroundme.lwts.ru/editRoom?";
+        RequestParams params = new RequestParams();
+        params.put("token", user.getToken());
+        params.put("user_id", user.getUser_id());
+        params.put("radius", Integer.toString(radius));
+        params.put("title", editTextNewRoomTitle.getText().toString());
+        params.put("latitude", Double.toString(latitude));
+        params.put("longitude", Double.toString(longitude));
+        params.put("room_id", room_id);
+
+
+        client.post(URL, params, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+
+                    Log.i("fg", "edit room: " + response.toString());
+                    String status = response.getString("status");
+                    if (Objects.equals(status, STATUS_FAIL)) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Ошибка");
+                        builder.setMessage("Не удалось создать комнату!");
+                        builder.setCancelable(false);
+                        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+
+
+                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                        getActivity().finish();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            protected Object parseResponse(byte[] responseBody) throws JSONException {
+                return super.parseResponse(responseBody);
+
+            }
+        });
+
     }
 
 
-    public Room createNewRoom() {
+    public void createNewRoom() {
 
         int radius = (int) circle.getRadius();
 
@@ -130,7 +191,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
                         Log.i("fg", "was here");
-                        room = new Room();
+                        Room room = new Room();
                         JSONArray responseArray = response.getJSONArray("response");
                         for (int i = 0; i < responseArray.length(); i++) {
 
@@ -170,12 +231,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
             }
         });
-
-
-        if (room == null) {
-            Log.i("fg", "bad room");
-        }
-        return room;
     }
 
     @Override
@@ -183,6 +238,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         super.onCreate(savedInstanceState);
         user = getArguments().getParcelable("user");
         room_name = getArguments().getString("room_name");
+        room_id = getArguments().getString("room_id");
         radius = getArguments().getInt("radius");
         isEdit = getArguments().getBoolean("isEdit");
         Context context = getActivity();

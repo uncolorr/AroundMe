@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -72,6 +75,7 @@ public class Dialog extends AppCompatActivity {
     final int MENU_SEND_IMAGE = 0;
     final int MENU_SEND_LOCATION = 1;
     final int RESULT_LOAD_IMAGE = 2;
+    final int RESULT_CAMERA_REQUEST = 3;
 
     private static final String MSG_TYPE_TEXT = "Text";
     private static final String MSG_TYPE_LOCATION = "Location";
@@ -128,6 +132,10 @@ public class Dialog extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.dialog);
 
+        new FlurryAgent.Builder()
+                .withLogEnabled(true)
+                .build(this, "BY7KTGZPH9TS8924KJTR");
+
         webSocketFactory = new WebSocketFactory().setConnectionTimeout(5000);
         messagesList = (MessagesList) findViewById(R.id.messagesList);
         messagesList.invalidate();
@@ -156,6 +164,7 @@ public class Dialog extends AppCompatActivity {
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                         Log.i("fg", "onLoadingFailed");
+                        Log.i("fg", failReason.toString());
                     }
 
                     @Override
@@ -483,15 +492,16 @@ public class Dialog extends AppCompatActivity {
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
                 Log.i("fg", Integer.toString(dy));
-                //    Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
-                //    Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
-                //    Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
-                boolean endHasBeenReached = lastVisible + 1 >= totalItemCount;
+                   // Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
+                   // Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
+                   // Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
+                boolean endHasBeenReached = (lastVisible + 1) >= totalItemCount;
                 if (totalItemCount > 0 && endHasBeenReached && dy < 0) {
-                    // Log.i("fg", "worked!");
+                     Log.i("fg", "worked!");
                     buttonLoadMore.setVisibility(View.VISIBLE);
                 } else {
-                    buttonLoadMore.setVisibility(View.GONE);
+                    Log.i("fg", "not worked!");
+                    buttonLoadMore.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -616,15 +626,57 @@ public class Dialog extends AppCompatActivity {
 
     }
 
+    private static List<Intent> addIntentsToList(Context context, List<Intent> list, Intent intent) {
+        List<ResolveInfo> resInfo = context.getPackageManager().queryIntentActivities(intent, 0);
+        for (ResolveInfo resolveInfo : resInfo) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            Intent targetedIntent = new Intent(intent);
+            targetedIntent.setPackage(packageName);
+            list.add(targetedIntent);
+        }
+        return list;
+    }
+
+
+    private static File getTempFile(Context context) {
+        File imageFile = new File(context.getExternalCacheDir(), "tempImage");
+        imageFile.getParentFile().mkdirs();
+
+        return imageFile;
+    }
+
+
     public void onClickImageButtonAddMultimedia(View view) {
         new AlertDialog.Builder(this).setAdapter(listViewMultimediaAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case MENU_SEND_IMAGE:
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
+                      /*  Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                         photoPickerIntent.setType("image/*");
+                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);*/
+
+                        Intent chooserIntent = null;
+                        List<Intent> intentList = new ArrayList<>();
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        takePhotoIntent.putExtra("return-data", true);
+                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(Dialog.this)));
+
+
+                        intentList = addIntentsToList(Dialog.this, intentList, pickIntent);
+                        intentList = addIntentsToList(Dialog.this, intentList, takePhotoIntent);
+
+                        if (intentList.size() > 0) {
+                            chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1), "Отправить с помощью");
+                            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
+                            startActivityForResult(chooserIntent, RESULT_LOAD_IMAGE);
+                        }
+
                         break;
                     case MENU_SEND_LOCATION:
 
@@ -801,6 +853,7 @@ public class Dialog extends AppCompatActivity {
         intent.putExtra("room_name", room.getTitle());
         intent.putExtra("radius", room.getRadius());
         intent.putExtra("isEdit", true);
+        intent.putExtra("room_id", room.getRoom_id());
         startActivity(intent);
     }
 
@@ -926,9 +979,10 @@ public class Dialog extends AppCompatActivity {
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        Log.i("fg", "was on Activity Result");
+        Log.i("fg", Integer.toString(reqCode));
+        if (reqCode != RESULT_CAMERA_REQUEST) {
             try {
-
                 final Uri imageUri = data.getData();
 
                 Log.i("fg", "real path: " + getRealPathFromURI(imageUri));

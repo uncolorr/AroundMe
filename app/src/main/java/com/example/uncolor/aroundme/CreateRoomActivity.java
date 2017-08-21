@@ -15,7 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.flurry.android.FlurryAgent;
 
 public class CreateRoomActivity extends AppCompatActivity {
 
@@ -23,10 +26,12 @@ public class CreateRoomActivity extends AppCompatActivity {
     LayoutInflater inflater;
     ImageButton imageButtonUpdate;
     ImageButton imageButtonCreateRoom;
+    TextView textViewCreateRoomTitle;
     FragmentTransaction transaction = null;
     User user;
     boolean isEdit;
     String room_name;
+    String room_id;
     int radius;
     CreateRoom createRoom = CreateRoom.newInstance();
     LocationManager locationManager;
@@ -35,21 +40,37 @@ public class CreateRoomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+
+        new FlurryAgent.Builder()
+                .withLogEnabled(true)
+                .build(this, "BY7KTGZPH9TS8924KJTR");
+
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         checkLocationEnabled();
-
+        isEdit = getIntent().getBooleanExtra("isEdit", false);
+        user = getIntent().getParcelableExtra("user");
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarCreateRoom = inflater.inflate(R.layout.create_room_action_bar, null);
         imageButtonUpdate = (ImageButton) actionBarCreateRoom.findViewById(R.id.imageButtonUpdate);
         imageButtonCreateRoom = (ImageButton) actionBarCreateRoom.findViewById(R.id.imageButtonCreateRoom);
-        user = getIntent().getParcelableExtra("user");
-        isEdit = getIntent().getBooleanExtra("isEdit", false);
+        textViewCreateRoomTitle = (TextView)actionBarCreateRoom.findViewById(R.id.textViewCreateRoomTitle);
+        if(isEdit){
+            textViewCreateRoomTitle.setText("Редактировать");
+        }
+        else {
+            textViewCreateRoomTitle.setText("Добавление беседы");
+        }
+
+
+
+
 
         if (isEdit){
 
             Log.i("fg" ,"true");
             room_name = getIntent().getStringExtra("room_name");
+            room_id = getIntent().getStringExtra("room_id");
             radius = getIntent().getIntExtra("radius", 1);
             createRoom.getArguments().putString("room_name", room_name);
             createRoom.getArguments().putInt("radius", radius);
@@ -78,9 +99,10 @@ public class CreateRoomActivity extends AppCompatActivity {
     public void onClickImageButtonCreateRoom(View view) {
 
         if (createRoom.isGoodData() && !isEdit) {
-            Room room = createRoom.createNewRoom();
+            createRoom.createNewRoom();
         } else if (createRoom.isGoodData() && isEdit) {
             createRoom.editRoom();
+            Toast.makeText(CreateRoomActivity.this, "Комната успешно отредактирована", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(CreateRoomActivity.this, "Не удалось создать комнату", Toast.LENGTH_LONG).show();
         }

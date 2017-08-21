@@ -19,8 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.flurry.android.FlurryAgent;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String FLURRY_API_KEY = "BY7KTGZPH9TS8924KJTR";
 
     CustomViewPager viewPager;
     RoomsFragment roomsFragment = RoomsFragment.newInstance();
@@ -46,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        new FlurryAgent.Builder()
+                .withLogEnabled(true)
+                .withLogLevel(Log.INFO)
+                .build(this, "BY7KTGZPH9TS8924KJTR");
+
+
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -66,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         roomsFragment.getArguments().putParcelable("user", user);
         favsFragment.getArguments().putParcelable("user", user);
         mapFragment.getArguments().putParcelable("user", user);
+
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), roomsFragment, mapFragment, favsFragment);
         viewPager = (CustomViewPager) findViewById(R.id.viewPager);
@@ -107,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        FlurryAgent.logEvent("call onBackPressed!!!");
+        Log.i("fg", "back");
     }
 
     public void onImageButtonClickCreateRoom(View view) {
@@ -118,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onImageButtonClickProfileSettings(View view) {
+        FlurryAgent.logEvent("call profile settings!!!");
         Intent intent = new Intent(MainActivity.this, ProfileSettings.class);
         intent.putExtra("user", user);
         intent.putExtra("login", login);
@@ -163,4 +177,18 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+        FlurryAgent.onStartSession(this);
+
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        FlurryAgent.onEndSession(this);
+
+    }
+
 }

@@ -85,7 +85,7 @@ public class Room implements Parcelable{
         this.distance = distance;
     }
 
-    public float getRadius() {
+    public int getRadius() {
         return meters;
     }
 

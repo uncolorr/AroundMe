@@ -168,7 +168,9 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                                     room.setDistance(distance[0]);
                                     room.setLatitude(roomLatitude);
                                     room.setLongitude(roomLongitude);
-                                    room.setRadius(data.getInt("meters"));
+                                    room.setRadius(data.getInt("radius"));
+                                    Log.i("fg", "room radius: " + Integer.toString(room.getRadius()));
+
                                 }
                                 roomsList.add(room);
                             }

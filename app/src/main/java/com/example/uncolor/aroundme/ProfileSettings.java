@@ -29,6 +29,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -81,6 +82,10 @@ public class ProfileSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_settings);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        new FlurryAgent.Builder()
+                .withLogEnabled(true)
+                .build(this, "BY7KTGZPH9TS8924KJTR");
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
