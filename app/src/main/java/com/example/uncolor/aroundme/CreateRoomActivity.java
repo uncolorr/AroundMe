@@ -88,6 +88,9 @@ public class CreateRoomActivity extends AppCompatActivity {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.replace(R.id.createRoomMainLayout, createRoom);
         transaction.commit();
+
+
+
     }
 
 

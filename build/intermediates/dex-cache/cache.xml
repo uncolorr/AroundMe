@@ -25,8 +25,8 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="c905e5dd1322c58cd869f307baa1104d8317df5f">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_3f645a89d9e3cc79b309f66805c9642a5bc018a6.jar" />
+        sha1="5f02b015c5957615f5739848c9dfb58fa70c15a8">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/debug/classes_3f645a89d9e3cc79b309f66805c9642a5bc018a6.jar" />
     </item>
     <item
         is-multidex="true"
@@ -45,6 +45,15 @@
         revision="25.0.2"
         sha1="807751a24cf96566fd8675517c94d8463cf364db">
         <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_0b69883f21a050893a4ffe9a30345069eb7cc490.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/24e00f103c879335df4fa1fbce2142cd02bed5b6/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fa1a91ac1cb0c58eddf13c8c2abb7bbcf43b0f08">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/debug/classes_1c7826ee3a69639ef4b5da40c96e17d258f66bbc.jar" />
     </item>
     <item
         is-multidex="false"
@@ -75,15 +84,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/7c0244f34ed70e37ad71bed7d0a028d657a69d47/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="221aa6a0f73f09f59032b5378e3181def72216fe">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_3d9f07b6d436762189d4714d9c7654c5a02378d1.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/uncolor/.android/build-cache/1d877ff948a15382d1d44ef64e2d753e0fd634de/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -97,7 +97,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="16137de1fd5efd42f826f89ecdd389c9d51b236d">
+        sha1="52a4f676a18f9e82b3d5e48a16ef915eea38766b">
         <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_15c66c37f9ea032149b5b40f3862e131f3b5cf70/classes.dex" />
     </item>
     <item

@@ -5,12 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,11 +23,16 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.flurry.android.FlurryAgent;
+import com.onesignal.OSNotificationOpenResult;
+import com.onesignal.OneSignal;
+
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String FLURRY_API_KEY = "BY7KTGZPH9TS8924KJTR";
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     CustomViewPager viewPager;
     RoomsFragment roomsFragment = RoomsFragment.newInstance();
@@ -56,6 +64,18 @@ public class MainActivity extends AppCompatActivity {
                 .withLogLevel(Log.INFO)
                 .build(this, "BY7KTGZPH9TS8924KJTR");
 
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
+                    @Override
+                    public void notificationOpened(OSNotificationOpenResult result) {
+                        JSONObject data = result.toJSONObject();
+                        Log.i("fg","notification data: " + data.toString());
+                    }
+                })
+                .init();
+
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -86,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setPagingEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener);
+
+        //checkLocationPermission();
+
+        //Log.i("fg", Boolean.toString(checkLocationPermission()));
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationItemSelectedListener
@@ -189,6 +213,68 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         FlurryAgent.onEndSession(this);
 
+    }
+
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission. ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("fg", "11111111");
+
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.user_id)
+                    .setMessage(R.string.app_name)
+                    .setPositiveButton(R.string.avatar_url, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    MY_PERMISSIONS_REQUEST_LOCATION);
+                        }
+                    })
+                    .create()
+                    .show();
+
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission. ACCESS_FINE_LOCATION)) {
+
+                Log.i("fg", "2222222");
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.user_id)
+                        .setMessage(R.string.app_name)
+                        .setPositiveButton(R.string.avatar_url, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission. ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+                Log.i("fg", "3333333");
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

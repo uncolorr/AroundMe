@@ -138,8 +138,9 @@ public class Dialog extends AppCompatActivity {
 
         webSocketFactory = new WebSocketFactory().setConnectionTimeout(5000);
         messagesList = (MessagesList) findViewById(R.id.messagesList);
-        messagesList.invalidate();
+      //  messagesList.invalidate();
         messagesList.setItemViewCacheSize(10000);
+     //   messagesList.setHasFixedSize(false);
 
         final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -182,9 +183,21 @@ public class Dialog extends AppCompatActivity {
             }
         };
 
+        /*OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
+                    @Override
+                    public void notificationOpened(OSNotificationOpenResult result) {
+                        JSONObject data = result.toJSONObject();
+                        Log.i("fg","notification data: " + data.toString());
+                    }
+                })
+                .init();*/
+
         user = getIntent().getParcelableExtra("user");
         room = getIntent().getParcelableExtra("room");
-        Log.i("fg","Longitude: " + Double.toString(room.getLongitude()));
+        Log.i("fg", "Longitude: " + Double.toString(room.getLongitude()));
         room_name = getIntent().getStringExtra("room_name");
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
@@ -204,6 +217,7 @@ public class Dialog extends AppCompatActivity {
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
         imageButtonAddMultimedia = (ImageButton) findViewById(R.id.imageButtonAddMultimedia);
         imageButtonOpenMenu = (ImageButton) actionBarDialog.findViewById(R.id.imageButtonOpenMenu);
+
 
 
         if (Objects.equals(room.getRoom_id(), AROUND_ME_ID) && !room.isAdmin()) {
@@ -271,8 +285,6 @@ public class Dialog extends AppCompatActivity {
                                     data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
                             Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
                             adapter.addToStart(myMessage, true);
-                            adapter.update(myMessage);
-
                             break;
                         case "Location":
                             Log.i("fg", "type location");
@@ -280,8 +292,6 @@ public class Dialog extends AppCompatActivity {
                                     data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
                             Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
                             adapter.addToStart(myLocationMessage, true);
-                            adapter.update(myLocationMessage);
-
                             break;
                         case "Photo":
                             Log.i("fg", "was here images");
@@ -289,7 +299,6 @@ public class Dialog extends AppCompatActivity {
                                     data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
                             Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
                             adapter.addToStart(myImageMessage, true);
-                            adapter.update(myImageMessage);
                             break;
                     }
                 }
@@ -340,8 +349,23 @@ public class Dialog extends AppCompatActivity {
             @Override
             public void onTextMessage(WebSocket websocket, String text) throws Exception {
                 Log.i("fg", "onTextMessage");
-                messagesList.smoothScrollToPosition(0);
+                JSONObject data = new JSONObject(text);
+
+                /*if(data.has("user_id")){
+                    if(Objects.equals(data.getString("user_id"), user.getUser_id())){
+                        Log.i("fg", "my message!");
+                        messagesList.smoothScrollToPosition(0);
+                    }
+                }*/
+
+
+
                 Log.i("fg", "Text message: " + text);
+             //   adapter.notifyDataSetChanged();
+                 //messagesList.scrollTo(0,messagesList.computeHorizontalScrollOffset());
+                messagesList.smoothScrollToPosition(0);
+              //  adapter.notifyItemInserted(adapter.getItemCount() - 1);
+
             }
 
             @Override
@@ -488,19 +512,27 @@ public class Dialog extends AppCompatActivity {
         messagesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+              //  Log.i("fg", "getVerticalScrollPosition: " + Integer.toString(messagesList.getVerticalScrollbarPosition()));
+               // Log.i("fg", "getScrollY: " + Integer.toString(messagesList.getScrollY()));
+               // messagesList.computeVerticalScrollOffset();
+             //   Log.i("fg", "compute: " + Integer.toString(messagesList.computeVerticalScrollOffset()));
+
+              //  messagesList.computeVerticalScrollRange();
+
+
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
-                Log.i("fg", Integer.toString(dy));
-                   // Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
-                   // Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
-                   // Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
+            //    Log.i("fg", Integer.toString(dy));
+                // Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
+                // Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
+                // Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
                 boolean endHasBeenReached = (lastVisible + 1) >= totalItemCount;
                 if (totalItemCount > 0 && endHasBeenReached && dy < 0) {
-                     Log.i("fg", "worked!");
+               //     Log.i("fg", "worked!");
                     buttonLoadMore.setVisibility(View.VISIBLE);
                 } else {
-                    Log.i("fg", "not worked!");
+                 //   Log.i("fg", "not worked!");
                     buttonLoadMore.setVisibility(View.INVISIBLE);
                 }
             }
@@ -653,18 +685,16 @@ public class Dialog extends AppCompatActivity {
                 switch (which) {
                     case MENU_SEND_IMAGE:
 
-                      /*  Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
+                       /* Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                         photoPickerIntent.setType("image/*");
                         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);*/
 
                         Intent chooserIntent = null;
                         List<Intent> intentList = new ArrayList<>();
-                        Intent pickIntent = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        takePhotoIntent.putExtra("return-data", true);
                         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(Dialog.this)));
 
 
@@ -676,6 +706,7 @@ public class Dialog extends AppCompatActivity {
                             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
                             startActivityForResult(chooserIntent, RESULT_LOAD_IMAGE);
                         }
+
 
                         break;
                     case MENU_SEND_LOCATION:
@@ -933,7 +964,7 @@ public class Dialog extends AppCompatActivity {
     public void complain() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", "support@lwts.ru", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Жалоба на комнату " + "\"" + room.getTitle() + "\"" +  " (id: " + room.getRoom_id() + ")");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Жалоба на комнату " + "\"" + room.getTitle() + "\"" + " (id: " + room.getRoom_id() + ")");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
 
@@ -981,7 +1012,7 @@ public class Dialog extends AppCompatActivity {
 
         Log.i("fg", "was on Activity Result");
         Log.i("fg", Integer.toString(reqCode));
-        if (reqCode != RESULT_CAMERA_REQUEST) {
+        if (reqCode == RESULT_LOAD_IMAGE) {
             try {
                 final Uri imageUri = data.getData();
 

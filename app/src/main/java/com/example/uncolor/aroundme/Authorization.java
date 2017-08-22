@@ -5,18 +5,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.loopj.android.http.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.onesignal.OSNotificationOpenResult;
+import com.onesignal.OneSignal;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
@@ -28,6 +34,7 @@ public class Authorization extends AppCompatActivity {
     private static final String STATUS_SUCCESS = "success";
 
     User user;
+    String oneSignaluserId;
     EditText editTextLogin;
     EditText editTextPassword;
     ProgressBar progressBarAuth;
@@ -35,6 +42,20 @@ public class Authorization extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
+                    @Override
+                    public void notificationOpened(OSNotificationOpenResult result) {
+                        JSONObject data = result.toJSONObject();
+                        Log.i("fg","notification data: " + data.toString());
+                    }
+                })
+                .init();
+
+        Log.i("fg", "onCreate Auth");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -63,14 +84,33 @@ public class Authorization extends AppCompatActivity {
         editTextPassword.setText("123456");
         progressBarAuth = (ProgressBar)findViewById(R.id.progressBarAuth);
         progressBarAuth.setVisibility(View.INVISIBLE);
+        
     }
 
     public void onButtonLoginClick(View view) {
+
+        if(oneSignaluserId == null){
+            OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+                @Override
+                public void idsAvailable(String userId, String registrationId) {
+                    Log.i("fg", "User:" + userId);
+                    oneSignaluserId = userId;
+
+                    if (registrationId != null)
+                        Log.i("fg", "registrationId:" + registrationId);
+
+                }
+            });
+        }
+
         progressBarAuth.setAlpha(1.0f);
+        Log.i("fg", "one signal  id: " + oneSignaluserId);
         String URL = new String("http://aroundme.lwts.ru/login?");
         RequestParams params = new RequestParams();
         params.put("login", editTextLogin.getText().toString());
         params.put("password", editTextPassword.getText().toString());
+        params.put("oneSignalUserId", oneSignaluserId);
+
 
         client.post(URL, params, new JsonHttpResponseHandler() {
             @Override
@@ -147,11 +187,27 @@ public class Authorization extends AppCompatActivity {
     }
     public void onButtonRegisterClick(View view){
 
+        if(oneSignaluserId == null){
+            OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+                @Override
+                public void idsAvailable(String userId, String registrationId) {
+                    Log.i("fg", "User:" + userId);
+                    oneSignaluserId = userId;
+
+                    if (registrationId != null)
+                        Log.i("fg", "registrationId:" + registrationId);
+
+                }
+            });
+        }
+
         progressBarAuth.setVisibility(View.VISIBLE);
         String URL = "http://aroundme.lwts.ru/register?";
         RequestParams params = new RequestParams();
         params.put("login", editTextLogin.getText().toString());
         params.put("password", editTextPassword.getText().toString());
+        params.put("oneSignalUserId", oneSignaluserId);
+
 
         client.post(URL, params, new JsonHttpResponseHandler() {
             @Override
@@ -223,4 +279,22 @@ public class Authorization extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.i("fg", "onResume Auth");
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+                Log.i("fg", "User:" + userId);
+                oneSignaluserId = userId;
+
+                if (registrationId != null)
+                    Log.i("fg", "registrationId:" + registrationId);
+
+            }
+        });
+    }
+
 }

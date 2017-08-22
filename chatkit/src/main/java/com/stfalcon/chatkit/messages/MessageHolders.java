@@ -4,7 +4,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -658,7 +657,7 @@ public class MessageHolders {
         public void onBind(MESSAGE message) {
             super.onBind(message);
             if (image != null && imageLoader != null) {
-                Log.i("fg", "was here " + message.getImageUrl());
+                //Log.i("fg", "was here " + message.getImageUrl());
 
                 imageLoader.loadImage(image, message.getImageUrl());
 
