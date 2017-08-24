@@ -8,8 +8,10 @@ android {
         manifestPlaceholders = [onesignal_app_id: "69a68300-60f5-44e6-aced-3cf4a5bc4a15",
                                 // Project number pulled from dashboard, local value is ignored.
                                onesignal_google_project_number: "REMOTE"]
+
+        multiDexEnabled true
         minSdkVersion 22
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -50,9 +52,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.neovisionaries:nv-websocket-client:2.3'
-    compile 'com.google.android.gms:play-services-location:+'
-    compile 'com.google.android.gms:play-services-maps:+'
-    compile 'com.google.android.gms:play-services-base:+'
+    compile 'com.google.android.gms:play-services:11.2.0'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'

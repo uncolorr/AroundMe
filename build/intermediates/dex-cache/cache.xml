@@ -2,31 +2,31 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/01139900cbc1f50de590125c2b511dd34241e1ff/output/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/defe31dfb5c6813cfc1e8091a693a4f39cb92f12/output/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="41872d809cff2114169756aad6dcd593be2ecb59">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_5e02c260aa2d66d23d2d23c73f2469a95e31bec0.jar" />
+        sha1="67a51ae54d61ca318e61c73cdd9b27ec56af03bc">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f73e5bba11b7f814aa2d955e9d7ef1af6ee75a8d/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/e2466705796c4c3420d149a476132ef1e6a5fd79/output/jars/classes.jar"
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/97f73fead0f19f29b8256187c74aca4c4d95dc14/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="7b4dc2d9e39fb8ec5ddca9b3b3cb7c627690f3a6">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_2284507464afe89052ad109819500f7ccfd18ac1.jar" />
+        sha1="01a590e11a94cb7f5c8b1243d4a2783eab4d0a34">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_41ba7d5b6dd3ad39e1e4e714c6a15590dae03535/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/AndroidStudioProjects/AroundMe/chatkit/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/f73ce3a6780d4a18e6d4bf4da39edf48a7d3c8e5/output/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="5f02b015c5957615f5739848c9dfb58fa70c15a8">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/debug/classes_3f645a89d9e3cc79b309f66805c9642a5bc018a6.jar" />
+        sha1="d1e7ad8d5340b695e52cc5a14819f4264a4f4b8e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_24596194d8d44a2cbf0c4602e41cfd413764a68c/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -38,31 +38,58 @@
         <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_735a59688fde53253bdc4313201438733d52bc80/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/1b7c41396651c39c2d6d46edb7d36b753fbf4667/output/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/aa1e52ae1883503603ac97a9eef8e481cbd990d9/output/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="807751a24cf96566fd8675517c94d8463cf364db">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_0b69883f21a050893a4ffe9a30345069eb7cc490.jar" />
+        sha1="539c74d461960397d4c3f72623c72eb766569075">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ab1908b4f39f186bbb51c525ba911c29ae7d661c/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/24e00f103c879335df4fa1fbce2142cd02bed5b6/output/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/8ba96e2aa70a6516e3e89e08c01a6354b8683fb9/output/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="fa1a91ac1cb0c58eddf13c8c2abb7bbcf43b0f08">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/debug/classes_1c7826ee3a69639ef4b5da40c96e17d258f66bbc.jar" />
+        sha1="9c80e982366ff105ce567a3e536cb77ae4981ade">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b48a430c9a44375862149673c02104271a7fe157/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/fb28393b0660f7cde01ab4ed886682e8106a045f/output/jars/classes.jar"
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/5d901ab16a003cb117e51acd5550889b4e31a3a6/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="36a6c288ed760d2d899126fa90761b84af10dd2d">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_5d2efe34a0775d749d41884b6ef9dbaaceb6e3c0.jar" />
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_3485c4b2619db352a0d0f54cd447d9f35348b674/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/1d877ff948a15382d1d44ef64e2d753e0fd634de/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="694e2bf7a21fa46310a4a0309b9943060d573abe">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_c9a31e2db2c5be5bcbc73330d8ffb76d2d330f5b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/cc8bc5bf5589d2ef84f1f1101f115ee9fc276362/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6987a74958e42b559fd0eacef972173f59ba93bb">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2e0bfb43503e0e4bdf6fcd4eba20fdf303836ef9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/a8c784c6c2e31bcc5659e52a150e7c32b68e2afd/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="76a7a625df0e9027b53dbed6e9ba9a6031a42e39">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_52c30053c31c1736d3349180f1777fc69a7f3c1f/classes.dex" />
     </item>
     <item
         is-multidex="false"
@@ -75,15 +102,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/uncolor/.android/build-cache/7d807509a727e74bb94c88e1e02386d1c6735a51/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="cad6f251cba07624f49b0c5b6287731a3c9957b8">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_c32c613b374e7f62f1db32b23c25b85866100bec.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/uncolor/.android/build-cache/1d877ff948a15382d1d44ef64e2d753e0fd634de/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -93,21 +111,741 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/uncolor/.android/build-cache/ee10e584d9e015b5599401e1118d96936bc7b1f4/output/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="52a4f676a18f9e82b3d5e48a16ef915eea38766b">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_15c66c37f9ea032149b5b40f3862e131f3b5cf70/classes.dex" />
+        sha1="2df69841cd9793d6bfa2f78b7b7f4ea06d2296a7">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_057cd2a88bc82cdd74a0bcfd08f23f87fc44031d/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.flurry.android/analytics/6.4.2/4e6af3e20aff7888244687a9767b872e3881e822/analytics-6.4.2.jar"
+        is-multidex="true"
+        jar="/Users/uncolor/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="4e6af3e20aff7888244687a9767b872e3881e822">
-        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/analytics-6.4.2_013a08dbc9e6c83398725278d38ee51483c35e3f.jar" />
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/support-annotations-25.3.1_1d4af1f6505179ff49918dc3d8727f34ba743303/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/2a4d3a1e548a21429abd6ba7707775f7a8cced80/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf481b2af4d8f89935baf75972976b5681533176">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5c31b81d4408286f7fd07ea6d448f62eb8501708/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/1b7c41396651c39c2d6d46edb7d36b753fbf4667/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="807751a24cf96566fd8675517c94d8463cf364db">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_0b69883f21a050893a4ffe9a30345069eb7cc490/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/9e96b1f598a152ee4b507307a6fdc5c54dd7807c/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="31aafe75ac42184d700ec3f862bf735c33ba201a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a75188af6e856cd6642ea85c0ca459197b05c7a2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/c56655b691d5db12bbf12f07d19625bcbbeeeb57/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ff3baea295d5079a6b54538c8eab744ea72b4cc">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_fd0c8674eaae1ecef1f0b359c1795008ce786a6a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/9e96b1f598a152ee4b507307a6fdc5c54dd7807c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="31aafe75ac42184d700ec3f862bf735c33ba201a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_a75188af6e856cd6642ea85c0ca459197b05c7a2/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/7bc0d013c2f60a265a6dba52a96e6ea5ece90cef/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a3a0d55874ee03de768356d540983a20c95dd07a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_b0e82b5aa5ba7dcb374fbfcde96e570eee4190ad.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/b67ee56cde8e6a559f2946d666ef2b92c0ea0674/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_db2ab1ca0bdb2983a5e53d27b46ab9d62d21b168/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/b09204a5da4d571b4ffcfb666e76be5e119797d9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_ab7627b87a18d78f342250b4fcd8257ff13c0f6f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7d807509a727e74bb94c88e1e02386d1c6735a51/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cad6f251cba07624f49b0c5b6287731a3c9957b8">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_c32c613b374e7f62f1db32b23c25b85866100bec/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7bc0d013c2f60a265a6dba52a96e6ea5ece90cef/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a3a0d55874ee03de768356d540983a20c95dd07a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_b0e82b5aa5ba7dcb374fbfcde96e570eee4190ad/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/c56655b691d5db12bbf12f07d19625bcbbeeeb57/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ff3baea295d5079a6b54538c8eab744ea72b4cc">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_fd0c8674eaae1ecef1f0b359c1795008ce786a6a.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/4c5c5a4dbde3dc65cd746564ddd336f7375a95b4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3227957f15e5f672f35758c028cf3b94fb39b56d">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_4b6f42f498fbfa811f98e17ce38d5297e41f02ce/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/2a62c6000deea76a773f175d02a6a1ffc28c4644/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a93a72fe5e0ac12f4a8ff35c5a6ed651e142d10a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_5c9c2a3a8678c7bb74542e405a4e177e96369fdd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/7d807509a727e74bb94c88e1e02386d1c6735a51/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cad6f251cba07624f49b0c5b6287731a3c9957b8">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_c32c613b374e7f62f1db32b23c25b85866100bec.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/46982b4ad45e8349d0bc6e214b4a624c452eeb11/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="28ed270c519ff2874343e0824808da2efda0df9c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_597a9bd67f4f6086923b37b8a04c9d1401ca97c7.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/0ec54ea5ab6cb699714fc111b9a8b6945770bb65/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_66ed4766307b5fe95adb54d91bedab77e3b3e1fa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/a52b7bb15423a35c41a2818aa9b7d9a4860fbed1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a3ae2ca8e64cdda4ae59aef07e33226cb950f5c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_78ad28cecae80a5676107c67c699b64a5f2addbe/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/a8c784c6c2e31bcc5659e52a150e7c32b68e2afd/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="76a7a625df0e9027b53dbed6e9ba9a6031a42e39">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_52c30053c31c1736d3349180f1777fc69a7f3c1f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/46982b4ad45e8349d0bc6e214b4a624c452eeb11/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="28ed270c519ff2874343e0824808da2efda0df9c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_597a9bd67f4f6086923b37b8a04c9d1401ca97c7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e47e58c28084d565bec7893a6ff36c14a720e09e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="03589bac12234193d4a7a9b106a6db1b367afe99">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b762013406a8a61418357ed5d3e5238b2e798146/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/a52b7bb15423a35c41a2818aa9b7d9a4860fbed1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a3ae2ca8e64cdda4ae59aef07e33226cb950f5c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_78ad28cecae80a5676107c67c699b64a5f2addbe.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/cc8bc5bf5589d2ef84f1f1101f115ee9fc276362/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6987a74958e42b559fd0eacef972173f59ba93bb">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2e0bfb43503e0e4bdf6fcd4eba20fdf303836ef9/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/01139900cbc1f50de590125c2b511dd34241e1ff/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="41872d809cff2114169756aad6dcd593be2ecb59">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_5e02c260aa2d66d23d2d23c73f2469a95e31bec0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/8ba96e2aa70a6516e3e89e08c01a6354b8683fb9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9c80e982366ff105ce567a3e536cb77ae4981ade">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_b48a430c9a44375862149673c02104271a7fe157.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/774d4941d8e7e45ec23a4b58c3c72400d65fc5c4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="df812c448ef60fa0032ced451751ff98392b70a1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_334f940349bbfe89352e3d5beea0ed451f43da80/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/8ba96e2aa70a6516e3e89e08c01a6354b8683fb9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9c80e982366ff105ce567a3e536cb77ae4981ade">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_b48a430c9a44375862149673c02104271a7fe157/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/f73ce3a6780d4a18e6d4bf4da39edf48a7d3c8e5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1e7ad8d5340b695e52cc5a14819f4264a4f4b8e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_24596194d8d44a2cbf0c4602e41cfd413764a68c.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/24e00f103c879335df4fa1fbce2142cd02bed5b6/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fa1a91ac1cb0c58eddf13c8c2abb7bbcf43b0f08">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_1c7826ee3a69639ef4b5da40c96e17d258f66bbc/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/1638ba7c7ceb6a901e598aceb287082cd5294cf0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7cf5def5a11365487219b912b2a7ba8ad26f9917">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_be7f431ecfce03fd4b3c6ca7a9b1ce845a0a0423.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/b45a47222920de9c7b1c5d659aba5ba5bbfbcced/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fc10e35f477578b1766c883d4a8561c207684531">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_4307ab66420c4b2ed8a2c871a6895f274b6424a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/24e00f103c879335df4fa1fbce2142cd02bed5b6/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fa1a91ac1cb0c58eddf13c8c2abb7bbcf43b0f08">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/debug/classes_1c7826ee3a69639ef4b5da40c96e17d258f66bbc.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/cz.msebera.android/httpclient/4.3.6/526a9f794eab830eae4f23a62c572878b3f491ab/httpclient-4.3.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/httpclient-4.3.6_8c7e7779375451ebfdc71b49c17669ea19c1b723/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/cc8bc5bf5589d2ef84f1f1101f115ee9fc276362/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6987a74958e42b559fd0eacef972173f59ba93bb">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_2e0bfb43503e0e4bdf6fcd4eba20fdf303836ef9.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/faef1f70872d59041da3a6d5b6e26852adca5e20/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_1df6b34ed4589f947eb5edce1fc50cea82b6d570/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/ed5619465f7e39dc05dfd6fd6ab5fc7a7bd8a52a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="00e57da8e7efba5e0aead2d3c76201d86918a0d1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_a47d8e2566561e59d755b83a9f3fbc3d557b89d3.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e93397a8267d238cf1bccb10cc8dde8178bad9b7/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2a8ae88a3addcb045172d340c4d1e977cbd50c39">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e7eebb185fe0a1a7e4c140182c63e7e2c403f6a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/0ff194e075941c8a57ff086ffd5c49cd1c57b59e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="56ae1b700bdd20fdf8c5347fadcc96228fc1bf16">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_1c698259b3939f876d167f63cced0047800ae344.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/fb28393b0660f7cde01ab4ed886682e8106a045f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="36a6c288ed760d2d899126fa90761b84af10dd2d">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_5d2efe34a0775d749d41884b6ef9dbaaceb6e3c0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/ed5619465f7e39dc05dfd6fd6ab5fc7a7bd8a52a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="00e57da8e7efba5e0aead2d3c76201d86918a0d1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_a47d8e2566561e59d755b83a9f3fbc3d557b89d3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/707a5e88137927afaeadcd6320ee08d92c402259/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2e134da323cbd01f2b1d618e926f720c65e1073c/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/03b333d6356c179c9a833439188a705d39c7b6c5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="341fc0b4661ec63331b1d95d8ceaeb04f5fd25cd">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_f5b2c60d9e5395f44447b01b4c062010460fb5d9.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/0ff194e075941c8a57ff086ffd5c49cd1c57b59e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="56ae1b700bdd20fdf8c5347fadcc96228fc1bf16">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_1c698259b3939f876d167f63cced0047800ae344/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/2a4d3a1e548a21429abd6ba7707775f7a8cced80/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf481b2af4d8f89935baf75972976b5681533176">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_5c31b81d4408286f7fd07ea6d448f62eb8501708.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.neovisionaries/nv-websocket-client/2.3/693289a243a778fafb081365d47b19f53031aded/nv-websocket-client-2.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="693289a243a778fafb081365d47b19f53031aded">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/nv-websocket-client-2.3_6c1b1c2b385f6703683ec635611fb5b695501052/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/03b333d6356c179c9a833439188a705d39c7b6c5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="341fc0b4661ec63331b1d95d8ceaeb04f5fd25cd">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_f5b2c60d9e5395f44447b01b4c062010460fb5d9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7bc0d013c2f60a265a6dba52a96e6ea5ece90cef/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a3a0d55874ee03de768356d540983a20c95dd07a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b0e82b5aa5ba7dcb374fbfcde96e570eee4190ad/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/2a4d3a1e548a21429abd6ba7707775f7a8cced80/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf481b2af4d8f89935baf75972976b5681533176">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_5c31b81d4408286f7fd07ea6d448f62eb8501708/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/26c9bfd3cef1eba5d562780af6b3380629e675c4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="010af21d7b95f7c975dd3d2fb2aa936a241b385b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_3ed3bcf5f0ec6d13b629f4a708122953637d4b6b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/f73ce3a6780d4a18e6d4bf4da39edf48a7d3c8e5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1e7ad8d5340b695e52cc5a14819f4264a4f4b8e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_24596194d8d44a2cbf0c4602e41cfd413764a68c/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/e2466705796c4c3420d149a476132ef1e6a5fd79/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7b4dc2d9e39fb8ec5ddca9b3b3cb7c627690f3a6">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_2284507464afe89052ad109819500f7ccfd18ac1.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/fd2a6c155ee90c902f7d39893a9b1293ef1b3c22/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a2af9c72ccaa4c5c049b500ca6ea664a4ce1f7d4">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_6536b05a562bfe332e4d3398a6ed8519ac769f16/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e2466705796c4c3420d149a476132ef1e6a5fd79/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7b4dc2d9e39fb8ec5ddca9b3b3cb7c627690f3a6">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2284507464afe89052ad109819500f7ccfd18ac1/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/9e96b1f598a152ee4b507307a6fdc5c54dd7807c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="31aafe75ac42184d700ec3f862bf735c33ba201a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_a75188af6e856cd6642ea85c0ca459197b05c7a2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/1b7c41396651c39c2d6d46edb7d36b753fbf4667/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="807751a24cf96566fd8675517c94d8463cf364db">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_0b69883f21a050893a4ffe9a30345069eb7cc490.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/acc952768e8911b5432f1f2040a1ccd787d79b4d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c478771eacdf8217e093a1b967b8152cfdaadc94">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_b81c32cac81b59107ff059268edf0cb10c106868/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/4b6627cfcb2913c1c235b5dd92b9b0507dd9494d/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="816a71eb5b0340d26db3056aa33f58dad108315b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_89216360448bd29a0bfdc2e84223be138715f4d3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/46982b4ad45e8349d0bc6e214b4a624c452eeb11/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="28ed270c519ff2874343e0824808da2efda0df9c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_597a9bd67f4f6086923b37b8a04c9d1401ca97c7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/81af9d6d3855ee718b4d58a0d0b49dc66848cf89/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f779085940b4f3c80ea711dc24a36649f16f4cd5">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_26a4f0f55932d53eec059ed219d24a806745807a/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/acc952768e8911b5432f1f2040a1ccd787d79b4d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c478771eacdf8217e093a1b967b8152cfdaadc94">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_b81c32cac81b59107ff059268edf0cb10c106868.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/fff2b3ff4f700ca4b8e21fc51f3041e37c844794/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="379a48c2da13ffb7ec7134f2c715663834357670">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2103945174de55e29b4b0c1d37d4d625a60dcd74/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e7d335748afeb0dc4e8de885045a06696e26a564/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="775715f20fc19479343592af2fa4d46c7d00fa5e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_82f88b59f937b5100f28e67cacf5e5e248a17bf1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/d52129ba50aa3328d0b70918da5fa418f94876e7/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="83f83593e58b678e8e6b8db6cf1fd8fe0e22dfe1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_37aa4934177b937eb9aa68149ee28a45b05ba5b3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/b45a47222920de9c7b1c5d659aba5ba5bbfbcced/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fc10e35f477578b1766c883d4a8561c207684531">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_4307ab66420c4b2ed8a2c871a6895f274b6424a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e93397a8267d238cf1bccb10cc8dde8178bad9b7/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2a8ae88a3addcb045172d340c4d1e977cbd50c39">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_e7eebb185fe0a1a7e4c140182c63e7e2c403f6a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/cae6f4d211942a029368eaf2945580f5d73ce7c4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3da345d7c08a7e9d83a34d8723057624b941c0ea">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_002831a1f92abcf2c536f61a0b9a2e2b8544f886/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/1638ba7c7ceb6a901e598aceb287082cd5294cf0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7cf5def5a11365487219b912b2a7ba8ad26f9917">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_be7f431ecfce03fd4b3c6ca7a9b1ce845a0a0423/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/cae6f4d211942a029368eaf2945580f5d73ce7c4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3da345d7c08a7e9d83a34d8723057624b941c0ea">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_002831a1f92abcf2c536f61a0b9a2e2b8544f886.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/d52129ba50aa3328d0b70918da5fa418f94876e7/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="83f83593e58b678e8e6b8db6cf1fd8fe0e22dfe1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_37aa4934177b937eb9aa68149ee28a45b05ba5b3.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/01139900cbc1f50de590125c2b511dd34241e1ff/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="41872d809cff2114169756aad6dcd593be2ecb59">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_5e02c260aa2d66d23d2d23c73f2469a95e31bec0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/constraint-layout-solver-1.0.2_7fc7a974a128860ce7525a30f554241d7e67c73f/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/a7961aa6c10c82862561615ad67f4a113a127c4c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0c6b6b87687475583a7841926cfcadef96280483">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_0afba71bbca9d5cc5f76c5f5a64d35a118e77729.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/774d4941d8e7e45ec23a4b58c3c72400d65fc5c4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="df812c448ef60fa0032ced451751ff98392b70a1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_334f940349bbfe89352e3d5beea0ed451f43da80.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/1638ba7c7ceb6a901e598aceb287082cd5294cf0/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7cf5def5a11365487219b912b2a7ba8ad26f9917">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_be7f431ecfce03fd4b3c6ca7a9b1ce845a0a0423/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/b61cbf9a2a6f875da4e8495509bced6d7e7fab02/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="103378d4e51581df4783e9e4a59a1775fe4f4104">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_ea3afad14e16cdf0ccc5aa9383685313f1f00851.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/ed5619465f7e39dc05dfd6fd6ab5fc7a7bd8a52a/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="00e57da8e7efba5e0aead2d3c76201d86918a0d1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a47d8e2566561e59d755b83a9f3fbc3d557b89d3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.nostra13.universalimageloader/universal-image-loader/1.9.5/442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375/universal-image-loader-1.9.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/universal-image-loader-1.9.5_01efc2c67d55040ed70792037ff9fdab9d18ba47/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/e93397a8267d238cf1bccb10cc8dde8178bad9b7/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2a8ae88a3addcb045172d340c4d1e977cbd50c39">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_e7eebb185fe0a1a7e4c140182c63e7e2c403f6a6.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/4b6627cfcb2913c1c235b5dd92b9b0507dd9494d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="816a71eb5b0340d26db3056aa33f58dad108315b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_89216360448bd29a0bfdc2e84223be138715f4d3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e6f3f9c0c08cad8c0e4211f2a335320bc552143f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_88faf6e7938837469ec8eae25b78ceef6b32b6b4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/67f9d04a422415f431fee1ddc4d8bf12fa82c814/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd362e8a7451fb70f9d28498949c1be35e5a2e6e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_90db1b342887c18b7deeaf0adead50b82ad8495b/classes.dex" />
     </item>
     <item
         is-multidex="false"
@@ -119,6 +857,69 @@
         <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/sample/build/intermediates/pre-dexed/release/classes_3f645a89d9e3cc79b309f66805c9642a5bc018a6.jar" />
     </item>
     <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/0ff194e075941c8a57ff086ffd5c49cd1c57b59e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="56ae1b700bdd20fdf8c5347fadcc96228fc1bf16">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1c698259b3939f876d167f63cced0047800ae344/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/27486453dbf9e2ab2af49c0066621f4f81a6d22f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="07b52724ade6a26fecb53090da1574913fc78639">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_3d16beacd8367a545cae10f9cd79247186bfd35f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/03b333d6356c179c9a833439188a705d39c7b6c5/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="341fc0b4661ec63331b1d95d8ceaeb04f5fd25cd">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f5b2c60d9e5395f44447b01b4c062010460fb5d9/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/26c9bfd3cef1eba5d562780af6b3380629e675c4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="010af21d7b95f7c975dd3d2fb2aa936a241b385b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_3ed3bcf5f0ec6d13b629f4a708122953637d4b6b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7c07b95fe164a60cc32f1bec968e46f09ec4ce3d/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="767b85989de73cb665e14510ff2657ef979241f9">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c4a63e8744cf2e22ff92571e24af0d592e895d35/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/c5ddf6b1520aa103e8002e58a1c49bbb99e72c9d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="171b54791d6ecec42ffc943bf9ea1a363ff6ab4f">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2a71eddaa68d30449c48590fe0cba8219cc35289/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/a7961aa6c10c82862561615ad67f4a113a127c4c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0c6b6b87687475583a7841926cfcadef96280483">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_0afba71bbca9d5cc5f76c5f5a64d35a118e77729/classes.dex" />
+    </item>
+    <item
         is-multidex="false"
         jar="/Users/uncolor/.android/build-cache/c5ddf6b1520aa103e8002e58a1c49bbb99e72c9d/output/jars/classes.jar"
         jumboMode="false"
@@ -126,6 +927,699 @@
         revision="25.0.2"
         sha1="171b54791d6ecec42ffc943bf9ea1a363ff6ab4f">
         <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_2a71eddaa68d30449c48590fe0cba8219cc35289.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/774d4941d8e7e45ec23a4b58c3c72400d65fc5c4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="df812c448ef60fa0032ced451751ff98392b70a1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_334f940349bbfe89352e3d5beea0ed451f43da80/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/219eb503f43d2c3c884967e236f88762b75e2213/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="57717bc4b81722a9c3e481fc6f150a950afd550c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_278e7a874395fee8215e12252a8830a54e669ebc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/249a609d9f956c39489f6786ef9f83858527d553/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="132a3661719fdac703f2a6f6a7b178c85cfe3cc6">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_134baf12fb8a660db5819ee2e7b27b453773d35a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.9/386a4339ffe52d5d63e80f9bed8d2b1d1a418249/android-async-http-1.4.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/android-async-http-1.4.9_b7a7b281b896c67e45ac77bb72486f597d403f5d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/26c9bfd3cef1eba5d562780af6b3380629e675c4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="010af21d7b95f7c975dd3d2fb2aa936a241b385b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_3ed3bcf5f0ec6d13b629f4a708122953637d4b6b/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/391fc7049acfe31f0637cac96dcabcddce17b64e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a2a935bcf7d7c529f04dc89905d1ddf678d5e692">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_e8cce1b0fc46ea1377e1e60f4fa8c6487a7bc20e.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7bd8d04204bb6fdbbc9a4ce0ad7659fd5bc618cb/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1a80b23cc4097106a3f4914928e700ac3c5b2ed">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_89118fc337098f825e5a4507a00fde9889e00b6b/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/249a609d9f956c39489f6786ef9f83858527d553/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="132a3661719fdac703f2a6f6a7b178c85cfe3cc6">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_134baf12fb8a660db5819ee2e7b27b453773d35a.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/57c6a787d24ab9a6412637c2518c80d148d073fe/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c839ceb2113b00249e896c1c02ae15cdd8380345">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1f9a78f3854accf975ca4e67a1f315efdfa1aa85/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/81af9d6d3855ee718b4d58a0d0b49dc66848cf89/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f779085940b4f3c80ea711dc24a36649f16f4cd5">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_26a4f0f55932d53eec059ed219d24a806745807a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/779f31265ef37e70a88dcf0740264c58754ed470/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9d151a92bb0af74ea6368e57ddf0e03c609155b4">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2b6eb995729575dd47d2293273871854983cf39b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/391fc7049acfe31f0637cac96dcabcddce17b64e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a2a935bcf7d7c529f04dc89905d1ddf678d5e692">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_e8cce1b0fc46ea1377e1e60f4fa8c6487a7bc20e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7c82d553002aa8d6ff4b462834706f6bba19f40e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_82343a35ffed3afe385317e60d0689eca3e4e153/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/4b6627cfcb2913c1c235b5dd92b9b0507dd9494d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="816a71eb5b0340d26db3056aa33f58dad108315b">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_89216360448bd29a0bfdc2e84223be138715f4d3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/7bd8d04204bb6fdbbc9a4ce0ad7659fd5bc618cb/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1a80b23cc4097106a3f4914928e700ac3c5b2ed">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_89118fc337098f825e5a4507a00fde9889e00b6b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/8b870266d6f9ca8a22f0e31f47568217d1a225bc/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c6a5692945e9d4bc34baddb4f7cb79070038f739">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_8d813ba83a3c0e9e383ba315aafb869558c78185.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/fff2b3ff4f700ca4b8e21fc51f3041e37c844794/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="379a48c2da13ffb7ec7134f2c715663834357670">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_2103945174de55e29b4b0c1d37d4d625a60dcd74.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/27486453dbf9e2ab2af49c0066621f4f81a6d22f/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="07b52724ade6a26fecb53090da1574913fc78639">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_3d16beacd8367a545cae10f9cd79247186bfd35f/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/fb28393b0660f7cde01ab4ed886682e8106a045f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="36a6c288ed760d2d899126fa90761b84af10dd2d">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_5d2efe34a0775d749d41884b6ef9dbaaceb6e3c0.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/8b870266d6f9ca8a22f0e31f47568217d1a225bc/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c6a5692945e9d4bc34baddb4f7cb79070038f739">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_8d813ba83a3c0e9e383ba315aafb869558c78185/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/fff2b3ff4f700ca4b8e21fc51f3041e37c844794/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="379a48c2da13ffb7ec7134f2c715663834357670">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2103945174de55e29b4b0c1d37d4d625a60dcd74/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/81af9d6d3855ee718b4d58a0d0b49dc66848cf89/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f779085940b4f3c80ea711dc24a36649f16f4cd5">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_26a4f0f55932d53eec059ed219d24a806745807a.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.flurry.android/analytics/6.4.2/4e6af3e20aff7888244687a9767b872e3881e822/analytics-6.4.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4e6af3e20aff7888244687a9767b872e3881e822">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/analytics-6.4.2_013a08dbc9e6c83398725278d38ee51483c35e3f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="05dca38df2dce7a74225b70e7e21f384bf1212a6">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_15c66c37f9ea032149b5b40f3862e131f3b5cf70/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/cd0a9af3d96f47f1033b7e818de2be7d7f6ca39e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e82b33733f801187c5b502d56fe1e3014de84b71">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_62e224e2133fb2f2b9a72677518e3e7506758a64.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/cd0a9af3d96f47f1033b7e818de2be7d7f6ca39e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e82b33733f801187c5b502d56fe1e3014de84b71">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_62e224e2133fb2f2b9a72677518e3e7506758a64/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/b45a47222920de9c7b1c5d659aba5ba5bbfbcced/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fc10e35f477578b1766c883d4a8561c207684531">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_4307ab66420c4b2ed8a2c871a6895f274b6424a6.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/d52129ba50aa3328d0b70918da5fa418f94876e7/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="83f83593e58b678e8e6b8db6cf1fd8fe0e22dfe1">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_37aa4934177b937eb9aa68149ee28a45b05ba5b3/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/28f84229f9e08356bd05fd0f1335d9f06bef7687/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="814b7c015442bfbedc29035e7afdfe383d893a03">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_70a8dff6e8a4057f66e269d17f0bf48534b2bb07.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/3465264bb7a977d354435affef5441e7d861ab08/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f5e24e901834850335a8bb7d95cf51ea1468a32a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_70f2decd327ca24be872e2d89a46643f6f3b8e8f.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/b61cbf9a2a6f875da4e8495509bced6d7e7fab02/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="103378d4e51581df4783e9e4a59a1775fe4f4104">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_ea3afad14e16cdf0ccc5aa9383685313f1f00851/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/58cd7d0cf8980d69166f47a7ab745a4eda5809fd/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_8213fa351bf1dd7eb4328cebdc386fd0c3276cf0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/b61cbf9a2a6f875da4e8495509bced6d7e7fab02/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="103378d4e51581df4783e9e4a59a1775fe4f4104">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ea3afad14e16cdf0ccc5aa9383685313f1f00851/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/defe31dfb5c6813cfc1e8091a693a4f39cb92f12/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="67a51ae54d61ca318e61c73cdd9b27ec56af03bc">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_f73e5bba11b7f814aa2d955e9d7ef1af6ee75a8d.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/3465264bb7a977d354435affef5441e7d861ab08/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f5e24e901834850335a8bb7d95cf51ea1468a32a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_70f2decd327ca24be872e2d89a46643f6f3b8e8f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/aa1e52ae1883503603ac97a9eef8e481cbd990d9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="539c74d461960397d4c3f72623c72eb766569075">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_ab1908b4f39f186bbb51c525ba911c29ae7d661c/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/aa1e52ae1883503603ac97a9eef8e481cbd990d9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="539c74d461960397d4c3f72623c72eb766569075">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_ab1908b4f39f186bbb51c525ba911c29ae7d661c.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/28f84229f9e08356bd05fd0f1335d9f06bef7687/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="814b7c015442bfbedc29035e7afdfe383d893a03">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_70a8dff6e8a4057f66e269d17f0bf48534b2bb07/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/28b2ca0e39fcdbfac6a7ce4b6f88c42798e4660d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2f7dabfad6ea548bbc8d82c89452e713544050d8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/defe31dfb5c6813cfc1e8091a693a4f39cb92f12/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="67a51ae54d61ca318e61c73cdd9b27ec56af03bc">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_f73e5bba11b7f814aa2d955e9d7ef1af6ee75a8d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/ee10e584d9e015b5599401e1118d96936bc7b1f4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2df69841cd9793d6bfa2f78b7b7f4ea06d2296a7">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_057cd2a88bc82cdd74a0bcfd08f23f87fc44031d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/65a42f875fbb3d7ab263ea343e7d6ee155a660f3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_eebc882a070b4bc4dc0d5bbd39f3a28df119057f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7c07b95fe164a60cc32f1bec968e46f09ec4ce3d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="767b85989de73cb665e14510ff2657ef979241f9">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_c4a63e8744cf2e22ff92571e24af0d592e895d35/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/ee10e584d9e015b5599401e1118d96936bc7b1f4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2df69841cd9793d6bfa2f78b7b7f4ea06d2296a7">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_057cd2a88bc82cdd74a0bcfd08f23f87fc44031d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.gradle/caches/modules-2/files-2.1/com.flurry.android/analytics/6.4.2/4e6af3e20aff7888244687a9767b872e3881e822/analytics-6.4.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4e6af3e20aff7888244687a9767b872e3881e822">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/analytics-6.4.2_013a08dbc9e6c83398725278d38ee51483c35e3f.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/2a62c6000deea76a773f175d02a6a1ffc28c4644/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a93a72fe5e0ac12f4a8ff35c5a6ed651e142d10a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_5c9c2a3a8678c7bb74542e405a4e177e96369fdd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/57c6a787d24ab9a6412637c2518c80d148d073fe/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c839ceb2113b00249e896c1c02ae15cdd8380345">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_1f9a78f3854accf975ca4e67a1f315efdfa1aa85/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/bb1d51f4525f5a3709856d3f0c744c94edee84fc/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_17d042c8ce3e41cbd804d5ff084fc0be97584fcb/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/67f9d04a422415f431fee1ddc4d8bf12fa82c814/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd362e8a7451fb70f9d28498949c1be35e5a2e6e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_90db1b342887c18b7deeaf0adead50b82ad8495b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/219eb503f43d2c3c884967e236f88762b75e2213/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="57717bc4b81722a9c3e481fc6f150a950afd550c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_278e7a874395fee8215e12252a8830a54e669ebc/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/7c07b95fe164a60cc32f1bec968e46f09ec4ce3d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="767b85989de73cb665e14510ff2657ef979241f9">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_c4a63e8744cf2e22ff92571e24af0d592e895d35.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/219eb503f43d2c3c884967e236f88762b75e2213/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="57717bc4b81722a9c3e481fc6f150a950afd550c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_278e7a874395fee8215e12252a8830a54e669ebc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/57c6a787d24ab9a6412637c2518c80d148d073fe/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c839ceb2113b00249e896c1c02ae15cdd8380345">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_1f9a78f3854accf975ca4e67a1f315efdfa1aa85.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/4c5c5a4dbde3dc65cd746564ddd336f7375a95b4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3227957f15e5f672f35758c028cf3b94fb39b56d">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_4b6f42f498fbfa811f98e17ce38d5297e41f02ce/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/391fc7049acfe31f0637cac96dcabcddce17b64e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a2a935bcf7d7c529f04dc89905d1ddf678d5e692">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e8cce1b0fc46ea1377e1e60f4fa8c6487a7bc20e/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/779f31265ef37e70a88dcf0740264c58754ed470/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9d151a92bb0af74ea6368e57ddf0e03c609155b4">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_2b6eb995729575dd47d2293273871854983cf39b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/e47e58c28084d565bec7893a6ff36c14a720e09e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="03589bac12234193d4a7a9b106a6db1b367afe99">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_b762013406a8a61418357ed5d3e5238b2e798146/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/AndroidStudioProjects/AroundMe/chatkit/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5f02b015c5957615f5739848c9dfb58fa70c15a8">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/debug/classes_3f645a89d9e3cc79b309f66805c9642a5bc018a6.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/67f9d04a422415f431fee1ddc4d8bf12fa82c814/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd362e8a7451fb70f9d28498949c1be35e5a2e6e">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_90db1b342887c18b7deeaf0adead50b82ad8495b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/779f31265ef37e70a88dcf0740264c58754ed470/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9d151a92bb0af74ea6368e57ddf0e03c609155b4">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_2b6eb995729575dd47d2293273871854983cf39b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/2a62c6000deea76a773f175d02a6a1ffc28c4644/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a93a72fe5e0ac12f4a8ff35c5a6ed651e142d10a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5c9c2a3a8678c7bb74542e405a4e177e96369fdd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/c56655b691d5db12bbf12f07d19625bcbbeeeb57/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ff3baea295d5079a6b54538c8eab744ea72b4cc">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fd0c8674eaae1ecef1f0b359c1795008ce786a6a/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/4c5c5a4dbde3dc65cd746564ddd336f7375a95b4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3227957f15e5f672f35758c028cf3b94fb39b56d">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_4b6f42f498fbfa811f98e17ce38d5297e41f02ce.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/27486453dbf9e2ab2af49c0066621f4f81a6d22f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="07b52724ade6a26fecb53090da1574913fc78639">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_3d16beacd8367a545cae10f9cd79247186bfd35f.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/8b870266d6f9ca8a22f0e31f47568217d1a225bc/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c6a5692945e9d4bc34baddb4f7cb79070038f739">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8d813ba83a3c0e9e383ba315aafb869558c78185/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/AndroidStudioProjects/AroundMe/chatkit/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5f02b015c5957615f5739848c9dfb58fa70c15a8">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/4/classes_3f645a89d9e3cc79b309f66805c9642a5bc018a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/27c1b125053e54c05ec90b47baeba4c94a3edc7a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_433938ff4eed8bebf5054c52203a55569e1b3c24/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/cd0a9af3d96f47f1033b7e818de2be7d7f6ca39e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e82b33733f801187c5b502d56fe1e3014de84b71">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_62e224e2133fb2f2b9a72677518e3e7506758a64/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/a8c784c6c2e31bcc5659e52a150e7c32b68e2afd/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="76a7a625df0e9027b53dbed6e9ba9a6031a42e39">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_52c30053c31c1736d3349180f1777fc69a7f3c1f.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/7bd8d04204bb6fdbbc9a4ce0ad7659fd5bc618cb/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1a80b23cc4097106a3f4914928e700ac3c5b2ed">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_89118fc337098f825e5a4507a00fde9889e00b6b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/3465264bb7a977d354435affef5441e7d861ab08/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f5e24e901834850335a8bb7d95cf51ea1468a32a">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_70f2decd327ca24be872e2d89a46643f6f3b8e8f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/51192f48a7f4adc7b06437ed5e82a42507de96ee/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="edba0aec4aedd4edb3a520b4ee87adc52be762da">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_ca36308f650f3c2ee977b0559a09088a3d5bdf29/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/e47e58c28084d565bec7893a6ff36c14a720e09e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="03589bac12234193d4a7a9b106a6db1b367afe99">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_b762013406a8a61418357ed5d3e5238b2e798146.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/28f84229f9e08356bd05fd0f1335d9f06bef7687/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="814b7c015442bfbedc29035e7afdfe383d893a03">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_70a8dff6e8a4057f66e269d17f0bf48534b2bb07/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/6d626c2e5be5dc8885032be3a7932c665d5c4a56/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_1b43a05aadc9174560be6c813080422043a44f03/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/uncolor/.android/build-cache/a52b7bb15423a35c41a2818aa9b7d9a4860fbed1/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a3ae2ca8e64cdda4ae59aef07e33226cb950f5c">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_78ad28cecae80a5676107c67c699b64a5f2addbe/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/uncolor/.android/build-cache/51192f48a7f4adc7b06437ed5e82a42507de96ee/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="edba0aec4aedd4edb3a520b4ee87adc52be762da">
+        <dex dex="/Users/uncolor/AndroidStudioProjects/AroundMe/app/build/intermediates/pre-dexed/release/classes_ca36308f650f3c2ee977b0559a09088a3d5bdf29.jar" />
     </item>
 
 </items>

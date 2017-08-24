@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="0dp"
-            android:scrollbars="vertical"
             android:paddingTop="30dp"
             android:clipToPadding="false"
             android:layout_marginBottom="0dp"
@@ -98,8 +97,9 @@
             android:paddingBottom="1dp"
             android:text="Отпр"
             android:textAllCaps="false"
-            android:textColor="#898989"
+            android:textColor="@color/mainColor"
             android:textSize="20sp" />
+
     </LinearLayout>
 
 </LinearLayout>

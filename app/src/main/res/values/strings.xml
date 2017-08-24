@@ -8,6 +8,7 @@
     <string name="user_id">user_id</string>
     <string name="login">login</string>
     <string name="previous_messages">Предыдущие сообщения</string>
+    <string name="msg">Please, grant all permissions</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

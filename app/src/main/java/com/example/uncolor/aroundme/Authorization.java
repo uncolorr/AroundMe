@@ -84,7 +84,7 @@ public class Authorization extends AppCompatActivity {
         editTextPassword.setText("123456");
         progressBarAuth = (ProgressBar)findViewById(R.id.progressBarAuth);
         progressBarAuth.setVisibility(View.INVISIBLE);
-        
+
     }
 
     public void onButtonLoginClick(View view) {
@@ -103,7 +103,7 @@ public class Authorization extends AppCompatActivity {
             });
         }
 
-        progressBarAuth.setAlpha(1.0f);
+        progressBarAuth.setVisibility(View.VISIBLE);
         Log.i("fg", "one signal  id: " + oneSignaluserId);
         String URL = new String("http://aroundme.lwts.ru/login?");
         RequestParams params = new RequestParams();

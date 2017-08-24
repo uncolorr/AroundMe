@@ -15,12 +15,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.onesignal.OSNotificationOpenResult;
@@ -29,10 +29,11 @@ import com.onesignal.OneSignal;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbsRuntimePermission  {
 
     private static final String FLURRY_API_KEY = "BY7KTGZPH9TS8924KJTR";
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public static final int REQUEST_PERMISSION = 10;
 
     CustomViewPager viewPager;
     RoomsFragment roomsFragment = RoomsFragment.newInstance();
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .init();
 
+        requestAppPermissions(new String[]{Manifest.permission.MAPS_RECEIVE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION},
+                R.string.msg,
+                REQUEST_PERMISSION);
+
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -110,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
         //checkLocationPermission();
 
         //Log.i("fg", Boolean.toString(checkLocationPermission()));
+    }
+
+    @Override
+    public void onPermissonGranted(int requestCode) {
+        Toast.makeText(getApplicationContext(), "Permission Granted!", Toast.LENGTH_LONG).show();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationItemSelectedListener

@@ -23,6 +23,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,9 +80,9 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     /**
      * For default list item layout and view holder.
      *
-     * @param senderId            identifier of sender.
-     * @param holders custom layouts and view holders. See {@link MessageHolders} documentation for details
-     * @param imageLoader         image loading method.
+     * @param senderId    identifier of sender.
+     * @param holders     custom layouts and view holders. See {@link MessageHolders} documentation for details
+     * @param imageLoader image loading method.
      */
     public MessagesListAdapter(String senderId, MessageHolders holders,
                                ImageLoader imageLoader) {
@@ -99,7 +100,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-      //  Log.i("fg","onBindViewHolder position: " + Integer.toString(position));
+        //  Log.i("fg","onBindViewHolder position: " + Integer.toString(position));
         Wrapper wrapper = items.get(position);
         holders.bind(holder, wrapper.item, wrapper.isSelected, imageLoader,
                 getMessageClickListener(wrapper),
@@ -107,8 +108,19 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
                 dateHeadersFormatter);
 
 
-
     }
+
+    public int getMessagesCount(){
+        int count = 0;
+        for(int i = 0; i < items.size(); i++){
+            Wrapper wrapper = items.get(i);
+            if (wrapper.item instanceof IMessage) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 
     @Override
     public int getItemCount() {
@@ -117,7 +129,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     @Override
     public int getItemViewType(int position) {
-       // Log.i("fg", "position: " + Integer.toString(position));
+        // Log.i("fg", "position: " + Integer.toString(position));
         return holders.getViewType(items.get(position).item, senderId);
     }
 
@@ -162,8 +174,10 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
         if (!items.isEmpty()) {
             int lastItemPosition = items.size() - 1;
+
             Date lastItem = (Date) items.get(lastItemPosition).item;
             if (DateFormatter.isSameDay(messages.get(0).getCreatedAt(), lastItem)) {
+                Log.i("fg", "items remove true");
                 items.remove(lastItemPosition);
                 notifyItemRemoved(lastItemPosition);
             }
@@ -394,7 +408,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     * PRIVATE METHODS
     * */
     private void recountDateHeaders() {
-    //    Log.i("fg", "recountDateHeaders");
+        //    Log.i("fg", "recountDateHeaders");
         List<Integer> indicesToDelete = new ArrayList<>();
 
         for (int i = 0; i < items.size(); i++) {
@@ -418,18 +432,29 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     }
 
     private void generateDateHeaders(List<MESSAGE> messages) {
-    //    Log.i("fg", "generateDateHeaders");
+        Log.i("fg", "generateDateHeaders");
         for (int i = 0; i < messages.size(); i++) {
+
             MESSAGE message = messages.get(i);
             this.items.add(new Wrapper<>(message));
             if (messages.size() > i + 1) {
+                Log.i("fg", "messages.size() > i + 1");
                 MESSAGE nextMessage = messages.get(i + 1);
                 message.getCreatedAt().setTime(message.getCreatedAt().getTime());
                 nextMessage.getCreatedAt().setTime(message.getCreatedAt().getTime());
+
+                Log.i("fg", "message: " + message.getText());
+                Log.i("fg", "next message: " + nextMessage.getText());
+              //  this.items.add(new Wrapper<>(message.getCreatedAt()));
                 if (!DateFormatter.isSameDay(message.getCreatedAt(), nextMessage.getCreatedAt())) {
+                    Log.i("fg", "puk puk");
                     this.items.add(new Wrapper<>(message.getCreatedAt()));
+                   // this.items.add(new Wrapper<>(message.getCreatedAt()));
+                   // this.items.add(new Wrapper<>(message.getCreatedAt()));
+
                 }
             } else {
+                Log.i("fg", "tuk tuk");
                 this.items.add(new Wrapper<>(message.getCreatedAt()));
             }
         }
@@ -758,7 +783,6 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
          * Returns weather is selection mode enabled
          *
          * @return weather is selection mode enabled.
-         *
          */
 
         public boolean isSelectionModeEnabled() {

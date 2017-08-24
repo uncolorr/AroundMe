@@ -245,7 +245,7 @@ public class Dialog extends AppCompatActivity {
 
         webSocket.connectAsynchronously();
         webSocket.setPingInterval(60000);
-        loadDialog(false);
+        loadDialog(true);
 
         webSocket.addListener(new WebSocketListener() {
             @Override
@@ -553,11 +553,17 @@ public class Dialog extends AppCompatActivity {
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
         params.put("room_id", room.getRoom_id());
-        if (adapter.getItemCount() != 0) {
-            params.put("offset", Integer.toString(adapter.getItemCount() - 1));
+        params.put("offset", Integer.toString(adapter.getMessagesCount()));
+        params.put("limit", "20");
+      /*  if (adapter.getMessagesCount() != 0) {
+          //  params.put("offset", Integer.toString(adapter.getItemCount() - 1));
+            params.put("offset", Integer.toString(adapter.getMessagesCount() - 1));
         } else {
-            params.put("offset", Integer.toString(adapter.getItemCount()));
-        }
+          //  params.put("offset", Integer.toString(adapter.getItemCount()));
+            params.put("offset", Integer.toString(adapter.getMessagesCount()));
+        }*/
+
+        params.put("offset", Integer.toString(adapter.getMessagesCount()));
         params.put("limit", "20");
 
 
@@ -612,6 +618,7 @@ public class Dialog extends AppCompatActivity {
                         adapter.addToEnd(listLoadMore, true);
                     }
                     adapter.notifyDataSetChanged();
+                    Log.i("fg","get item count: " + Integer.toString(adapter.getMessagesCount()));
 
 
                 } catch (JSONException e) {
@@ -746,6 +753,7 @@ public class Dialog extends AppCompatActivity {
                         });
                         messagesList.smoothScrollToPosition(0);
                         adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+
 
                         break;
                 }

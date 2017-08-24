@@ -649,6 +649,10 @@ public class MessageHolders {
                         R.dimen.message_bubble_corners_radius,
                         0
                 );
+              //  image.setBackgroundColor(R.color.white_four);
+
+
+
 
             }
         }
@@ -720,6 +724,7 @@ public class MessageHolders {
                         0,
                         R.dimen.message_bubble_corners_radius
                 );
+             //   image.setBackgroundColor(R.color.white_four);
             }
 
         }
