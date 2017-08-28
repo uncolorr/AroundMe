@@ -24,13 +24,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp" />
 
-    <ImageView
+
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@id/image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/shape_incoming_image_message"
         android:scaleType="centerCrop"
+        android:src="@color/white_four"
+        app:riv_corner_radius_bottom_right="15dp"
+        app:riv_corner_radius_top_left="15dp"
+        app:riv_corner_radius_top_right="15dp"
+        app:riv_border_color="@color/white_five"
+        app:riv_border_width="2dp"
         android:layout_marginEnd="@dimen/message_incoming_bubble_margin_right"
         android:layout_marginRight="@dimen/message_incoming_bubble_margin_right"
         android:layout_toEndOf="@id/messageUserAvatar"
@@ -46,6 +52,7 @@
         android:layout_alignRight="@id/image"
         android:layout_alignStart="@id/image"
         android:layout_alignTop="@id/image"/>
+
 
     <TextView
         android:id="@id/messageTime"

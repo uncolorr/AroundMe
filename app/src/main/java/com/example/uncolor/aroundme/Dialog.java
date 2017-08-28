@@ -12,12 +12,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -95,7 +97,8 @@ public class Dialog extends AppCompatActivity {
     private static final String COMPLAIN_ITEM = "Пожаловаться";
     private static final String DELETE_ITEM = "Удалить";
 
-    private int page = 0;
+    private int firstVisible = 0;
+
 
     View actionBarDialog;
     com.stfalcon.chatkit.commons.ImageLoader imageLoader;
@@ -121,6 +124,8 @@ public class Dialog extends AppCompatActivity {
     ListViewMultimediaAdapter listViewMultimediaAdapter;
     DisplayImageOptions options = null;
 
+    Handler handler;
+
 
     double latitude;
     double longitude;
@@ -137,10 +142,11 @@ public class Dialog extends AppCompatActivity {
                 .build(this, "BY7KTGZPH9TS8924KJTR");
 
         webSocketFactory = new WebSocketFactory().setConnectionTimeout(5000);
+        handler = new Handler(Looper.getMainLooper());
         messagesList = (MessagesList) findViewById(R.id.messagesList);
-      //  messagesList.invalidate();
+        messagesList.invalidate();
         messagesList.setItemViewCacheSize(10000);
-     //   messagesList.setHasFixedSize(false);
+
 
         final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -168,11 +174,13 @@ public class Dialog extends AppCompatActivity {
                         Log.i("fg", failReason.toString());
                     }
 
+
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         Log.i("fg", "onLoadingComplete");
                         imageView.setImageBitmap(loadedImage);
                     }
+
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
@@ -183,20 +191,9 @@ public class Dialog extends AppCompatActivity {
             }
         };
 
-        /*OneSignal.startInit(this)
-                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-                .unsubscribeWhenNotificationsAreDisabled(true)
-                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
-                    @Override
-                    public void notificationOpened(OSNotificationOpenResult result) {
-                        JSONObject data = result.toJSONObject();
-                        Log.i("fg","notification data: " + data.toString());
-                    }
-                })
-                .init();*/
-
         user = getIntent().getParcelableExtra("user");
         room = getIntent().getParcelableExtra("room");
+
         Log.i("fg", "Longitude: " + Double.toString(room.getLongitude()));
         room_name = getIntent().getStringExtra("room_name");
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
@@ -219,14 +216,13 @@ public class Dialog extends AppCompatActivity {
         imageButtonOpenMenu = (ImageButton) actionBarDialog.findViewById(R.id.imageButtonOpenMenu);
 
 
-
         if (Objects.equals(room.getRoom_id(), AROUND_ME_ID) && !room.isAdmin()) {
             editTextMessage.setEnabled(false);
             imageButtonAddMultimedia.setEnabled(false);
             buttonSend.setEnabled(false);
         }
 
-        ArrayList<String> arrayList = new ArrayList<String>();
+        final ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add("Отправить изображение");
         arrayList.add("Отправить геолокацию");
 
@@ -273,40 +269,52 @@ public class Dialog extends AppCompatActivity {
             @Override
             public void onFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
                 Log.i("fg", "onFrame");
-                JSONObject data = new JSONObject(frame.getPayloadText());
-                Log.i("fg", "data: " + data.toString());
 
-                if (data.has("data")) {
+                final JSONObject data = new JSONObject(frame.getPayloadText());
+                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(messagesList.getLayoutManager());
+                final int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                Log.i("fg", "layout manager: " + Integer.toString(firstVisibleItemPosition));
 
-                    switch (data.getString("type")) {
-                        case "Text":
-                            Log.i("fg", "type text");
-                            MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                                    data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                            Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
-                            adapter.addToStart(myMessage, true);
-                            break;
-                        case "Location":
-                            Log.i("fg", "type location");
-                            MyLocationMessage myLocationMessage = new MyLocationMessage(data.getString("user_id"), data.getString("data"),
-                                    data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                            Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
-                            adapter.addToStart(myLocationMessage, true);
-                            break;
-                        case "Photo":
-                            Log.i("fg", "was here images");
-                            MyImageMessage myImageMessage = new MyImageMessage(data.getString("user_id"), data.getString("data"),
-                                    data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                            Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
-                            adapter.addToStart(myImageMessage, true);
-                            break;
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (data.has("data")) {
+                            try {
+                                boolean isMyMessage = Objects.equals(data.getString("user_id"), user.getUser_id());
+                                switch (data.getString("type")) {
+                                    case "Text":
+                                        Log.i("fg", "type text");
+                                        MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
+                                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                                        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                                        adapter.addToStart(myMessage, isMyMessage);
+                                        break;
+                                    case "Location":
+                                        Log.i("fg", "type location");
+                                        MyLocationMessage myLocationMessage = new MyLocationMessage(data.getString("user_id"), data.getString("data"),
+                                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                                        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                                        adapter.addToStart(myLocationMessage, isMyMessage);
+                                        break;
+                                    case "Photo":
+                                        Log.i("fg", "was here images");
+                                        MyImageMessage myImageMessage = new MyImageMessage(data.getString("user_id"), data.getString("data"),
+                                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                                        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                                        adapter.addToStart(myImageMessage, isMyMessage);
+                                        break;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if(firstVisibleItemPosition == 0){
+                            messagesList.smoothScrollToPosition(0);
+                        }
                     }
-                }
-                Log.i("fg", "after " + Integer.toString(adapter.getItemCount()));
-                //  adapter.notifyDataSetChanged();
-                adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-
-
+                };
+                runOnUiThread(runnable);
             }
 
             @Override
@@ -318,8 +326,6 @@ public class Dialog extends AppCompatActivity {
             @Override
             public void onTextFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
                 Log.i("fg", "onTextFrame");
-                //messagesList.smoothScrollToPosition(0);
-                adapter.notifyItemRangeChanged(0, adapter.getItemCount());
             }
 
             @Override
@@ -340,31 +346,21 @@ public class Dialog extends AppCompatActivity {
             @Override
             public void onPongFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
                 Log.i("fg", "onPongFrame");
-                //     adapter.notifyDataSetChanged();
-                //    adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-
-
             }
 
             @Override
             public void onTextMessage(WebSocket websocket, String text) throws Exception {
                 Log.i("fg", "onTextMessage");
+
+                Log.i("fg", "after: " + Integer.toString(adapter.getItemCount()));
                 JSONObject data = new JSONObject(text);
 
-                /*if(data.has("user_id")){
-                    if(Objects.equals(data.getString("user_id"), user.getUser_id())){
-                        Log.i("fg", "my message!");
-                        messagesList.smoothScrollToPosition(0);
+                if (data.has("user_id")) {
+                    if (!Objects.equals(data.getString("user_id"), user.getUser_id())) {
+                     //   messagesList.smoothScrollToPosition(0);
                     }
-                }*/
+                }
 
-
-
-                Log.i("fg", "Text message: " + text);
-             //   adapter.notifyDataSetChanged();
-                 //messagesList.scrollTo(0,messagesList.computeHorizontalScrollOffset());
-                messagesList.smoothScrollToPosition(0);
-              //  adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
             }
 
@@ -376,17 +372,12 @@ public class Dialog extends AppCompatActivity {
             @Override
             public void onSendingFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
                 Log.i("fg", "onSendingFrame");
-                //  messagesList.smoothScrollToPosition(0);
-                //adapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void onFrameSent(WebSocket websocket, WebSocketFrame frame) throws Exception {
                 Log.i("fg", "onFrameSent");
-                Log.i("fg", frame.getPayloadText());
-                Log.i("fg", Integer.toString(adapter.getItemCount()));
-                //   messagesList.smoothScrollToPosition(0);
-                // adapter.notifyItemRangeChanged(0, adapter.getItemCount());
             }
 
             @Override
@@ -460,6 +451,7 @@ public class Dialog extends AppCompatActivity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("fg", "before: " + Integer.toString(adapter.getItemCount()));
                 JSONObject message = new JSONObject();
 
 
@@ -494,15 +486,12 @@ public class Dialog extends AppCompatActivity {
                 } else {
                     Toast.makeText(Dialog.this, "Не удалось отправить сообщение", Toast.LENGTH_SHORT).show();
                 }
-
-                messagesList.smoothScrollToPosition(0);
             }
         });
 
         buttonLoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page++;
                 loadDialog(true);
                 buttonLoadMore.setVisibility(View.GONE);
 
@@ -512,27 +501,18 @@ public class Dialog extends AppCompatActivity {
         messagesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-              //  Log.i("fg", "getVerticalScrollPosition: " + Integer.toString(messagesList.getVerticalScrollbarPosition()));
-               // Log.i("fg", "getScrollY: " + Integer.toString(messagesList.getScrollY()));
-               // messagesList.computeVerticalScrollOffset();
-             //   Log.i("fg", "compute: " + Integer.toString(messagesList.computeVerticalScrollOffset()));
-
-              //  messagesList.computeVerticalScrollRange();
-
+                Log.i("fg", "getScrollY: " + Integer.toString(messagesList.getScrollY()));
+                Log.i("fg", "compute: " + Integer.toString(messagesList.computeVerticalScrollOffset()));
 
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
+                firstVisible = layoutManager.findFirstVisibleItemPosition();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
-            //    Log.i("fg", Integer.toString(dy));
-                // Log.i("fg", "lastVisible" + Integer.toString(lastVisible));
-                // Log.i("fg", "totalItemCount" + Integer.toString(totalItemCount));
-                // Log.i("fg", "getItemCount" + Integer.toString(adapter.getItemCount()));
+                Log.i("fg", "first visible: " + Integer.toString(firstVisible));
                 boolean endHasBeenReached = (lastVisible + 1) >= totalItemCount;
                 if (totalItemCount > 0 && endHasBeenReached && dy < 0) {
-               //     Log.i("fg", "worked!");
                     buttonLoadMore.setVisibility(View.VISIBLE);
                 } else {
-                 //   Log.i("fg", "not worked!");
                     buttonLoadMore.setVisibility(View.INVISIBLE);
                 }
             }
@@ -541,8 +521,6 @@ public class Dialog extends AppCompatActivity {
 
 
     public void loadDialog(final boolean isLoadMore) {
-        Log.i("fg", "was in load");
-
 
         final List<IMessage> listLoadMore = new ArrayList<IMessage>();
         Log.i("fg", "room id  " + room.getRoom_id());
@@ -555,16 +533,6 @@ public class Dialog extends AppCompatActivity {
         params.put("room_id", room.getRoom_id());
         params.put("offset", Integer.toString(adapter.getMessagesCount()));
         params.put("limit", "20");
-      /*  if (adapter.getMessagesCount() != 0) {
-          //  params.put("offset", Integer.toString(adapter.getItemCount() - 1));
-            params.put("offset", Integer.toString(adapter.getMessagesCount() - 1));
-        } else {
-          //  params.put("offset", Integer.toString(adapter.getItemCount()));
-            params.put("offset", Integer.toString(adapter.getMessagesCount()));
-        }*/
-
-        params.put("offset", Integer.toString(adapter.getMessagesCount()));
-        params.put("limit", "20");
 
 
         client.post(URL, params, new JsonHttpResponseHandler() {
@@ -573,11 +541,11 @@ public class Dialog extends AppCompatActivity {
                 try {
 
                     Log.i("fg", "response mes: " + response.toString());
-                    Log.i("fg", Integer.toString(page));
                     JSONArray responseArray = response.getJSONArray("messages");
                     for (int i = 0; i < responseArray.length(); i++) {
 
                         JSONObject data = responseArray.getJSONObject(i);
+
                         if (Objects.equals(data.getString("type"), MSG_TYPE_PHOTO)) {
                             if (data.has("data")) {
                                 MyImageMessage myImageMessage = new MyImageMessage(data.getString("user_id"), data.getString("data"),
@@ -618,9 +586,6 @@ public class Dialog extends AppCompatActivity {
                         adapter.addToEnd(listLoadMore, true);
                     }
                     adapter.notifyDataSetChanged();
-                    Log.i("fg","get item count: " + Integer.toString(adapter.getMessagesCount()));
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -633,9 +598,6 @@ public class Dialog extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (page != 0) {
-                    page--;
-                }
 
             }
         });
@@ -686,6 +648,15 @@ public class Dialog extends AppCompatActivity {
 
 
     public void onClickImageButtonAddMultimedia(View view) {
+
+        /*MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
+                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));*/
+
+      //  MyMessage myMessage = new MyMessage("232", "cooбщение", "colorblind6", "150675646", "65", "");
+      //  adapter.addToStart(myMessage, false);
+
+
         new AlertDialog.Builder(this).setAdapter(listViewMultimediaAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -693,12 +664,13 @@ public class Dialog extends AppCompatActivity {
                     case MENU_SEND_IMAGE:
 
 
-                       /* Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                         photoPickerIntent.setType("image/*");
                         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);*/
+                        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
 
-                        Intent chooserIntent = null;
+
+                        /*Intent chooserIntent = null;
                         List<Intent> intentList = new ArrayList<>();
                         Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -712,10 +684,10 @@ public class Dialog extends AppCompatActivity {
                             chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1), "Отправить с помощью");
                             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
                             startActivityForResult(chooserIntent, RESULT_LOAD_IMAGE);
-                        }
+                        }*/
 
 
-                        break;
+                       break;
                     case MENU_SEND_LOCATION:
 
                         String URL = "https://maps.googleapis.com/maps/api/staticmap?";
@@ -751,10 +723,8 @@ public class Dialog extends AppCompatActivity {
                                 }
                             }
                         });
-                        messagesList.smoothScrollToPosition(0);
+                        //messagesList.smoothScrollToPosition(0);
                         adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-
-
                         break;
                 }
             }
@@ -917,7 +887,9 @@ public class Dialog extends AppCompatActivity {
                 popupWindowInfo.dismiss();
             }
         });
-        TextView textViewInfoAddress = (TextView) layout.findViewById(R.id.textViewInfoAddress);
+        final TextView textViewInfoAddress = (TextView) layout.findViewById(R.id.textViewInfoAddress);
+        textViewInfoAddress.setMovementMethod(new ScrollingMovementMethod());
+
         TextView textViewInfoRoomName = (TextView) layout.findViewById(R.id.textViewInfoRoomName);
         textViewInfoRoomName.setText(room_name);
 
@@ -927,18 +899,57 @@ public class Dialog extends AppCompatActivity {
             progressBarInfo.getIndeterminateDrawable().setColorFilter(0xFFA20022, PorterDuff.Mode.MULTIPLY);
         }
         final ImageView imageViewInfoMap = (ImageView) layout.findViewById(R.id.imageViewInfoMap);
-        String URL = "https://maps.googleapis.com/maps/api/staticmap?";
-        RequestParams params = new RequestParams();
-        params.put("center", Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
-        params.put("zoom", "17");
-        params.put("size", "500x300");
-        params.put("scale", "2");
-        params.put("markers", "color:red|" + Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
-        params.put("key", "AIzaSyDKfZkd7pQ1FXbSACL9jrmGw-tbkl34icE");
 
-        URL += params.toString();
+        String URL_adress_map = "https://maps.googleapis.com/maps/api/geocode/json?";
+        RequestParams paramsAdressMap = new RequestParams();
+        paramsAdressMap.put("latlng", Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
+        paramsAdressMap.put("language", "ru");
+        paramsAdressMap.put("key", "AIzaSyBK20b4ODBLOvvkw75SiEtz1vWV31TjCuU");
 
-        normalImageLoader.loadImage(URL, options, new ImageLoadingListener() {
+        Log.i("fg", URL_adress_map + paramsAdressMap.toString());
+        client.get(URL_adress_map, paramsAdressMap, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+
+                Log.i("fg", "response mes: " + response.toString());
+                try {
+                    if (Objects.equals(response.getString("status"), "OK")) {
+                        JSONArray adressComponents = response.getJSONArray("results");
+                        JSONObject data = adressComponents.getJSONObject(0);
+                        String formatted_address = data.getString("formatted_address");
+                        textViewInfoAddress.setText(formatted_address);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
+
+        String URL_static_map = "https://maps.googleapis.com/maps/api/staticmap?";
+        RequestParams paramsStaticMap = new RequestParams();
+        paramsStaticMap.put("center", Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
+        paramsStaticMap.put("zoom", "17");
+        paramsStaticMap.put("size", "500x300");
+        paramsStaticMap.put("scale", "2");
+        paramsStaticMap.put("markers", "color:red|" + Double.toString(room.getLatitude()) + "," + Double.toString(room.getLongitude()));
+        paramsStaticMap.put("key", "AIzaSyDKfZkd7pQ1FXbSACL9jrmGw-tbkl34icE");
+
+        URL_static_map += paramsStaticMap.toString();
+
+        normalImageLoader.loadImage(URL_static_map, options, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
                 Log.i("fg", "onLoadingStarted");
@@ -1020,45 +1031,49 @@ public class Dialog extends AppCompatActivity {
 
         Log.i("fg", "was on Activity Result");
         Log.i("fg", Integer.toString(reqCode));
-        if (reqCode == RESULT_LOAD_IMAGE) {
-            try {
-                final Uri imageUri = data.getData();
 
-                Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
-                File file = new File(getRealPathFromURI(imageUri));
+        if (data != null) {
 
-                String URL = "http://aroundme.lwts.ru/sendPhoto?";
-                RequestParams requestParams = new RequestParams();
-                requestParams.put("photo", file);
-                requestParams.put("token", user.getToken());
-                requestParams.put("room_id", room.getRoom_id());
-                requestParams.put("user_id", user.getUser_id());
+            if (reqCode == RESULT_LOAD_IMAGE) {
+                try {
+                    final Uri imageUri = data.getData();
 
-                client.post(URL, requestParams, new JsonHttpResponseHandler() {
+                    Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
+                    File file = new File(getRealPathFromURI(imageUri));
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        Log.i("fg", "send photo " + response.toString());
-                        try {
-                            String status = response.getString("status");
-                            if (Objects.equals(status, STATUS_FAIL)) {
+                    String URL = "http://aroundme.lwts.ru/sendPhoto?";
+                    RequestParams requestParams = new RequestParams();
+                    requestParams.put("photo", file);
+                    requestParams.put("token", user.getToken());
+                    requestParams.put("room_id", room.getRoom_id());
+                    requestParams.put("user_id", user.getUser_id());
 
-                            } else if (Objects.equals(status, STATUS_SUCCESS)) {
-                                //  adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+                    client.post(URL, requestParams, new JsonHttpResponseHandler() {
 
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.i("fg", "send photo " + response.toString());
+                            try {
+                                String status = response.getString("status");
+                                if (Objects.equals(status, STATUS_FAIL)) {
+
+                                } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                                    //  adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                });
+                    });
 
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(Dialog.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Dialog.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }

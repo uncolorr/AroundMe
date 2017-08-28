@@ -54,6 +54,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     private List<Wrapper> items;
 
 
+
     private int selectedItemsCount;
     private SelectionListener selectionListener;
 
@@ -122,6 +123,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     }
 
 
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -135,8 +137,10 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     @Override
     public void onLoadMore(int page, int total) {
+        Log.i("fg", "onLoadMore");
         if (loadMoreListener != null) {
             loadMoreListener.onLoadMore(page, total);
+
         }
     }
 
@@ -432,29 +436,20 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     }
 
     private void generateDateHeaders(List<MESSAGE> messages) {
-        Log.i("fg", "generateDateHeaders");
         for (int i = 0; i < messages.size(); i++) {
 
             MESSAGE message = messages.get(i);
             this.items.add(new Wrapper<>(message));
             if (messages.size() > i + 1) {
-                Log.i("fg", "messages.size() > i + 1");
                 MESSAGE nextMessage = messages.get(i + 1);
                 message.getCreatedAt().setTime(message.getCreatedAt().getTime());
                 nextMessage.getCreatedAt().setTime(message.getCreatedAt().getTime());
 
-                Log.i("fg", "message: " + message.getText());
-                Log.i("fg", "next message: " + nextMessage.getText());
-              //  this.items.add(new Wrapper<>(message.getCreatedAt()));
                 if (!DateFormatter.isSameDay(message.getCreatedAt(), nextMessage.getCreatedAt())) {
-                    Log.i("fg", "puk puk");
                     this.items.add(new Wrapper<>(message.getCreatedAt()));
-                   // this.items.add(new Wrapper<>(message.getCreatedAt()));
-                   // this.items.add(new Wrapper<>(message.getCreatedAt()));
 
                 }
             } else {
-                Log.i("fg", "tuk tuk");
                 this.items.add(new Wrapper<>(message.getCreatedAt()));
             }
         }
@@ -594,6 +589,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     * */
     private class Wrapper<DATA> {
         DATA item;
+
         boolean isSelected;
 
         Wrapper(DATA item) {

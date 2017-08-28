@@ -414,7 +414,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                 circle = mMap.addCircle(new CircleOptions()
                         .center(new LatLng(latitude, longitude))
                         .radius(seekBarRadius.getProgress())
-                        .strokeColor(Color.BLACK).fillColor(0x33000000));
+                        .strokeWidth(2.0f)
+                        .strokeColor(0xFFA20022).fillColor(0x33A20022));
 
 // radius
 

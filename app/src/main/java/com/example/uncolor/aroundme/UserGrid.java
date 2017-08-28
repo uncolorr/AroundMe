@@ -61,6 +61,7 @@ public class UserGrid extends AppCompatActivity {
         final UsersListAdapter usersListAdapter = new UsersListAdapter(UserGrid.this, userItems);
 
 
+        Log.i("fg", "room_id: " + room.getRoom_id());
         String URL = "http://aroundme.lwts.ru/usersList?";
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());

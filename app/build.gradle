@@ -10,7 +10,7 @@ android {
                                onesignal_google_project_number: "REMOTE"]
 
         multiDexEnabled true
-        minSdkVersion 22
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

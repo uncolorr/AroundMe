@@ -16,10 +16,9 @@
 
 package com.stfalcon.chatkit.messages;
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 class RecyclerScrollMoreListener
         extends RecyclerView.OnScrollListener {
@@ -28,6 +27,7 @@ class RecyclerScrollMoreListener
     private int currentPage = 0;
     private int previousTotalItemCount = 0;
     private boolean loading = true;
+    private static int y = 0;
 
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -51,9 +51,11 @@ class RecyclerScrollMoreListener
     @Override
     public void onScrolled(RecyclerView view, int dx, int dy) {
 
-       // Log.i("fg", "onScrolled" + Integer.toString(dx) +  " " + Integer.toString(dy));
+     //   Log.i("fg", "onScrolled" + Integer.toString(dx) + " " + Integer.toString(dy));
+        y += dy;
+        Log.i("fg", "y: " + Integer.toString(y));
 
-        if (loadMoreListener != null) {
+        /*if (loadMoreListener != null) {
             int lastVisibleItemPosition = 0;
             int totalItemCount = mLayoutManager.getItemCount();
 
@@ -67,7 +69,6 @@ class RecyclerScrollMoreListener
             }
 
             if (totalItemCount < previousTotalItemCount) {
-           //     Log.i("fg", "totalItemCount < previousTotalItemCount");
                 this.currentPage = 0;
                 this.previousTotalItemCount = totalItemCount;
                 if (totalItemCount == 0) {
@@ -76,22 +77,21 @@ class RecyclerScrollMoreListener
             }
 
             if (loading && (totalItemCount > previousTotalItemCount)) {
-             //   Log.i("fg", "totalItemCount > previousTotalItemCount");
                 loading = false;
                 previousTotalItemCount = totalItemCount;
             }
 
             int visibleThreshold = 0;
             if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
-              //  Log.i("fg", "lastVisibleItemPosition + visibleThreshold) > totalItemCount");
                 currentPage++;
                 loadMoreListener.onLoadMore(currentPage, totalItemCount);
                 loading = true;
             }
-        }
+        }*/
     }
 
-    interface OnLoadMoreListener {
-        void onLoadMore(int page, int total);
-    }
+        interface OnLoadMoreListener {
+            void onLoadMore(int page, int total);
+        }
+
 }
