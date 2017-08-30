@@ -181,7 +181,6 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
             Date lastItem = (Date) items.get(lastItemPosition).item;
             if (DateFormatter.isSameDay(messages.get(0).getCreatedAt(), lastItem)) {
-                Log.i("fg", "items remove true");
                 items.remove(lastItemPosition);
                 notifyItemRemoved(lastItemPosition);
             }

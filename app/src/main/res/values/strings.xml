@@ -7,6 +7,7 @@
     <string name="avatar_url">avatar_url</string>
     <string name="user_id">user_id</string>
     <string name="login">login</string>
+    <string name="oneSignalUserId">oneSignalUserId</string>
     <string name="previous_messages">Предыдущие сообщения</string>
     <string name="msg">Please, grant all permissions</string>
 

@@ -51,7 +51,6 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
     ListView listView;
     ListViewRoomsAdapter listViewFavsAdapter;
     User user;
-    //Room room;
     LocationRequest locationRequest;
     GoogleApiClient googleApiClient;
     AsyncHttpClient client = new AsyncHttpClient();
@@ -177,12 +176,9 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
 
                                     roomLatitude = data.getDouble("latitude");
                                     roomLongitude = data.getDouble("longitude");
-                                    float[] distance = new float[1];
-                                    Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
-                                    room.setDistance(distance[0]);
                                     room.setLatitude(roomLatitude);
                                     room.setLongitude(roomLongitude);
-                                    room.setRadius(data.getInt("meters"));
+                                    room.setMeters(data.getInt("meters"));
 
                                 }
                                 favsList.add(room);
@@ -225,8 +221,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
         listViewFavsAdapter.notifyDataSetChanged();
         Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewFavsAdapter.getCount()));
         if (listViewFavsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
-           // favsList.clear();
-            //loadFavs(location.getLatitude(), location.getLongitude());
+
               googleApiClient.disconnect();
               googleApiClient.connect();
             Log.i("fg", "Updated");
@@ -283,8 +278,6 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
     public void onStop() {
         super.onStop();
         googleApiClient.disconnect();
-
-
     }
 
 }

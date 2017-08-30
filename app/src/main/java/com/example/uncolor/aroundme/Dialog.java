@@ -92,7 +92,7 @@ public class Dialog extends AppCompatActivity {
     private static final String FAVS_ADD_ITEM = "Добавить в избранное";
     private static final String FAVS_DEL_ITEM = "Убрать из избранного";
     private static final String EDIT_ITEM = " Редактировать";
-    private static final String PEOPLE_ITEM = "People";
+    private static final String PEOPLE_ITEM = "Люди";
     private static final String INFO_ITEM = "Инфомация";
     private static final String COMPLAIN_ITEM = "Пожаловаться";
     private static final String DELETE_ITEM = "Удалить";
@@ -165,13 +165,11 @@ public class Dialog extends AppCompatActivity {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                         Log.i("fg", "onLoadingStarted");
-                        Log.i("fg", imageUri);
                     }
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                         Log.i("fg", "onLoadingFailed");
-                        Log.i("fg", failReason.toString());
                     }
 
 
@@ -210,7 +208,7 @@ public class Dialog extends AppCompatActivity {
         buttonLoadMore = (Button) findViewById(R.id.buttonLoadMore);
         buttonLoadMore.setVisibility(View.GONE);
         textViewRoomChatName = (TextView) actionBarDialog.findViewById(R.id.roomChatName);
-        textViewRoomChatName.setText(room_name);
+        textViewRoomChatName.setText(room.getTitle());
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
         imageButtonAddMultimedia = (ImageButton) findViewById(R.id.imageButtonAddMultimedia);
         imageButtonOpenMenu = (ImageButton) actionBarDialog.findViewById(R.id.imageButtonOpenMenu);
@@ -304,14 +302,21 @@ public class Dialog extends AppCompatActivity {
                                         adapter.addToStart(myImageMessage, isMyMessage);
                                         break;
                                 }
+
+                                if (isMyMessage) {
+                                    messagesList.smoothScrollToPosition(0);
+                                }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
 
-                        if(firstVisibleItemPosition == 0){
+                        if (firstVisibleItemPosition == 0) {
                             messagesList.smoothScrollToPosition(0);
                         }
+
+
                     }
                 };
                 runOnUiThread(runnable);
@@ -356,8 +361,8 @@ public class Dialog extends AppCompatActivity {
                 JSONObject data = new JSONObject(text);
 
                 if (data.has("user_id")) {
-                    if (!Objects.equals(data.getString("user_id"), user.getUser_id())) {
-                     //   messagesList.smoothScrollToPosition(0);
+                    if (Objects.equals(data.getString("user_id"), user.getUser_id())) {
+                        messagesList.smoothScrollToPosition(0);
                     }
                 }
 
@@ -451,11 +456,16 @@ public class Dialog extends AppCompatActivity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("fg", "before: " + Integer.toString(adapter.getItemCount()));
+
+                if(editTextMessage.getText().toString().isEmpty()){
+                    Toast.makeText(Dialog.this, "Поле не должно быть пустым", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 JSONObject message = new JSONObject();
 
 
                 if (!webSocket.isOpen()) {
+
                     try {
                         webSocket = webSocket.recreate(5000).connectAsynchronously();
                     } catch (IOException e) {
@@ -466,7 +476,7 @@ public class Dialog extends AppCompatActivity {
 
                 Log.i("fg", Boolean.toString(webSocket.isOpen()));
 
-                if (webSocket.isOpen() && !editTextMessage.getText().toString().isEmpty()) {
+                if (webSocket.isOpen()) {
 
 
                     Log.i("fg", "connected");
@@ -501,8 +511,6 @@ public class Dialog extends AppCompatActivity {
         messagesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                Log.i("fg", "getScrollY: " + Integer.toString(messagesList.getScrollY()));
-                Log.i("fg", "compute: " + Integer.toString(messagesList.computeVerticalScrollOffset()));
 
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
@@ -649,14 +657,6 @@ public class Dialog extends AppCompatActivity {
 
     public void onClickImageButtonAddMultimedia(View view) {
 
-        /*MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));*/
-
-      //  MyMessage myMessage = new MyMessage("232", "cooбщение", "colorblind6", "150675646", "65", "");
-      //  adapter.addToStart(myMessage, false);
-
-
         new AlertDialog.Builder(this).setAdapter(listViewMultimediaAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -687,7 +687,7 @@ public class Dialog extends AppCompatActivity {
                         }*/
 
 
-                       break;
+                        break;
                     case MENU_SEND_LOCATION:
 
                         String URL = "https://maps.googleapis.com/maps/api/staticmap?";
@@ -723,7 +723,6 @@ public class Dialog extends AppCompatActivity {
                                 }
                             }
                         });
-                        //messagesList.smoothScrollToPosition(0);
                         adapter.notifyItemRangeChanged(0, adapter.getItemCount());
                         break;
                 }
@@ -760,7 +759,7 @@ public class Dialog extends AppCompatActivity {
             Map<String, Integer> imageResourses = new HashMap<String, Integer>();
             imageResourses.put(BACK_ITEM, R.drawable.close_menu);
             imageResourses.put(FAVS_ADD_ITEM, R.drawable.bnv_favs);
-            imageResourses.put(FAVS_DEL_ITEM, R.drawable.bnv_favs);
+            imageResourses.put(FAVS_DEL_ITEM, R.drawable.bnv_favs_fill);
             imageResourses.put(EDIT_ITEM, R.drawable.edit);
             imageResourses.put(PEOPLE_ITEM, R.drawable.people);
             imageResourses.put(INFO_ITEM, R.drawable.info);
@@ -1058,7 +1057,6 @@ public class Dialog extends AppCompatActivity {
                                 if (Objects.equals(status, STATUS_FAIL)) {
 
                                 } else if (Objects.equals(status, STATUS_SUCCESS)) {
-                                    //  adapter.notifyItemRangeChanged(0, adapter.getItemCount());
 
                                 }
 

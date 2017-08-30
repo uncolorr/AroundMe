@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,6 +54,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
     ListViewRoomsAdapter listViewRoomsAdapter;
     GoogleApiClient googleApiClient;
     LocationRequest locationRequest;
+    SwipeRefreshLayout swipeRefreshLayout;
     double latitude;
     double longitude;
 
@@ -87,6 +90,14 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
             progressBar.getIndeterminateDrawable().setColorFilter(0xFFA20022, PorterDuff.Mode.MULTIPLY);
         }
 
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadRooms(latitude, longitude);
+                listViewRoomsAdapter.notifyDataSetChanged();
+            }
+        });
         listViewRooms = (ListView) view.findViewById(R.id.listViewRooms);
         listViewRoomsAdapter = new ListViewRoomsAdapter(getActivity(), roomsList);
         listViewRooms.setAdapter(listViewRoomsAdapter);
@@ -125,7 +136,10 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                     Log.i("fg", "rooms" + response.toString());
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
-
+                        Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
+                        if (swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
@@ -162,13 +176,10 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                                     roomLongitude = data.getDouble("longitude");
                                     Log.i("fg", Double.toString(roomLatitude));
                                     Log.i("fg", Double.toString(roomLongitude));
-
-                                    float[] distance = new float[1];
-                                    Location.distanceBetween(latitude, longitude, roomLatitude, roomLongitude, distance);
-                                    room.setDistance(distance[0]);
                                     room.setLatitude(roomLatitude);
                                     room.setLongitude(roomLongitude);
                                     room.setRadius(data.getInt("radius"));
+                                    room.setMeters(data.getInt("meters"));
                                     Log.i("fg", "room radius: " + Integer.toString(room.getRadius()));
 
                                 }
@@ -176,6 +187,9 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                             }
                             listViewRoomsAdapter.notifyDataSetChanged();
                             progressBar.setVisibility(View.INVISIBLE);
+                            if (swipeRefreshLayout.isRefreshing()) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
                         }
                     }
 
@@ -186,6 +200,15 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
 
             }
         });
@@ -232,15 +255,15 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
     public void onLocationChanged(Location location) {
         Log.i("fg", "onLocationChanged " + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
         listViewRoomsAdapter.notifyDataSetChanged();
-        Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewRoomsAdapter.getCount()));
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+
         if (listViewRoomsAdapter.getCount() == 0 && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
             roomsList.clear();
             progressBar.setVisibility(View.VISIBLE);
-            loadRooms(location.getLatitude(),location.getLongitude());
-            Log.i("fg", "Updated");
+            loadRooms(location.getLatitude(), location.getLongitude());
         }
         progressBar.setVisibility(View.INVISIBLE);
-        Log.i("fg", "roooms list " + Integer.toString(roomsList.size()));
     }
 
     private void getCurrentLocation() {
@@ -253,14 +276,12 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         if (location == null || (location.getLatitude() == 0.0 && location.getLongitude() == 0.0)) {
             startLocationUpdates();
         }
-        if (location != null) {
 
+        if (location != null) {
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            Log.i("fg", "get Current location " + Double.toString(latitude) + " " + Double.toString(longitude));
             roomsList.clear();
             loadRooms(latitude, longitude);
-
         }
     }
 

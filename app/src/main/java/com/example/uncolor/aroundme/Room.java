@@ -7,16 +7,16 @@ import android.os.Parcelable;
  * Created by uncolor on 15.06.17.
  */
 
-public class Room implements Parcelable{
+public class Room implements Parcelable {
 
     private String title;
     private String usersCount;
     private String room_id;
     private boolean inFavs;
     private boolean isAdmin;
-    private float distance;
     private double latitude;
     private double longitude;
+    private int radius;
     private int meters;
 
     public Room() {
@@ -35,10 +35,9 @@ public class Room implements Parcelable{
         room_id = in.readString();
         inFavs = in.readByte() != 0;
         isAdmin = in.readByte() != 0;
-        distance = in.readFloat();
         latitude = in.readDouble();
         longitude = in.readDouble();
-        meters = in.readInt();
+        radius = in.readInt();
     }
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
@@ -53,44 +52,36 @@ public class Room implements Parcelable{
         }
     };
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    void setTitle(String title) {
         this.title = title;
     }
 
-    public String getUsersCount() {
+    String getUsersCount() {
         return usersCount;
     }
 
-    public void setUsersCount(String usersCount) {
+    void setUsersCount(String usersCount) {
         this.usersCount = usersCount;
     }
 
-    public String getRoom_id() {
+    String getRoom_id() {
         return room_id;
     }
 
-    public void setRoom_id(String room_id) {
+    void setRoom_id(String room_id) {
         this.room_id = room_id;
     }
 
-    public float getDistance() {
-        return distance;
+    int getRadius() {
+        return radius;
     }
 
-    public void setDistance(float distance) {
-        this.distance = distance;
-    }
-
-    public int getRadius() {
-        return meters;
-    }
-
-    public void setRadius(int meters) {
-        this.meters = meters;
+    void setRadius(int radius) {
+        this.radius = radius;
     }
 
     @Override
@@ -105,43 +96,51 @@ public class Room implements Parcelable{
         dest.writeString(room_id);
         dest.writeByte((byte) (inFavs ? 1 : 0));
         dest.writeByte((byte) (isAdmin ? 1 : 0));
-        dest.writeFloat(distance);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeInt(meters);
 
     }
 
-    public boolean isInFavs() {
+    boolean isInFavs() {
         return inFavs;
     }
 
-    public void setInFavs(boolean inFavs) {
+    void setInFavs(boolean inFavs) {
         this.inFavs = inFavs;
     }
 
-    public boolean isAdmin() {
+    boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    void setAdmin(boolean admin) {
         isAdmin = admin;
     }
 
-    public double getLatitude() {
+    double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    void setMeters(int meters) {
+        this.meters = meters;
+    }
+
+    int getMeters() {
+        return meters;
+    }
+
 }
 

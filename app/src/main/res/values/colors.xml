@@ -3,7 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#A20022</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorPrevMsgs">#AA0000FF</color>
+    <color name="colorPrevMsgs">#00BFFF</color>
     <color name="smoke">#F0F0F0</color>
+    <color name="white_four">#E0E0E0</color>
     <color name="mainColor">#A20022</color>
 </resources>

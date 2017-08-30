@@ -64,6 +64,7 @@ public class Authorization extends AppCompatActivity {
 
 
         SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+
         String token = sharedPref.getString(getString(R.string.token), "");
         String user_id = sharedPref.getString(getString(R.string.user_id), "");
         String avatar_url = sharedPref.getString(getString(R.string.avatar_url), "");
@@ -79,9 +80,7 @@ public class Authorization extends AppCompatActivity {
         }
 
         editTextLogin = (EditText) findViewById(R.id.editTextLogin);
-        editTextLogin.setText("colorblind6");
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        editTextPassword.setText("123456");
         progressBarAuth = (ProgressBar)findViewById(R.id.progressBarAuth);
         progressBarAuth.setVisibility(View.INVISIBLE);
 
@@ -105,7 +104,7 @@ public class Authorization extends AppCompatActivity {
 
         progressBarAuth.setVisibility(View.VISIBLE);
         Log.i("fg", "one signal  id: " + oneSignaluserId);
-        String URL = new String("http://aroundme.lwts.ru/login?");
+        String URL = "http://aroundme.lwts.ru/login?";
         RequestParams params = new RequestParams();
         params.put("login", editTextLogin.getText().toString());
         params.put("password", editTextPassword.getText().toString());
@@ -149,6 +148,7 @@ public class Authorization extends AppCompatActivity {
                         SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
 
                         SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.oneSignalUserId), oneSignaluserId);
                         editor.putString(getString(R.string.token), token);
                         editor.putString(getString(R.string.type), type);
                         editor.putString(getString(R.string.avatar_url), avatar_url);
@@ -245,6 +245,7 @@ public class Authorization extends AppCompatActivity {
 
                         SharedPreferences.Editor editor = sharedPref.edit();
 
+                        editor.putString(getString(R.string.oneSignalUserId), oneSignaluserId);
                         editor.putString(getString(R.string.token), token);
                         editor.putString(getString(R.string.type), type);
                         editor.putString(getString(R.string.avatar_url), avatar_url);

@@ -285,7 +285,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     private void addMarker(double latitude, double longitude, String title) {
         LatLng latLng = new LatLng(latitude, longitude);
-        if (mMap != null) {
+        if (mMap != null && latitude != 0.0 && longitude != 0.0) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude))
                     .title(title));
         }

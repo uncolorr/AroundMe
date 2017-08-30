@@ -67,7 +67,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     String room_id;
     int radius;
     boolean isEdit;
-   // private Room room = null;
 
     private double longitude;
     private double latitude;
@@ -199,6 +198,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                             room.setTitle(editTextNewRoomTitle.getText().toString());
                             room.setUsersCount("1");
                             room.setRoom_id(data.getString("room_id"));
+                            room.setAdmin(true);
                             Log.i("fg", "Room id " + room.getRoom_id());
                         }
 

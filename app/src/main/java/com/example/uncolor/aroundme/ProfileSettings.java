@@ -353,20 +353,44 @@ public class ProfileSettings extends AppCompatActivity {
     }
 
     public void onClickImageButtonExit(View view) {
-        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.token), "");
-        editor.putString(getString(R.string.type), "");
-        editor.putString(getString(R.string.avatar_url), "");
-        editor.putString(getString(R.string.user_id), "");
-        editor.putString(getString(R.string.login), "");
 
-        editor.apply();
+        final SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
 
-        finishAffinity();
-        Intent intent = new Intent(ProfileSettings.this, Authorization.class);
-        startActivity(intent);
+        String URL = "http://aroundme.lwts.ru/logout?";
+        RequestParams params = new RequestParams();
+        params.put("oneSignalUserId", sharedPref.getString(getString(R.string.oneSignalUserId), ""));
+        params.put("user_id", sharedPref.getString(getString(R.string.user_id), ""));
+        params.put("token", sharedPref.getString(getString(R.string.token), ""));
+
+
+        client.post(URL, params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i("fg", response.toString());
+                try {
+                    String resp = response.getString("response");
+                    if(Objects.equals(resp, "ok")){
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.oneSignalUserId), "");
+                        editor.putString(getString(R.string.token), "");
+                        editor.putString(getString(R.string.type), "");
+                        editor.putString(getString(R.string.avatar_url), "");
+                        editor.putString(getString(R.string.user_id), "");
+                        editor.putString(getString(R.string.login), "");
+                        editor.apply();
+                        
+                        finishAffinity();
+                        Intent intent = new Intent(ProfileSettings.this, Authorization.class);
+                        startActivity(intent);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private String getRealPathFromURI(Uri contentURI) {

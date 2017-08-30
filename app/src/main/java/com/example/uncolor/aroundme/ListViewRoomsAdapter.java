@@ -49,10 +49,10 @@ public class ListViewRoomsAdapter extends BaseAdapter {
         TextView textViewUsersCount = (TextView) view.findViewById(R.id.textViewUsersCount);
         textViewUsersCount.setText(roomsList.get(position).getUsersCount());
         TextView textViewDistance = (TextView) view.findViewById(R.id.textViewDistance);
-        if (roomsList.get(position).getDistance() == 0) {
+        if (roomsList.get(position).getMeters() == 0) {
             textViewDistance.setVisibility(View.INVISIBLE);
         } else {
-            textViewDistance.setText(getDistanceFormat(roomsList.get(position).getDistance()));
+            textViewDistance.setText(getDistanceFormat(roomsList.get(position).getMeters()));
         }
 
         TextView textViewRoomsTitle = (TextView) view.findViewById(R.id.textViewRoomsTitle);
@@ -60,7 +60,7 @@ public class ListViewRoomsAdapter extends BaseAdapter {
         return view;
     }
 
-    private String getDistanceFormat(float distance) {
+    private String getDistanceFormat(int distance) {
 
         String result = "";
         int intDistance = (int) distance;
@@ -68,9 +68,9 @@ public class ListViewRoomsAdapter extends BaseAdapter {
             result = Integer.toString(intDistance) + "м";
             return result;
         }
-        float floatDistance = (float) intDistance;
+        int floatDistance = (int) intDistance;
         floatDistance /= 1000;
-        result = Float.toString(floatDistance) + "км";
+        result = Integer.toString(floatDistance) + "км";
 
         return result;
     }
