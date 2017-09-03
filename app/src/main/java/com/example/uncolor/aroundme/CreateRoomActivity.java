@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -56,19 +55,14 @@ public class CreateRoomActivity extends AppCompatActivity {
         imageButtonCreateRoom = (ImageButton) actionBarCreateRoom.findViewById(R.id.imageButtonCreateRoom);
         textViewCreateRoomTitle = (TextView)actionBarCreateRoom.findViewById(R.id.textViewCreateRoomTitle);
         if(isEdit){
-            textViewCreateRoomTitle.setText("Редактировать");
+            textViewCreateRoomTitle.setText(getString(R.string.edit));
         }
         else {
-            textViewCreateRoomTitle.setText("Добавление беседы");
+            textViewCreateRoomTitle.setText(getString(R.string.add_room));
         }
-
-
-
-
 
         if (isEdit){
 
-            Log.i("fg" ,"true");
             room_name = getIntent().getStringExtra("room_name");
             room_id = getIntent().getStringExtra("room_id");
             radius = getIntent().getIntExtra("radius", 1);
@@ -76,7 +70,6 @@ public class CreateRoomActivity extends AppCompatActivity {
             createRoom.getArguments().putInt("radius", radius);
             createRoom.getArguments().putBoolean("isEdit", isEdit);
         }
-
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -105,9 +98,9 @@ public class CreateRoomActivity extends AppCompatActivity {
             createRoom.createNewRoom();
         } else if (createRoom.isGoodData() && isEdit) {
             createRoom.editRoom();
-            Toast.makeText(CreateRoomActivity.this, "Комната успешно отредактирована", Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateRoomActivity.this, getString(R.string.room_successfully_edited), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(CreateRoomActivity.this, "Не удалось создать комнату", Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateRoomActivity.this, getString(R.string.create_room_failed), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -128,8 +121,8 @@ public class CreateRoomActivity extends AppCompatActivity {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder
-                    .setMessage("Передача геоданных сейчас выключена. Хотите ли вы включить ее?")
-                    .setPositiveButton("Включить",
+                    .setMessage(getString(R.string.location_report_msg))
+                    .setPositiveButton(getString(R.string.enable),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int id) {
@@ -137,7 +130,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                                     startActivity(callGPSSettingIntent);
                                 }
                             });
-            alertDialogBuilder.setNegativeButton("Отмена",
+            alertDialogBuilder.setNegativeButton(getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();

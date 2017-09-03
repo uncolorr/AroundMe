@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:maxLines="1"
-            android:text="Добавление беседы"
+            android:text="@string/add_room"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="17sp" />

@@ -8,11 +8,11 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,15 +20,12 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.flurry.android.FlurryAgent;
-import com.onesignal.OSNotificationOpenResult;
-import com.onesignal.OneSignal;
-
-import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbsRuntimePermission {
 
     private static final String FLURRY_API_KEY = "BY7KTGZPH9TS8924KJTR";
+    private static final int REQUEST_PERMISSION = 10;
 
     CustomViewPager viewPager;
     RoomsFragment roomsFragment = RoomsFragment.newInstance();
@@ -55,22 +52,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            requestAppPermissions(new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.MAPS_RECEIVE},
+                    R.string.permission_msg, REQUEST_PERMISSION);
+        }
+
         new FlurryAgent.Builder()
                 .withLogEnabled(true)
                 .withLogLevel(Log.INFO)
                 .build(this, FLURRY_API_KEY);
 
-        OneSignal.startInit(this)
-                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-                .unsubscribeWhenNotificationsAreDisabled(true)
-                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
-                    @Override
-                    public void notificationOpened(OSNotificationOpenResult result) {
-                        JSONObject data = result.toJSONObject();
-                        Log.i("fg","notification data: " + data.toString());
-                    }
-                })
-                .init();
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -103,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener);
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+
+    }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -132,12 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
-
-    @Override
-    public void onBackPressed() {
-        FlurryAgent.logEvent("call onBackPressed!!!");
-        Log.i("fg", "back");
-    }
 
     public void onImageButtonClickCreateRoom(View view) {
         Intent intent = new Intent(MainActivity.this, CreateRoomActivity.class);
@@ -174,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder
-                    .setMessage("Передача геоданных сейчас выключена. Хотите ли вы включить ее?")
-                    .setPositiveButton("Подключить",
+                    .setMessage(getString(R.string.location_report_msg))
+                    .setPositiveButton(getString(R.string.enable),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int id) {
@@ -183,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(callGPSSettingIntent);
                                 }
                             });
-            alertDialogBuilder.setNegativeButton("Отмена",
+            alertDialogBuilder.setNegativeButton(getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();

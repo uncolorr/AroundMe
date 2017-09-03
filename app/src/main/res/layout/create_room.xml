@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Название беседы"
+        android:hint="@string/rooms_name"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:gravity="center"
@@ -64,7 +64,7 @@
         android:layout_marginTop="8dp"
         android:textSize="20dp"
         android:textColor="@color/mainColor"
-        android:text="3000м"/>
+        android:text="3000m"/>
 
 
     <SeekBar

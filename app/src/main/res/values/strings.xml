@@ -1,16 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AroundMe</string>
-    <string name="main_color">#a20022</string>
-    <string name="showNews">showNews</string>
-    <string name="token">token</string>
-    <string name="type">type</string>
-    <string name="avatar_url">avatar_url</string>
+    <string name="app_name">AroundMe</string> 
+    <string name="main_color">#a20022</string> 
+    <string name="showNews">showNews</string> 
+    <string name="token">token</string> 
+    <string name="type">type</string> 
+    <string name="avatar_url">avatar_url</string> 
     <string name="user_id">user_id</string>
-    <string name="login">login</string>
-    <string name="oneSignalUserId">oneSignalUserId</string>
-    <string name="previous_messages">Предыдущие сообщения</string>
-    <string name="msg">Please, grant all permissions</string>
+    <string name="login">login</string> 
+    <string name="oneSignalUserId">oneSignalUserId</string>  
+    <string name="previous_messages">Previous messages</string> 
+    <string name="search">Search</string> 
+    <string name="map">Map</string> 
+    <string name="favorites">Favorites</string> 
+    <string name="add_room">add room</string> 
+    <string name="rooms_name">Room\'s name</string> 
+    <string name="personals_settings">personal settings</string> 
+    <string name="around_me_news">Around me news</string> 
+    <string name="change_password">change password</string> 
+    <string name="new_password">New password</string> 
+    <string name="repeat_password">Repeat password</string> 
+    <string name="about_us">about us</string> 
+    <string name="сonfidentiality_policy">Confidentiality policy</string> 
+    <string name="connect_with_us">Connect with us</string> 
+    <string name="our_website">Our site</string> 
+    <string name="add_to_favs">Add to favorites</string> 
+    <string name="del_from_favs">Delete from favorites</string> 
+    <string name="edit">Edit</string> 
+    <string name="people">People</string> 
+    <string name="informaion">Informaion</string> 
+    <string name="complain">Complain</string> 
+    <string name="delete">Delete</string> 
+    <string name="password_string">Password</string>  
+    <string name="send">Send</string> 
+    <string name="back"> </string> 
+    <string name="message">Message</string> 
+    <string name="send_photo">Send photo</string> 
+    <string name="send_location">Send location</string> 
+    <string name="profile">profile</string> 
+    <string name="sign_in">Sign in</string> 
+    <string name="sign_up">Sign up</string> 
+    <string name="login_string">Login</string> 
+    <string name="permission_msg">Please, grant all permissions</string>
+    <string name="field_should_not_be_empty">Field should not be empty</string>
+    <string name="create_room_failed">Could not create room!</string>
+    <string name="users_count">Users: </string>
+    <string name="login_alredy_taken">Login already taken</string>
+    <string name="add_to_favs_msg">Room successfully added to favorites</string>
+    <string name="del_from_favs_msg">Room successfully deleted from favorites</string>
+    <string name="error">Error</string>
+    <string name="del_room_msg">Room deleted successfully</string>
+    <string name="fields_should_not_be_empty">Fields should not be empty</string>
+    <string name="wrong_login_or_password">Wrong login or password</string>
+    <string name="location_report_msg">Location reporting is now disabled. Do you want to enable it?</string>
+    <string name="enable">Enable</string>
+    <string name="cancel">Cancel</string>
+    <string name="avatar_successfully_uploaded">Avatar successfully uploaded</string>
+    <string name="failed_to_send_message">Failed to send message</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="passwords_do_not_match">Passwords don\'t match</string>
+    <string name="password_successfully_changed">Password successfully changed</string>
+    <string name="change_password_failed">Failed to change password</string>
+    <string name="load_rooms_failed">Failed to load rooms</string>
+    <string name="room_successfully_edited">Room successfully edited</string>
 </resources>

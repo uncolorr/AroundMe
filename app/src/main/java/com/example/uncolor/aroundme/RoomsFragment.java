@@ -28,6 +28,8 @@ import com.google.android.gms.location.LocationServices;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.onesignal.OSNotificationOpenResult;
+import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +78,40 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         super.onCreate(savedInstanceState);
         user = getArguments().getParcelable("user");
 
+        OneSignal.startInit(getActivity())
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
+                    @Override
+                    public void notificationOpened(OSNotificationOpenResult result) {
+                        JSONObject data = result.toJSONObject();
+                        Log.i("fg","notification data: " + data.toString());
+                        try {
+                            JSONObject notification = data.getJSONObject("notification");
+                            JSONObject payload = notification.getJSONObject("payload");
+                            JSONObject additionalData = payload.getJSONObject("additionalData");
+                            String notificationRoomId = additionalData.getString("room_id");
+                            for(int i = 0; i < roomsList.size(); i++){
+                                if (Objects.equals(roomsList.get(i).getRoom_id(), notificationRoomId)){
+                                    Intent intent = new Intent(getActivity(), Dialog.class);
+                                    intent.putExtra("user", user);
+                                    intent.putExtra("room", roomsList.get(i));
+                                    intent.putExtra("room_id", roomsList.get(i).getRoom_id());
+                                    intent.putExtra("room_name", roomsList.get(i).getTitle());
+                                    intent.putExtra("latitude", latitude);
+                                    intent.putExtra("longitude", longitude);
+                                    startActivity(intent);
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                })
+                .init();
+
 
     }
 
@@ -116,7 +152,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
         Log.i("fg", "in load rooms " + Double.toString(latitude) + Double.toString(longitude));
         SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
         boolean showNews = sharedPref.getBoolean(getString(R.string.showNews), false);
-        String URL = new String("http://aroundme.lwts.ru/getrooms?");
+        String URL = "http://aroundme.lwts.ru/getrooms?";
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
@@ -136,7 +172,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                     Log.i("fg", "rooms" + response.toString());
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
-                        Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -170,7 +206,6 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
                                 double roomLongitude = 0.0;
                                 if (data.has("latitude") && data.has("longitude")) {
 
-                                    Log.i("fg", "was here!!!");
 
                                     roomLatitude = data.getDouble("latitude");
                                     roomLongitude = data.getDouble("longitude");
@@ -205,7 +240,7 @@ public class RoomsFragment extends Fragment implements GoogleApiClient.Connectio
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }

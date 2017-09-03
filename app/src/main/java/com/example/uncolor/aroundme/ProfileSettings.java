@@ -174,9 +174,9 @@ public class ProfileSettings extends AppCompatActivity {
         });
 
         arrayListAbout = new ArrayList<String>();
-        arrayListAbout.add("Политика конфиденциальности");
-        arrayListAbout.add("Связаться с нами");
-        arrayListAbout.add("Наш вебсайт");
+        arrayListAbout.add(getString(R.string.сonfidentiality_policy));
+        arrayListAbout.add(getString(R.string.connect_with_us));
+        arrayListAbout.add(getString(R.string.our_website));
         listViewAbout = (ListView) findViewById(R.id.listViewAbout);
         arrayAdapter = new ListViewAboutAdapter(this, arrayListAbout);
         listViewAbout.setAdapter(arrayAdapter);
@@ -191,7 +191,7 @@ public class ProfileSettings extends AppCompatActivity {
                     case 0:
                         adress = Uri.parse(URI_POLITICS);
                         openLink = new Intent(Intent.ACTION_VIEW, adress);
-                        startActivity(Intent.createChooser(openLink, "Открыть с помощью"));
+                        startActivity(Intent.createChooser(openLink, ""));
                         break;
                     case 1: {
 
@@ -205,7 +205,7 @@ public class ProfileSettings extends AppCompatActivity {
                     case 2:
                         adress = Uri.parse(URI_OUR_WEBSITE);
                         openLink = new Intent(Intent.ACTION_VIEW, adress);
-                        startActivity(Intent.createChooser(openLink, "Открыть с помощью"));
+                        startActivity(Intent.createChooser(openLink, ""));
                         break;
                 }
             }
@@ -215,7 +215,7 @@ public class ProfileSettings extends AppCompatActivity {
     public void onClickImageButtonChangePassword(View view) {
 
         if (Objects.equals(editTextRepeatPassword.getText().toString(), "") && Objects.equals(editTextNewPassword.getText().toString(), "")) {
-            Toast.makeText(ProfileSettings.this, "Поля не должны быть пустыми", Toast.LENGTH_LONG).show();
+            Toast.makeText(ProfileSettings.this, getString(R.string.fields_should_not_be_empty), Toast.LENGTH_LONG).show();
         } else if (Objects.equals(editTextNewPassword.getText().toString(), editTextRepeatPassword.getText().toString())) {
 
             String URL = "http://aroundme.lwts.ru/changepassword?";
@@ -234,8 +234,8 @@ public class ProfileSettings extends AppCompatActivity {
                         if (Objects.equals(status, STATUS_FAIL)) {
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileSettings.this);
-                            builder.setTitle("Ошибка");
-                            builder.setMessage("Не удалось поменять пароль");
+                            builder.setTitle(getString(R.string.error));
+                            builder.setMessage(getString(R.string.change_password_failed));
                             builder.setCancelable(false);
                             builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
@@ -248,7 +248,7 @@ public class ProfileSettings extends AppCompatActivity {
                             alertDialog.show();
 
                         } else if (Objects.equals(status, STATUS_SUCCESS)) {
-                            Toast.makeText(ProfileSettings.this, "Пароль успешно изменен", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ProfileSettings.this, getString(R.string.password_successfully_changed), Toast.LENGTH_LONG).show();
                             editTextNewPassword.getText().clear();
                             editTextRepeatPassword.getText().clear();
                         }
@@ -265,7 +265,7 @@ public class ProfileSettings extends AppCompatActivity {
             });
 
         } else {
-            Toast.makeText(ProfileSettings.this, "Пароли не совпадают", Toast.LENGTH_LONG).show();
+            Toast.makeText(ProfileSettings.this, getString(R.string.passwords_do_not_match), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -321,7 +321,7 @@ public class ProfileSettings extends AppCompatActivity {
                                 editor.putString(getString(R.string.avatar_url), data.getString("avatar_url"));
                                 editor.apply();
 
-                                Toast.makeText(ProfileSettings.this, "Аватар успешно загружен", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ProfileSettings.this, getString(R.string.avatar_successfully_uploaded), Toast.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e) {

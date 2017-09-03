@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Избранное"
+            android:text="@string/favorites"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:layout_margin="8dp"

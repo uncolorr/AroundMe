@@ -35,7 +35,6 @@
             android:ellipsize="end"
             android:gravity="start|center"
             android:maxLines="1"
-            android:text="Room's name"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:textSize="18sp"

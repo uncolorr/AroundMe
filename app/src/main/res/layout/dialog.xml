@@ -78,7 +78,7 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@drawable/corner_radius_send_msg_edit_text"
-            android:hint="Cообщение"
+            android:hint="@string/message"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="2000"
             android:maxLines="4"
@@ -96,7 +96,7 @@
             android:background="@color/transparent"
             android:gravity="center"
             android:paddingBottom="1dp"
-            android:text="Отпр"
+            android:text="@string/send"
             android:textAllCaps="false"
             android:textColor="@color/mainColor"
             android:textSize="20sp" />

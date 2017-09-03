@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Карта"
+            android:text="@string/map"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="20sp" />

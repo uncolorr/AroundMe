@@ -18,14 +18,16 @@ import java.util.Map;
 public class ListViewContextMenuAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
-    ArrayList<String> items;
-    Map<String, Integer> imageResources;
+    private ArrayList<Integer> items;
+    private Map<Integer, Integer> imageResources;
+    private Context context;
 
 
-    public ListViewContextMenuAdapter(Context context, ArrayList<String> items, Map<String, Integer> imageResources){
+    ListViewContextMenuAdapter(Context context, ArrayList<Integer> items, Map<Integer, Integer> imageResources){
         layoutInflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.items = items;
         this.imageResources = imageResources;
+        this.context = context;
 
     }
 
@@ -52,7 +54,7 @@ public class ListViewContextMenuAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.context_menu_dialog_item, parent, false);
         }
 
-        view.setTag(items.get(position));
+        view.setTag(context.getString(items.get(position)));
         TextView textViewContextMenuItem = (TextView)view.findViewById(R.id.textViewContextMenuItem);
         textViewContextMenuItem.setText(items.get(position));
         ImageView imageViewContextMenuItem = (ImageView)view.findViewById(R.id.imageViewContextMenuItem);

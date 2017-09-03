@@ -49,11 +49,8 @@ public class UserGrid extends AppCompatActivity {
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarUserGrid = inflater.inflate(R.layout.user_grid_action_bar, null);
         textViewUsersCount = (TextView) actionBarUserGrid.findViewById(R.id.textViewUsersCount);
-        //getSupportActionBar().setDisplayShowCustomEnabled(true);
-      //  getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
-    //    getSupportActionBar().setCustomView(actionBarUserGrid);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
 
         user = getIntent().getParcelableExtra("user");
@@ -77,14 +74,14 @@ public class UserGrid extends AppCompatActivity {
                     Log.i("fg", "show peoples " + response.toString());
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
-                        Toast.makeText(UserGrid.this, "Ошибка", Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserGrid.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
                         if (response.has("response")) {
                             JSONArray responseArray = response.getJSONArray("response");
                             count = responseArray.length();
-                            getSupportActionBar().setTitle("ПОЛЬЗОВАТЕЛЕЙ: " + Integer.toString(count));
+                            getSupportActionBar().setTitle(getString(R.string.users_count) + Integer.toString(count));
                             for (int i = 0; i < responseArray.length(); i++) {
 
                                 UserItem userItem = new UserItem();

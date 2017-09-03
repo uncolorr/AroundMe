@@ -85,7 +85,6 @@ public class UsersListAdapter extends BaseAdapter {
                 }
 
             });
-           // imageViewUserAvatar.setImageResource(R.drawable.bg);
             TextView textViewUserLogin = (TextView)view.findViewById(R.id.textViewUserLogin);
             textViewUserLogin.setText(userItems.get(position).getLogin());
         }

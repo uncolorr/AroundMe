@@ -132,8 +132,8 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
                     if (Objects.equals(status, STATUS_FAIL)) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Ошибка");
-                        builder.setMessage("Не удалось загрузить список комнат");
+                        builder.setTitle(getString(R.string.error));
+                        builder.setMessage(getString(R.string.load_rooms_failed));
                         builder.setCancelable(false);
                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                             @Override

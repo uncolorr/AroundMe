@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AroundMe</string> 
+    <string name="main_color">#a20022</string> 
+    <string name="showNews">showNews</string> 
+    <string name="token">token</string> 
+    <string name="type">type</string> 
+    <string name="avatar_url">avatar_url</string> 
+    <string name="user_id">user_id</string>
+    <string name="login">login</string> 
+    <string name="oneSignalUserId">oneSignalUserId</string>  
+    <string name="previous_messages">Предыдущие сообщения</string> 
+    <string name="search">Поиск</string> 
+    <string name="map">Карта</string> 
+    <string name="favorites">Избранное</string> 
+    <string name="add_room">Добавление беседы</string> 
+    <string name="rooms_name">Название беседы</string> 
+    <string name="personals_settings">персональные настройки</string> 
+    <string name="around_me_news">Новости Around me</string> 
+    <string name="change_password">изменить пароль</string> 
+    <string name="new_password">Новый пароль</string> 
+    <string name="repeat_password">Повторите пароль</string> 
+    <string name="about_us">о нас</string> 
+    <string name="сonfidentiality_policy">Политика конфиденциальности</string> 
+    <string name="connect_with_us">Связаться с нами</string> 
+    <string name="our_website">Наш сайт</string> 
+    <string name="add_to_favs">Добавить в избранное</string> 
+    <string name="del_from_favs">Убрать из избранного</string> 
+    <string name="edit">Редактировать</string> 
+    <string name="people">Люди</string> 
+    <string name="informaion">Информация</string> 
+    <string name="complain">Пожаловаться</string> 
+    <string name="delete">Удалить</string> 
+    <string name="password_string">Пароль</string>  
+    <string name="send">Отпр</string> 
+    <string name="back"> </string> 
+    <string name="message">Сообщение</string> 
+    <string name="send_photo">Отправить фотографию</string> 
+    <string name="send_location">Отправить геолокацию</string> 
+    <string name="profile">Профиль</string> 
+    <string name="sign_in">Логин</string> 
+    <string name="sign_up">Зарегистрироваться</string> 
+    <string name="login_string">Логин</string> 
+    <string name="permission_msg">Please, grant all permissions</string>
+    <string name="create_room_failed">Не удалось создать комнату!</string>
+    <string name="users_count">пользователей: </string>
+    <string name="login_alredy_taken">Логин уже занят</string>
+    <string name="add_to_favs_msg">Комната успешно добавлена в избранное</string>
+    <string name="del_from_favs_msg">Комната успешно удалена из избранного</string>
+    <string name="error">Ошибка</string>
+    <string name="del_room_msg">Комната успешно удалена</string>
+    <string name="fields_should_not_be_empty">Поля не должны быть пустыми</string>
+    <string name="field_should_not_be_empty">Поле не должны быть пустым</string>
+    <string name="wrong_login_or_password">Неверный логин или пароль</string>
+    <string name="location_report_msg">Передача геоданных сейчас выключена. Хотите ли вы включить ее?</string>
+    <string name="enable">Подключить</string>
+    <string name="cancel">Отмена</string>
+    <string name="avatar_successfully_uploaded">Аватар успешно загружен</string>
+    <string name="failed_to_send_message">Не удалось отправить сообщение</string>
+
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
+    <string name="password_successfully_changed">Пароль успешно изменен</string>
+    <string name="change_password_failed">Не удалось поменять пароль</string>
+    <string name="load_rooms_failed">Не удалось загрузить список комнат</string>
+    <string name="room_successfully_edited">Комната успешно отредактирована</string>
+
+    <string name="font_fontFamily_medium">sans-serif</string>
+</resources>

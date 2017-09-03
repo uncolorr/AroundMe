@@ -113,8 +113,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                     if (Objects.equals(status, STATUS_FAIL)) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Ошибка");
-                        builder.setMessage("Не удалось создать комнату!");
+                        builder.setTitle(getString(R.string.error));
+                        builder.setMessage(getString(R.string.create_room_failed));
                         builder.setCancelable(false);
                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -174,8 +174,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                     if (Objects.equals(status, STATUS_FAIL)) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Ошибка");
-                        builder.setMessage("Не удалось создать комнату!");
+                        builder.setTitle(getString(R.string.error));
+                        builder.setMessage(getString(R.string.create_room_failed));
                         builder.setCancelable(false);
                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -189,7 +189,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
-                        Log.i("fg", "was here");
                         Room room = new Room();
                         JSONArray responseArray = response.getJSONArray("response");
                         for (int i = 0; i < responseArray.length(); i++) {
@@ -415,9 +414,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                         .center(new LatLng(latitude, longitude))
                         .radius(seekBarRadius.getProgress())
                         .strokeWidth(2.0f)
-                        .strokeColor(0xFFA20022).fillColor(0x33A20022));
-
-// radius
+                        .strokeColor(0xFFA20022)
+                        .fillColor(0x33A20022));
 
             } else {
                 circle.setCenter(new LatLng(latitude, longitude));

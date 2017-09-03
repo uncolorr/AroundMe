@@ -12,8 +12,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -77,7 +75,6 @@ public class Dialog extends AppCompatActivity {
     final int MENU_SEND_IMAGE = 0;
     final int MENU_SEND_LOCATION = 1;
     final int RESULT_LOAD_IMAGE = 2;
-    final int RESULT_CAMERA_REQUEST = 3;
 
     private static final String MSG_TYPE_TEXT = "Text";
     private static final String MSG_TYPE_LOCATION = "Location";
@@ -87,15 +84,6 @@ public class Dialog extends AppCompatActivity {
 
     private static final String STATUS_FAIL = "failed";
     private static final String STATUS_SUCCESS = "success";
-
-    private static final String BACK_ITEM = " ";
-    private static final String FAVS_ADD_ITEM = "Добавить в избранное";
-    private static final String FAVS_DEL_ITEM = "Убрать из избранного";
-    private static final String EDIT_ITEM = " Редактировать";
-    private static final String PEOPLE_ITEM = "Люди";
-    private static final String INFO_ITEM = "Инфомация";
-    private static final String COMPLAIN_ITEM = "Пожаловаться";
-    private static final String DELETE_ITEM = "Удалить";
 
     private int firstVisible = 0;
 
@@ -124,15 +112,13 @@ public class Dialog extends AppCompatActivity {
     ListViewMultimediaAdapter listViewMultimediaAdapter;
     DisplayImageOptions options = null;
 
-    Handler handler;
-
 
     double latitude;
     double longitude;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("fg", "onCreate");
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.dialog);
@@ -142,7 +128,6 @@ public class Dialog extends AppCompatActivity {
                 .build(this, "BY7KTGZPH9TS8924KJTR");
 
         webSocketFactory = new WebSocketFactory().setConnectionTimeout(5000);
-        handler = new Handler(Looper.getMainLooper());
         messagesList = (MessagesList) findViewById(R.id.messagesList);
         messagesList.invalidate();
         messagesList.setItemViewCacheSize(10000);
@@ -221,8 +206,8 @@ public class Dialog extends AppCompatActivity {
         }
 
         final ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("Отправить изображение");
-        arrayList.add("Отправить геолокацию");
+        arrayList.add(getString(R.string.send_photo));
+        arrayList.add(getString(R.string.send_location));
 
         listViewMultimediaAdapter = new ListViewMultimediaAdapter(this, arrayList);
 
@@ -458,7 +443,7 @@ public class Dialog extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(editTextMessage.getText().toString().isEmpty()){
-                    Toast.makeText(Dialog.this, "Поле не должно быть пустым", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dialog.this, getString(R.string.field_should_not_be_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 JSONObject message = new JSONObject();
@@ -494,7 +479,7 @@ public class Dialog extends AppCompatActivity {
 
                     }
                 } else {
-                    Toast.makeText(Dialog.this, "Не удалось отправить сообщение", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dialog.this, getString(R.string.failed_to_send_message), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -736,35 +721,35 @@ public class Dialog extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) Dialog.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.context_menu_dialog, null);
             final ListView listViewContextMenu = (ListView) layout.findViewById(R.id.listViewContextMenu);
-            ArrayList<String> items = new ArrayList<>();
+            final ArrayList<Integer> items = new ArrayList<>();
 
-            items.add(BACK_ITEM);
+            items.add(R.string.back);
             if (room.isInFavs()) {
-                items.add(FAVS_DEL_ITEM);
+                items.add(R.string.del_from_favs);
             } else {
-                items.add(FAVS_ADD_ITEM);
+                items.add(R.string.add_to_favs);
             }
             if (room.isAdmin()) {
-                items.add(EDIT_ITEM);
+                items.add(R.string.edit);
             }
 
-            items.add(PEOPLE_ITEM);
-            items.add(INFO_ITEM);
-            items.add(COMPLAIN_ITEM);
+            items.add(R.string.people);
+            items.add(R.string.informaion);
+            items.add(R.string.complain);
 
             if (room.isAdmin()) {
-                items.add(DELETE_ITEM);
+                items.add(R.string.delete);
             }
 
-            Map<String, Integer> imageResourses = new HashMap<String, Integer>();
-            imageResourses.put(BACK_ITEM, R.drawable.close_menu);
-            imageResourses.put(FAVS_ADD_ITEM, R.drawable.bnv_favs);
-            imageResourses.put(FAVS_DEL_ITEM, R.drawable.bnv_favs_fill);
-            imageResourses.put(EDIT_ITEM, R.drawable.edit);
-            imageResourses.put(PEOPLE_ITEM, R.drawable.people);
-            imageResourses.put(INFO_ITEM, R.drawable.info);
-            imageResourses.put(COMPLAIN_ITEM, R.drawable.complain);
-            imageResourses.put(DELETE_ITEM, R.drawable.trash);
+            Map<Integer, Integer> imageResourses = new HashMap<>();
+            imageResourses.put(R.string.back, R.drawable.close_menu);
+            imageResourses.put(R.string.add_to_favs, R.drawable.bnv_favs);
+            imageResourses.put(R.string.del_from_favs, R.drawable.bnv_favs_fill);
+            imageResourses.put(R.string.edit, R.drawable.edit);
+            imageResourses.put(R.string.people, R.drawable.people);
+            imageResourses.put(R.string.informaion, R.drawable.info);
+            imageResourses.put(R.string.complain, R.drawable.complain);
+            imageResourses.put(R.string.delete, R.drawable.trash);
 
 
             listViewContextMenuAdapter = new ListViewContextMenuAdapter(layout.getContext(), items, imageResourses);
@@ -774,36 +759,41 @@ public class Dialog extends AppCompatActivity {
             listViewContextMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    switch (view.getTag().toString()) {
-                        case BACK_ITEM:
-                            pw.dismiss();
-                            break;
-                        case FAVS_ADD_ITEM:
-                            addToFavs();
-                            if (room.isInFavs()) {
-                                room.setInFavs(false);
-                            } else {
-                                room.setInFavs(true);
-                            }
-                            break;
-                        case FAVS_DEL_ITEM:
-                            addToFavs();
-                            break;
-                        case EDIT_ITEM:
-                            editRoom();
-                            break;
-                        case PEOPLE_ITEM:
-                            showPeoples();
-                            break;
-                        case INFO_ITEM:
-                            showInfo();
-                            break;
-                        case COMPLAIN_ITEM:
-                            complain();
-                            break;
-                        case DELETE_ITEM:
-                            deleteRoom();
-                            break;
+
+
+                    if(Objects.equals(view.getTag().toString(), getString(R.string.back))){
+                        pw.dismiss();
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.add_to_favs))){
+                        addToFavs();
+                        if (room.isInFavs()) {
+                            room.setInFavs(false);
+                        } else {
+                            room.setInFavs(true);
+                        }
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.del_from_favs))){
+                        addToFavs();
+                        if (room.isInFavs()) {
+                            room.setInFavs(false);
+                        } else {
+                            room.setInFavs(true);
+                        }
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.edit))){
+                        editRoom();
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.people))){
+                        showPeoples();
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.informaion))){
+                        showInfo();
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.complain))){
+                        complain();
+                    }
+                    else if(Objects.equals(view.getTag().toString(), getString(R.string.delete))){
+                        deleteRoom();
                     }
 
                     if (pw.isShowing()) {
@@ -820,7 +810,7 @@ public class Dialog extends AppCompatActivity {
 
     public void addToFavs() {
 
-        String URL = "http://aroundme.lwts.ru/favs?";
+        String URL = "https://aroundme.lwts.ru/favs?";
         RequestParams params = new RequestParams();
         params.put("token", user.getToken());
         params.put("user_id", user.getUser_id());
@@ -833,15 +823,15 @@ public class Dialog extends AppCompatActivity {
                     Log.i("fg", "add to favs " + response.toString());
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
-                        Toast.makeText(Dialog.this, "Ошибка", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Dialog.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
                         String roomStatus = response.getString("response");
                         if (Objects.equals(roomStatus, "added")) {
-                            Toast.makeText(Dialog.this, "Комната успешно добавлена в избранное", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Dialog.this, getString(R.string.add_to_favs_msg), Toast.LENGTH_LONG).show();
                             room.setInFavs(true);
                         } else if (Objects.equals(roomStatus, "deleted")) {
-                            Toast.makeText(Dialog.this, "Комната успешно удалена из избранного", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Dialog.this, getString(R.string.del_from_favs_msg), Toast.LENGTH_LONG).show();
                             room.setInFavs(false);
                         }
                     }
@@ -1003,14 +993,14 @@ public class Dialog extends AppCompatActivity {
                     Log.i("fg", "delete room" + response.toString());
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
-                        Toast.makeText(Dialog.this, "Ошибка", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Dialog.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
                         String str = response.getString("response");
                         if (Objects.equals(str, "You have not admin's rights")) {
                             Toast.makeText(Dialog.this, "У вас нет прав для этого", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(Dialog.this, "Комната успешно удалена", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Dialog.this, getString(R.string.del_room_msg), Toast.LENGTH_LONG).show();
                             webSocket.disconnect();
                             finish();
                         }
@@ -1070,7 +1060,7 @@ public class Dialog extends AppCompatActivity {
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(Dialog.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Dialog.this, getString(R.string.error), Toast.LENGTH_LONG).show();
                 }
             }
         }

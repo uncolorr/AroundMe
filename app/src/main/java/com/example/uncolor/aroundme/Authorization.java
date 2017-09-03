@@ -12,11 +12,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.onesignal.OSNotificationOpenResult;
 import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
@@ -43,7 +43,7 @@ public class Authorization extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        OneSignal.startInit(this)
+       /* OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
@@ -53,7 +53,7 @@ public class Authorization extends AppCompatActivity {
                         Log.i("fg","notification data: " + data.toString());
                     }
                 })
-                .init();
+                .init();*/
 
         Log.i("fg", "onCreate Auth");
         super.onCreate(savedInstanceState);
@@ -88,6 +88,11 @@ public class Authorization extends AppCompatActivity {
 
     public void onButtonLoginClick(View view) {
 
+        if(editTextLogin.getText().toString().isEmpty() || editTextPassword.getText().toString().isEmpty()){
+            Toast.makeText(this, getString(R.string.fields_should_not_be_empty), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(oneSignaluserId == null){
             OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
                 @Override
@@ -120,8 +125,8 @@ public class Authorization extends AppCompatActivity {
                         String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Authorization.this);
-                        builder.setTitle("Ошибка");
-                        builder.setMessage("Неверный логин или пароль");
+                        builder.setTitle(getString(R.string.error));
+                        builder.setMessage(getString(R.string.wrong_login_or_password));
                         builder.setCancelable(false);
                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -187,6 +192,12 @@ public class Authorization extends AppCompatActivity {
     }
     public void onButtonRegisterClick(View view){
 
+
+        if(editTextLogin.getText().toString().isEmpty() || editTextPassword.getText().toString().isEmpty()){
+            Toast.makeText(this, getString(R.string.fields_should_not_be_empty), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(oneSignaluserId == null){
             OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
                 @Override
@@ -217,8 +228,8 @@ public class Authorization extends AppCompatActivity {
                     String status = response.getString("status");
                     if (Objects.equals(status, STATUS_FAIL)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Authorization.this);
-                        builder.setTitle("Ошибка");
-                        builder.setMessage("Логин уже занят");
+                        builder.setTitle(getString(R.string.error));
+                        builder.setMessage(getString(R.string.login_alredy_taken));
                         builder.setCancelable(false);
                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                             @Override
