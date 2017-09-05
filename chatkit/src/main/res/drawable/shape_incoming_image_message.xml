@@ -6,6 +6,10 @@
         android:bottomRightRadius="@dimen/message_bubble_corners_radius"
         android:topLeftRadius="@dimen/message_bubble_corners_radius"
         android:topRightRadius="@dimen/message_bubble_corners_radius" />
+    <stroke android:color="#a9a9a9"
+        android:width="2dp">
+
+    </stroke>
 
     <solid android:color="@color/white_four" />
 

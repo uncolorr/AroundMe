@@ -5,6 +5,6 @@
     android:id="@+id/createRoomMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.uncolor.aroundme.CreateRoomActivity">
+    tools:context="com.colorblind.uncolor.aroundme.CreateRoomActivity">
 
 </android.support.constraint.ConstraintLayout>

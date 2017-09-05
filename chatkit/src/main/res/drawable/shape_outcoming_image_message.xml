@@ -9,4 +9,9 @@
 
     <solid android:color="@color/white_four" />
 
+    <stroke android:color="#a9a9a9"
+        android:width="2dp">
+
+    </stroke>
+
 </shape>

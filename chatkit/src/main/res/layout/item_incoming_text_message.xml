@@ -36,6 +36,7 @@
         android:layout_toEndOf="@id/messageUserAvatar"
         android:layout_toRightOf="@id/messageUserAvatar"
         android:orientation="vertical"
+        android:background="@drawable/shape_incoming_message"
         app:alignContent="stretch"
         app:alignItems="stretch"
         app:flexWrap="wrap"

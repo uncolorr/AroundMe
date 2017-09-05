@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:scrollbars="vertical"
     android:fillViewport="true"
-    tools:context="com.example.uncolor.aroundme.ProfileSettings">
+    tools:context="com.colorblind.uncolor.aroundme.ProfileSettings">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

@@ -550,7 +550,7 @@ public class MessageHolders {
                         style.getIncomingDefaultBubblePaddingTop(),
                         style.getIncomingDefaultBubblePaddingRight(),
                         style.getIncomingDefaultBubblePaddingBottom());
-                bubble.setBackground(style.getIncomingBubbleDrawable());
+              //  bubble.setBackground(style.getIncomingBubbleDrawable());
             }
 
             if (text != null) {

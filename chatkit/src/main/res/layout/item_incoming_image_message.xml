@@ -35,7 +35,7 @@
         app:riv_corner_radius_bottom_right="15dp"
         app:riv_corner_radius_top_left="15dp"
         app:riv_corner_radius_top_right="15dp"
-        app:riv_border_color="@color/white_five"
+        app:riv_border_color="#a9a9a9"
         app:riv_border_width="2dp"
         android:layout_marginEnd="@dimen/message_incoming_bubble_margin_right"
         android:layout_marginRight="@dimen/message_incoming_bubble_margin_right"

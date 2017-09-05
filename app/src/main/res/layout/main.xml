@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.uncolor.aroundme.MainActivity">
+    tools:context="com.colorblind.uncolor.aroundme.MainActivity">
 
 
-    <com.example.uncolor.aroundme.CustomViewPager
+    <com.colorblind.uncolor.aroundme.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -18,7 +18,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.example.uncolor.aroundme.CustomViewPager>
+    </com.colorblind.uncolor.aroundme.CustomViewPager>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

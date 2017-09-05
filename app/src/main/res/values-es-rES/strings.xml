@@ -42,7 +42,7 @@
     <string name="sign_in">Ingresar</string> 
     <string name="sign_up">Regístrate</string> 
     <string name="login_string">Login</string> 
-    <string name="permission_msg">Please, grant all permissions</string>
+    <string name="permission_msg">La aplicación solicita acceso a la ubicación</string>
     <string name="create_room_failed">Inténtelo de nuevo más tarde!</string>
     <string name="users_count">USUARIOS: </string>
     <string name="login_alredy_taken">Nombre de usuario ya ha sido registrado.</string>
@@ -58,6 +58,9 @@
     <string name="cancel">Cancelar</string>
     <string name="avatar_successfully_uploaded">Cambiar</string>
     <string name="failed_to_send_message">Error al enviar el mensaje</string>
+    <string name="m">m</string>
+    <string name="km">km</string>
+
 
     <string name="passwords_do_not_match">Las contraseñas no coinciden</string>
     <string name="password_successfully_changed">Contraseña ha sido cambiada.</string>

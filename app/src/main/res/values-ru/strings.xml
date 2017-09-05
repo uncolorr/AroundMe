@@ -41,9 +41,9 @@
     <string name="sign_in">Логин</string> 
     <string name="sign_up">Зарегистрироваться</string> 
     <string name="login_string">Логин</string> 
-    <string name="permission_msg">Please, grant all permissions</string>
+    <string name="permission_msg">Приложение запрашивает доступ к местоположению</string>
     <string name="create_room_failed">Не удалось создать комнату!</string>
-    <string name="users_count">пользователей: </string>
+    <string name="users_count">ПОЛЬЗОВАТЕЛЕЙ: </string>
     <string name="login_alredy_taken">Логин уже занят</string>
     <string name="add_to_favs_msg">Комната успешно добавлена в избранное</string>
     <string name="del_from_favs_msg">Комната успешно удалена из избранного</string>
@@ -57,6 +57,8 @@
     <string name="cancel">Отмена</string>
     <string name="avatar_successfully_uploaded">Аватар успешно загружен</string>
     <string name="failed_to_send_message">Не удалось отправить сообщение</string>
+    <string name="m">м</string>
+    <string name="km">км</string>
 
     <string name="passwords_do_not_match">Пароли не совпадают</string>
     <string name="password_successfully_changed">Пароль успешно изменен</string>

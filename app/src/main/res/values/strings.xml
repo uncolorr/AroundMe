@@ -41,10 +41,10 @@
     <string name="sign_in">Sign in</string> 
     <string name="sign_up">Sign up</string> 
     <string name="login_string">Login</string> 
-    <string name="permission_msg">Please, grant all permissions</string>
+    <string name="permission_msg">The application requests access to the location</string>
     <string name="field_should_not_be_empty">Field should not be empty</string>
     <string name="create_room_failed">Could not create room!</string>
-    <string name="users_count">Users: </string>
+    <string name="users_count">USERS: </string>
     <string name="login_alredy_taken">Login already taken</string>
     <string name="add_to_favs_msg">Room successfully added to favorites</string>
     <string name="del_from_favs_msg">Room successfully deleted from favorites</string>
@@ -57,6 +57,9 @@
     <string name="cancel">Cancel</string>
     <string name="avatar_successfully_uploaded">Avatar successfully uploaded</string>
     <string name="failed_to_send_message">Failed to send message</string>
+    <string name="m">m</string>
+    <string name="km">km</string>
+
 
     <string name="passwords_do_not_match">Passwords don\'t match</string>
     <string name="password_successfully_changed">Password successfully changed</string>
