@@ -29,10 +29,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class Authorization extends AppCompatActivity {
 
-
-    private static final String STATUS_FAIL = "failed";
-    private static final String STATUS_SUCCESS = "success";
-
     User user;
     String oneSignaluserId;
     EditText editTextLogin;
@@ -43,18 +39,6 @@ public class Authorization extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       /* OneSignal.startInit(this)
-                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-                .unsubscribeWhenNotificationsAreDisabled(true)
-                .setNotificationOpenedHandler(new OneSignal.NotificationOpenedHandler() {
-                    @Override
-                    public void notificationOpened(OSNotificationOpenResult result) {
-                        JSONObject data = result.toJSONObject();
-                        Log.i("fg","notification data: " + data.toString());
-                    }
-                })
-                .init();*/
-
         Log.i("fg", "onCreate Auth");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization);
@@ -63,7 +47,7 @@ public class Authorization extends AppCompatActivity {
         user = new User();
 
 
-        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
 
         String token = sharedPref.getString(getString(R.string.token), "");
         String user_id = sharedPref.getString(getString(R.string.user_id), "");
@@ -74,8 +58,8 @@ public class Authorization extends AppCompatActivity {
         if(!token.isEmpty()){
             user.setData(user_id, token, avatar_url, type);
             Intent intent = new Intent(Authorization.this, MainActivity.class);
-            intent.putExtra("user", user);
-            intent.putExtra("login", login);
+            intent.putExtra(getString(R.string.user), user);
+            intent.putExtra(getString(R.string.login), login);
             startActivity(intent);
             finish();
         }
@@ -95,26 +79,16 @@ public class Authorization extends AppCompatActivity {
         }
 
         if(oneSignaluserId == null){
-            OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-                @Override
-                public void idsAvailable(String userId, String registrationId) {
-                    Log.i("fg", "User:" + userId);
-                    oneSignaluserId = userId;
-
-                    if (registrationId != null)
-                        Log.i("fg", "registrationId:" + registrationId);
-
-                }
-            });
+           getOneSignalValid();
         }
 
         progressBarAuth.setVisibility(View.VISIBLE);
         Log.i("fg", "one signal  id: " + oneSignaluserId);
-        String URL = "http://aroundme.lwts.ru/login?";
+        String URL = getString(R.string.domain) + getString(R.string.url_login);
         RequestParams params = new RequestParams();
-        params.put("login", editTextLogin.getText().toString());
-        params.put("password", editTextPassword.getText().toString());
-        params.put("oneSignalUserId", oneSignaluserId);
+        params.put(getString(R.string.login), editTextLogin.getText().toString());
+        params.put(getString(R.string.password), editTextPassword.getText().toString());
+        params.put(getString(R.string.oneSignalUserId), oneSignaluserId);
 
 
         client.post(URL, params, new JsonHttpResponseHandler() {
@@ -123,8 +97,8 @@ public class Authorization extends AppCompatActivity {
                 progressBarAuth.setVisibility(View.INVISIBLE);
                 try {
 
-                        String status = response.getString("status");
-                    if (Objects.equals(status, STATUS_FAIL)) {
+                        String status = response.getString(getString(R.string.status));
+                    if (Objects.equals(status, getString(R.string.failed))) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Authorization.this);
                         builder.setTitle(getString(R.string.error));
                         builder.setMessage(getString(R.string.wrong_login_or_password));
@@ -139,19 +113,19 @@ public class Authorization extends AppCompatActivity {
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
 
-                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                    } else if (Objects.equals(status, getString(R.string.success))) {
 
                         progressBarAuth.setVisibility(View.INVISIBLE);
                         Log.i("fg", "user: " + response.toString());
-                        JSONArray responseArray = response.getJSONArray("response");
+                        JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                         JSONObject data = responseArray.getJSONObject(0);
-                        String token = data.getString("token");
-                        String type = data.getString("type");
-                        String avatar_url = data.getString("avatar_url");
-                        String user_id = data.getString("user_id");
+                        String token = data.getString(getString(R.string.token));
+                        String type = data.getString(getString(R.string.type));
+                        String avatar_url = data.getString(getString(R.string.avatar_url));
+                        String user_id = data.getString(getString(R.string.user_id));
                         user.setData(user_id, token, avatar_url, type);
 
-                        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
 
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString(getString(R.string.oneSignalUserId), oneSignaluserId);
@@ -164,8 +138,8 @@ public class Authorization extends AppCompatActivity {
                         editor.apply();
 
                         Intent intent = new Intent(Authorization.this, MainActivity.class);
-                        intent.putExtra("user", user);
-                        intent.putExtra("login", editTextLogin.getText().toString());
+                        intent.putExtra(getString(R.string.user), user);
+                        intent.putExtra(getString(R.string.login), editTextLogin.getText().toString());
                         startActivity(intent);
                         finish();
 
@@ -202,25 +176,15 @@ public class Authorization extends AppCompatActivity {
         }
 
         if(oneSignaluserId == null){
-            OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-                @Override
-                public void idsAvailable(String userId, String registrationId) {
-                    Log.i("fg", "User:" + userId);
-                    oneSignaluserId = userId;
-
-                    if (registrationId != null)
-                        Log.i("fg", "registrationId:" + registrationId);
-
-                }
-            });
+            getOneSignalValid();
         }
 
         progressBarAuth.setVisibility(View.VISIBLE);
-        String URL = "http://aroundme.lwts.ru/register?";
+        String URL = getString(R.string.domain) + getString(R.string.url_register);
         RequestParams params = new RequestParams();
-        params.put("login", editTextLogin.getText().toString());
-        params.put("password", editTextPassword.getText().toString());
-        params.put("oneSignalUserId", oneSignaluserId);
+        params.put(getString(R.string.login), editTextLogin.getText().toString());
+        params.put(getString(R.string.password), editTextPassword.getText().toString());
+        params.put(getString(R.string.oneSignalUserId), oneSignaluserId);
 
 
         client.post(URL, params, new JsonHttpResponseHandler() {
@@ -228,8 +192,8 @@ public class Authorization extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 progressBarAuth.setAlpha(0.0f);
                 try {
-                    String status = response.getString("status");
-                    if (Objects.equals(status, STATUS_FAIL)) {
+                    String status = response.getString(getString(R.string.status));
+                    if (Objects.equals(status, getString(R.string.failed))) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Authorization.this);
                         builder.setTitle(getString(R.string.error));
                         builder.setMessage(getString(R.string.login_alredy_taken));
@@ -244,18 +208,18 @@ public class Authorization extends AppCompatActivity {
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
 
-                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                    } else if (Objects.equals(status, getString(R.string.success))) {
 
                         progressBarAuth.setVisibility(View.INVISIBLE);
-                        JSONArray responseArray = response.getJSONArray("response");
+                        JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                         JSONObject data = responseArray.getJSONObject(0);
-                        String token = data.getString("token");
-                        String type = data.getString("type");
-                        String avatar_url = data.getString("avatar_url");
-                        String user_id = data.getString("user_id");
+                        String token = data.getString(getString(R.string.token));
+                        String type = data.getString(getString(R.string.type));
+                        String avatar_url = data.getString(getString(R.string.avatar_url));
+                        String user_id = data.getString(getString(R.string.user_id));
                         user.setData(user_id, token, avatar_url, type);
 
-                        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
 
                         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -269,8 +233,8 @@ public class Authorization extends AppCompatActivity {
                         editor.apply();
 
                         Intent intent = new Intent(Authorization.this, MainActivity.class);
-                        intent.putExtra("user", user);
-                        intent.putExtra("login", editTextLogin.getText().toString());
+                        intent.putExtra(getString(R.string.user), user);
+                        intent.putExtra(getString(R.string.login), editTextLogin.getText().toString());
                         startActivity(intent);
                         finish();
 
@@ -290,7 +254,7 @@ public class Authorization extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 progressBarAuth.setVisibility(View.INVISIBLE);
-                Log.i("fg" , responseString);
+
 
             }
         });
@@ -300,6 +264,11 @@ public class Authorization extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         Log.i("fg", "onResume Auth");
+        getOneSignalValid();
+    }
+
+
+    public void getOneSignalValid(){
         OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
             @Override
             public void idsAvailable(String userId, String registrationId) {
@@ -312,5 +281,6 @@ public class Authorization extends AppCompatActivity {
             }
         });
     }
+
 
 }

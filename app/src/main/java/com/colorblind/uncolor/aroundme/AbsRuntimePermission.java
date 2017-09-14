@@ -39,33 +39,6 @@ public  class AbsRuntimePermission extends AppCompatActivity {
 
         if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
             if(showRequestPermissions) {
-               /* Snackbar.make(findViewById(android.R.id.content), stringId, Snackbar.LENGTH_INDEFINITE).setAction("GRANT", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(AbsRuntimePermission.this, requestedPermissions, requestCode);
-                    }
-                }).show();*/
-
-               /* AlertDialog.Builder builder = new AlertDialog.Builder(AbsRuntimePermission.this);
-                builder.setTitle(getString(stringId));
-                builder.setMessage(getString(R.string.permission_msg));
-                builder.setCancelable(false);
-                builder.setPositiveButton(R.string.enable, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(AbsRuntimePermission.this, requestedPermissions, requestCode);
-                    }
-                });
-
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();*/
 
                 ActivityCompat.requestPermissions(this, requestedPermissions, requestCode);
 
