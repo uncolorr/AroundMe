@@ -11,6 +11,10 @@ import java.util.Date;
  * Created by uncolor on 02.08.17.
  */
 
+/**
+ * Class for location message( Google static map image)
+ */
+
 public class MyLocationMessage implements IMessage, MessageContentType.Image {
     private String message_id;
     private String text;

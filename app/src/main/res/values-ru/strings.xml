@@ -9,6 +9,15 @@
     <string name="user_id">user_id</string>
     <string name="login">login</string> 
     <string name="oneSignalUserId">oneSignalUserId</string>  
+    <string name="response">response</string>
+    <string name="sharedPrefKeys">com.example.aroundme.KEYS</string>
+    <string name="failed">failed</string>
+    <string name="success">success</string>
+    <string name="domain">https://aroundme.lwts.ru/</string>
+    <string name="url_login">login?</string>
+    <string name="url_register">register?</string>
+
+
     <string name="previous_messages">Предыдущие сообщения</string> 
     <string name="search">Поиск</string> 
     <string name="map">Карта</string> 

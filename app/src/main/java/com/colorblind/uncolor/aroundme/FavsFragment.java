@@ -64,7 +64,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
         user.setAvatar_url(sharedPref.getString(getString(R.string.avatar_url), ""));
     }
 
@@ -79,7 +79,7 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = getArguments().getParcelable("user");
+        user = getArguments().getParcelable(getString(R.string.user));
     }
 
     @Override
@@ -93,8 +93,8 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), Dialog.class);
-                intent.putExtra("user", user);
-                intent.putExtra("room", favsList.get(position));
+                intent.putExtra(getString(R.string.user), user);
+                intent.putExtra(getString(R.string.room), favsList.get(position));
                 startActivity(intent);
             }
         });
@@ -108,27 +108,31 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
         return view;
     }
 
+
+    /**
+     * Method for load favorites list
+     */
+
     public void loadFavs(final double latitude, final double longitude) {
 
         Log.i("fg", "in load favs " + Double.toString(longitude));
 
-        String URL = new String("http://aroundme.lwts.ru/getFavs?");
+        String URL = getString(R.string.domain) + getString(R.string.url_get_favs);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("latitude", Double.toString(latitude));
-        params.put("longitude", Double.toString(longitude));
-        params.put("offset", "0");
-        params.put("limit", "100");
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.latitude), Double.toString(latitude));
+        params.put(getString(R.string.longitude), Double.toString(longitude));
+        params.put(getString(R.string.offset), "0");
+        params.put(getString(R.string.limit), "100");
 
 
         client.get(URL, params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("fg", "favs response " + response.toString());
                 try {
-                    String status = response.getString("status");
+                    String status = response.getString(getString(R.string.status));
                     if (Objects.equals(status, STATUS_FAIL)) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -148,37 +152,37 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
                         favsList.clear();
-                        if (response.has("response")) {
-                            JSONArray responseArray = response.getJSONArray("response");
+                        if (response.has(getString(R.string.response))) {
+                            JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                             for (int i = 0; i < responseArray.length(); i++) {
 
                                 Room room = new Room();
                                 JSONObject data = responseArray.getJSONObject(i);
-                                if (data.has("title")) {
-                                    room.setTitle(data.getString("title"));
+                                if (data.has(getString(R.string.title))) {
+                                    room.setTitle(data.getString(getString(R.string.title)));
                                 }
-                                room.setUsersCount(data.getString("usersCount"));
-                                room.setRoom_id(data.getString("room_id"));
-                                if (Objects.equals(data.getString("inFavs"), "1")) {
+                                room.setUsersCount(data.getString(getString(R.string.usersCount)));
+                                room.setRoom_id(data.getString(getString(R.string.room_id)));
+                                if (Objects.equals(data.getString(getString(R.string.in_favs)), "1")) {
                                     room.setInFavs(true);
                                 } else {
                                     room.setInFavs(false);
                                 }
 
-                                if (Objects.equals(data.getString("isAdmin"), "1")) {
+                                if (Objects.equals(data.getString(getString(R.string.is_admin)), "1")) {
                                     room.setAdmin(true);
                                 } else {
                                     room.setAdmin(false);
                                 }
                                 double roomLatitude;
                                 double roomLongitude;
-                                if (data.has("latitude") && data.has("longitude")) {
+                                if (data.has(getString(R.string.latitude)) && data.has(getString(R.string.longitude))) {
 
-                                    roomLatitude = data.getDouble("latitude");
-                                    roomLongitude = data.getDouble("longitude");
+                                    roomLatitude = data.getDouble(getString(R.string.latitude));
+                                    roomLongitude = data.getDouble(getString(R.string.longitude));
                                     room.setLatitude(roomLatitude);
                                     room.setLongitude(roomLongitude);
-                                    room.setMeters(data.getInt("meters"));
+                                    room.setMeters(data.getInt(getString(R.string.meters)));
 
                                 }
                                 favsList.add(room);
@@ -217,18 +221,19 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("fg", "onLocationChanged on favs" + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
-        listViewFavsAdapter.notifyDataSetChanged();
-        Log.i("fg", "listViiewAdapterCount  " + Integer.toString(listViewFavsAdapter.getCount()));
-        if (listViewFavsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
 
-              googleApiClient.disconnect();
-              googleApiClient.connect();
+        listViewFavsAdapter.notifyDataSetChanged();
+        if (listViewFavsAdapter.isEmpty() && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
+            googleApiClient.disconnect();
+            googleApiClient.connect();
             Log.i("fg", "Updated");
         }
-        Log.i("fg", "favs list " + Integer.toString(favsList.size()));
     }
 
+
+    /**
+     * Start getting user's location
+     */
     private void getCurrentLocation() {
 
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -250,6 +255,10 @@ public class FavsFragment extends Fragment implements GoogleApiClient.Connection
 
         }
     }
+
+    /**
+     * Settings for location requests
+     */
 
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();

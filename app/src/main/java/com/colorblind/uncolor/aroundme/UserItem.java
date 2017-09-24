@@ -4,6 +4,11 @@ package com.colorblind.uncolor.aroundme;
  * Created by uncolor on 18.08.17.
  */
 
+
+/**
+ *  Class for item in UserGrid
+ */
+
 public class UserItem {
     private String login = "";
     private String avatar_url = "";

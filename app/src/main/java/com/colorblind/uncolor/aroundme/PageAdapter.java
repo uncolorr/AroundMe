@@ -9,9 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 public class PageAdapter extends FragmentPagerAdapter {
-    RoomsFragment roomsFragment;
-    MapFragment mapFragment;
-    FavsFragment favsFragment;
+    private RoomsFragment roomsFragment;
+    private MapFragment mapFragment;
+    private FavsFragment favsFragment;
 
     public PageAdapter(FragmentManager fm, RoomsFragment roomsFragment, MapFragment mapFragment, FavsFragment favsFragment) {
         super(fm);

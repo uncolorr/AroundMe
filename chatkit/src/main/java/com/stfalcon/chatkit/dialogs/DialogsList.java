@@ -72,6 +72,7 @@ public class DialogsList extends RecyclerView {
      *
      * @param adapter  Adapter. Must extend DialogsListAdapter
      * @param <DIALOG> Dialog model class
+     *
      */
     public <DIALOG extends IDialog> void setAdapter(DialogsListAdapter<DIALOG> adapter) {
         SimpleItemAnimator itemAnimator = new DefaultItemAnimator();

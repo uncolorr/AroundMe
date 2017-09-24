@@ -50,11 +50,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         GoogleMap.OnMarkerDragListener,
         GoogleMap.OnMapLongClickListener,
         GoogleMap.OnMarkerClickListener,
-        View.OnClickListener,
         com.google.android.gms.location.LocationListener {
 
-    private static final String STATUS_FAIL = "failed";
-    private static final String STATUS_SUCCESS = "success";
     EditText editTextNewRoomTitle;
     SeekBar seekBarRadius;
     TextView textViewRadius;
@@ -77,29 +74,39 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     LocationManager locationManager;
 
 
+    /**
+     * Create a UI fragment for create new room.
+     * @return a fragment
+     */
     public static CreateRoom newInstance() {
         CreateRoom fragment = new CreateRoom();
         fragment.setArguments(new Bundle());
         return fragment;
     }
 
+    /**
+     * It's means that we can create a new room
+     */
     public boolean isGoodData() {
         return (!editTextNewRoomTitle.getText().toString().isEmpty() && latitude != 0.0 && longitude != 0.0);
     }
 
+    /**
+     *  Method for edit existing room
+     */
     public void editRoom() {
 
         int radius = (int) circle.getRadius();
 
-        String URL = "http://aroundme.lwts.ru/editRoom?";
+        String URL = getString(R.string.domain) + getString(R.string.url_edit_room);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("radius", Integer.toString(radius));
-        params.put("title", editTextNewRoomTitle.getText().toString());
-        params.put("latitude", Double.toString(latitude));
-        params.put("longitude", Double.toString(longitude));
-        params.put("room_id", room_id);
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.radius), Integer.toString(radius));
+        params.put(getString(R.string.title), editTextNewRoomTitle.getText().toString());
+        params.put(getString(R.string.latitude), Double.toString(latitude));
+        params.put(getString(R.string.longitude), Double.toString(longitude));
+        params.put(getString(R.string.room_id), room_id);
 
 
         client.post(URL, params, new JsonHttpResponseHandler() {
@@ -108,9 +115,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
 
-                    Log.i("fg", "edit room: " + response.toString());
-                    String status = response.getString("status");
-                    if (Objects.equals(status, STATUS_FAIL)) {
+                   // Log.i("fg", "edit room: " + response.toString());
+                    String status = response.getString(getString(R.string.status));
+                    if (Objects.equals(status, getString(R.string.failed))) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(getString(R.string.error));
@@ -127,7 +134,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                         alertDialog.show();
 
 
-                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                    } else if (Objects.equals(status, getString(R.string.success))) {
                         getActivity().finish();
                     }
 
@@ -151,18 +158,21 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     }
 
 
+    /**
+     * Method for create new room
+     */
     public void createNewRoom() {
 
         int radius = (int) circle.getRadius();
 
-        String URL = "http://aroundme.lwts.ru/addroom?";
+        String URL = getString(R.string.domain) + getString(R.string.add_room);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("radius", Integer.toString(radius));
-        params.put("title", editTextNewRoomTitle.getText().toString());
-        params.put("latitude", Double.toString(latitude));
-        params.put("longitude", Double.toString(longitude));
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.radius), Integer.toString(radius));
+        params.put(getString(R.string.title), editTextNewRoomTitle.getText().toString());
+        params.put(getString(R.string.latitude), Double.toString(latitude));
+        params.put(getString(R.string.longitude), Double.toString(longitude));
 
 
         client.post(URL, params, new JsonHttpResponseHandler() {
@@ -170,8 +180,8 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    String status = response.getString("status");
-                    if (Objects.equals(status, STATUS_FAIL)) {
+                    String status = response.getString(getString(R.string.status));
+                    if (Objects.equals(status, getString(R.string.failed))) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(getString(R.string.error));
@@ -188,26 +198,26 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                         alertDialog.show();
 
 
-                    } else if (Objects.equals(status, STATUS_SUCCESS)) {
+                    } else if (Objects.equals(status, getString(R.string.success))) {
                         Room room = new Room();
-                        JSONArray responseArray = response.getJSONArray("response");
+                        JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                         for (int i = 0; i < responseArray.length(); i++) {
 
                             JSONObject data = responseArray.getJSONObject(i);
                             room.setTitle(editTextNewRoomTitle.getText().toString());
                             room.setUsersCount("1");
-                            room.setRoom_id(data.getString("room_id"));
+                            room.setRoom_id(data.getString(getString(R.string.room_id)));
                             room.setAdmin(true);
-                            Log.i("fg", "Room id " + room.getRoom_id());
+                           // Log.i("fg", "Room id " + room.getRoom_id());
                         }
 
                         Intent intent = new Intent(getActivity(), Dialog.class);
-                        intent.putExtra("user", user);
-                        intent.putExtra("room", room);
-                        intent.putExtra("room_id", room.getRoom_id());
-                        intent.putExtra("room_name", room.getTitle());
-                        intent.putExtra("latitude", latitude);
-                        intent.putExtra("longitude", longitude);
+                        intent.putExtra(getString(R.string.user), user);
+                        intent.putExtra(getString(R.string.room), room);
+                        intent.putExtra(getString(R.string.room_id), room.getRoom_id());
+                        intent.putExtra(getString(R.string.room_name), room.getTitle());
+                        intent.putExtra(getString(R.string.latitude), latitude);
+                        intent.putExtra(getString(R.string.longitude), longitude);
                         startActivity(intent);
                         getActivity().finish();
 
@@ -235,11 +245,11 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = getArguments().getParcelable("user");
-        room_name = getArguments().getString("room_name");
-        room_id = getArguments().getString("room_id");
-        radius = getArguments().getInt("radius");
-        isEdit = getArguments().getBoolean("isEdit");
+        user = getArguments().getParcelable(getString(R.string.user));
+        room_name = getArguments().getString(getString(R.string.room_name));
+        room_id = getArguments().getString(getString(R.string.room_id));
+        radius = getArguments().getInt(getString(R.string.radius));
+        isEdit = getArguments().getBoolean(getString(R.string.is_edit));
         Context context = getActivity();
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
@@ -303,7 +313,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
 
-        Log.i("fg", "onViewCreated");
+       // Log.i("fg", "onViewCreated");
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.mapToday);
         mapFragment.getMapAsync(this);
@@ -317,14 +327,14 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     @Override
     public void onStart() {
-        Log.i("fg", "onStart");
+       // Log.i("fg", "onStart");
         super.onStart();
         googleApiClient.connect();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.i("fg", "onMapReady");
+       // Log.i("fg", "onMapReady");
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -348,11 +358,6 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 
-
-    @Override
-    public void onClick(View v) {
-
-    }
 
 
     @Override
@@ -391,9 +396,12 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
     }
 
 
+    /**
+     * Start getting user's location
+     */
     private void getCurrentLocation() {
 
-        Log.i("fg", "current loc");
+      //  Log.i("fg", "current loc");
 
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -437,6 +445,9 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     }
 
+    /**
+     * Set camera position above blue dot on map
+     */
     private void moveMap() {
 
         if (latitude != 0.0 && longitude != 0.0) {
@@ -453,7 +464,7 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("fg", "update");
+        //Log.i("fg", "update");
         getCurrentLocation();
 
         if (circle != null) {
@@ -474,13 +485,18 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
                     .radius(radius)
                     .strokeColor(Color.RED));
         }
-
         moveMap();
 
         Log.i("fg", Double.toString(latitude) + " " + Double.toString(longitude));
 
     }
 
+
+
+
+    /**
+     * Settings for location requests
+     */
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -496,11 +512,14 @@ public class CreateRoom extends Fragment implements OnMapReadyCallback, GoogleAp
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 
+
     public void resetCircle() {
         circle = null;
-
     }
 
+    /**
+     * Get zoom level for better circle presentation
+     */
     public float getZoomLevel(Circle circle) {
         float zoomLevel = 0.0f;
         if (circle != null) {

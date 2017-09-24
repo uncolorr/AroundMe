@@ -64,7 +64,6 @@ public class UsersListAdapter extends BaseAdapter {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
                     Log.i("fg", "onLoadingStarted");
-                    Log.i("fg", imageUri);
                 }
 
                 @Override

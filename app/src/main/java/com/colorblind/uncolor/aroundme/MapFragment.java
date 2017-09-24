@@ -63,7 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
         user.setAvatar_url(sharedPref.getString(getString(R.string.avatar_url), ""));
     }
 
@@ -79,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        user = getArguments().getParcelable("user");
+        user = getArguments().getParcelable(getString(R.string.user));
     }
 
     @Override
@@ -170,6 +170,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnMapLongClickListener(this);
     }
 
+    /**
+     * Settings for location requests
+     */
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -178,16 +181,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     }
 
+
+
+    /**
+     *  method for load all rooms and show in map
+     */
     private void loadAllChatsOnMap(double latitude, double longitude) {
 
-        String URL = new String("http://aroundme.lwts.ru/allrooms?");
+        String URL = getString(R.string.domain) + getString(R.string.url_all_rooms);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("latitude", "55");
-        params.put("longitude", "55");
-        params.put("offset", "0");
-        params.put("limit", "100");
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.latitude), "55");
+        params.put(getString(R.string.longitude), "55");
+        params.put(getString(R.string.offset), "0");
+        params.put(getString(R.string.limit), "100");
 
         client.get(URL, params, new JsonHttpResponseHandler() {
             @Override
@@ -200,7 +208,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
-                        JSONArray responseArray = response.getJSONArray("response");
+                        JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                         Log.i("fg", "response array " + Integer.toString(responseArray.length()));
                         mMap.clear();
                         for (int i = 0; i < responseArray.length(); i++) {
@@ -208,19 +216,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                             String title = "";
                             double latitude = 0.0;
                             double longitude = 0.0;
-                            if (data.has("title")) {
-                                title = data.getString("title");
+                            if (data.has(getString(R.string.title))) {
+                                title = data.getString(getString(R.string.title));
                             }
-                            if (data.has("latitude")) {
-                                latitude = data.getDouble("latitude");
+                            if (data.has(getString(R.string.latitude))) {
+                                latitude = data.getDouble(getString(R.string.latitude));
                             }
 
-                            if (data.has("longitude")) {
-                                longitude = data.getDouble("longitude");
+                            if (data.has(getString(R.string.longitude))) {
+                                longitude = data.getDouble(getString(R.string.longitude));
                             }
+
+                            //add on map
                             addMarker(latitude, longitude, title);
-
-                            Log.i("fg", "Position: " + Double.toString(latitude) + " " + Double.toString(latitude) + " " + title);
                         }
 
                     }
@@ -251,6 +259,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     }
 
+    /**
+     * Start getting user's location
+     */
     public void getCurrentLocation() {
 
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -283,11 +294,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     }
 
+    /**
+     * Add new maker on map from list
+     */
     private void addMarker(double latitude, double longitude, String title) {
         LatLng latLng = new LatLng(latitude, longitude);
         if (mMap != null && latitude != 0.0 && longitude != 0.0) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude))
                     .title(title));
+
         }
     }
 

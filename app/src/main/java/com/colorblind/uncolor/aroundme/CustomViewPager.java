@@ -9,6 +9,11 @@ import android.view.MotionEvent;
  * Created by uncolor on 04.07.17.
  */
 
+
+/**
+ *  Custom class for disabled ViewPager's swipe
+ */
+
 public class CustomViewPager extends ViewPager {
     private boolean isPagingEnabled = true;
 

@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 
@@ -27,6 +26,10 @@ public  class AbsRuntimePermission extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Request permissions for android API 23+
+     */
     public void requestAppPermissions(final String[]requestedPermissions, final int stringId, final int requestCode) {
         mErrorString.put(requestCode, stringId);
 
@@ -45,28 +48,26 @@ public  class AbsRuntimePermission extends AppCompatActivity {
             } else {
                 ActivityCompat.requestPermissions(this, requestedPermissions, requestCode);
             }
-        } else {
-
         }
     }
 
+    /**
+     * Request permisson's callback
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.i("fg","Grant results: " + Integer.toString(grantResults.length));
 
         int permissionCheck = PackageManager.PERMISSION_GRANTED;
-        Log.i("fg", Integer.toString(permissionCheck));
-        Log.i("fg", Integer.toString(grantResults[0]));
-        Log.i("fg", Integer.toString(grantResults[1]));
         for(int permission : grantResults) {
             permissionCheck = permissionCheck + permission;
         }
 
         if( (grantResults.length > 0) && PackageManager.PERMISSION_GRANTED == permissionCheck) {
 
+            // All right. We can continue :)
+
         } else {
-            //Display message when contain some Dangerous permisson not accept
             Snackbar.make(findViewById(android.R.id.content), mErrorString.get(requestCode),
                     Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.enable), new View.OnClickListener() {
                 @Override

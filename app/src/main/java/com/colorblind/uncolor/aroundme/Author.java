@@ -6,6 +6,10 @@ import com.stfalcon.chatkit.commons.models.IUser;
  * Created by uncolor on 22.06.17.
  */
 
+/**
+ * Class for users in dialogs
+ */
+
 public class Author implements IUser {
 
     private String id;

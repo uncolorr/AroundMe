@@ -10,6 +10,10 @@ import java.util.Date;
  * Created by uncolor on 29.07.17.
  */
 
+/**
+ * Class for image message
+ */
+
 public class MyImageMessage implements IMessage, MessageContentType.Image {
 
     private String message_id;

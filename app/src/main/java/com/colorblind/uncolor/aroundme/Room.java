@@ -7,6 +7,11 @@ import android.os.Parcelable;
  * Created by uncolor on 15.06.17.
  */
 
+
+/**
+ *  Class of room
+ */
+
 public class Room implements Parcelable {
 
     private String title;

@@ -9,6 +9,11 @@ import java.util.Date;
  * Created by uncolor on 22.06.17.
  */
 
+
+/**
+ * Class for text message
+ */
+
 public class MyMessage implements IMessage {
 
     private String message_id;

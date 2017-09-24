@@ -24,7 +24,6 @@ import com.flurry.android.FlurryAgent;
 
 public class MainActivity extends AbsRuntimePermission {
 
-    private static final String FLURRY_API_KEY = "BY7KTGZPH9TS8924KJTR";
     private static final int REQUEST_PERMISSION = 10;
 
     CustomViewPager viewPager;
@@ -53,6 +52,8 @@ public class MainActivity extends AbsRuntimePermission {
         setContentView(R.layout.main);
 
 
+
+        //Request permission for 23 API level (Android 6.0+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             requestAppPermissions(new String[]{
@@ -62,17 +63,18 @@ public class MainActivity extends AbsRuntimePermission {
                     R.string.permission_msg, REQUEST_PERMISSION);
         }
 
+        //Analytics agent
         new FlurryAgent.Builder()
                 .withLogEnabled(true)
                 .withLogLevel(Log.INFO)
-                .build(this, FLURRY_API_KEY);
+                .build(this, getString(R.string.flurry_agent_key));
 
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        user = getIntent().getParcelableExtra("user");
-        login = getIntent().getStringExtra("login");
+        user = getIntent().getParcelableExtra(getString(R.string.user));
+        login = getIntent().getStringExtra(getString(R.string.login));
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarRooms = inflater.inflate(R.layout.rooms_action_bar, null);
@@ -85,9 +87,9 @@ public class MainActivity extends AbsRuntimePermission {
         getSupportActionBar().setCustomView(actionBarRooms);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
 
-        roomsFragment.getArguments().putParcelable("user", user);
-        favsFragment.getArguments().putParcelable("user", user);
-        mapFragment.getArguments().putParcelable("user", user);
+        roomsFragment.getArguments().putParcelable(getString(R.string.user), user);
+        favsFragment.getArguments().putParcelable(getString(R.string.user), user);
+        mapFragment.getArguments().putParcelable(getString(R.string.user), user);
 
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), roomsFragment, mapFragment, favsFragment);
@@ -99,6 +101,9 @@ public class MainActivity extends AbsRuntimePermission {
         navigation.setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener);
     }
 
+    /**
+     * Configurations for tabs
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -128,21 +133,31 @@ public class MainActivity extends AbsRuntimePermission {
     };
 
 
+    /**
+     * Open activity for create room
+     */
     public void onImageButtonClickCreateRoom(View view) {
         Intent intent = new Intent(MainActivity.this, CreateRoomActivity.class);
-        intent.putExtra("user", user);
-        intent.putExtra("isEdit", false);
+        intent.putExtra(getString(R.string.user), user);
+        intent.putExtra(getString(R.string.is_edit), false);
         startActivity(intent);
     }
 
+    /**
+     * Open profile settings activity
+     */
     public void onImageButtonClickProfileSettings(View view) {
         FlurryAgent.logEvent("call profile settings!!!");
         Intent intent = new Intent(MainActivity.this, ProfileSettings.class);
-        intent.putExtra("user", user);
-        intent.putExtra("login", login);
+        intent.putExtra(getString(R.string.user), user);
+        intent.putExtra(getString(R.string.login), login);
         startActivity(intent);
     }
 
+
+    /**
+     * Method for update markers on map
+     */
     public void onClickImageButtonUpdateMapAllChats(View view) {
 
         mapFragment.updateMap();
@@ -152,11 +167,15 @@ public class MainActivity extends AbsRuntimePermission {
     public void onResume() {
         super.onResume();
         Log.i("fg", "onResume main");
-        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
         user.setAvatar_url(sharedPref.getString(getString(R.string.avatar_url), ""));
         checkLocationEnabled();
     }
 
+
+    /**
+     * Open locations settings if GPS is disabled
+     */
     private void checkLocationEnabled() {
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {

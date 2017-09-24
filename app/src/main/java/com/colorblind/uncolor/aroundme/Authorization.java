@@ -39,7 +39,7 @@ public class Authorization extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.i("fg", "onCreate Auth");
+       // Log.i("fg", "onCreate Auth");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -71,6 +71,11 @@ public class Authorization extends AppCompatActivity {
 
     }
 
+
+    /**
+     *
+     * onClick login button
+     */
     public void onButtonLoginClick(View view) {
 
         if(editTextLogin.getText().toString().isEmpty() || editTextPassword.getText().toString().isEmpty()){
@@ -83,7 +88,7 @@ public class Authorization extends AppCompatActivity {
         }
 
         progressBarAuth.setVisibility(View.VISIBLE);
-        Log.i("fg", "one signal  id: " + oneSignaluserId);
+    //    Log.i("fg", "one signal  id: " + oneSignaluserId);
         String URL = getString(R.string.domain) + getString(R.string.url_login);
         RequestParams params = new RequestParams();
         params.put(getString(R.string.login), editTextLogin.getText().toString());
@@ -167,6 +172,10 @@ public class Authorization extends AppCompatActivity {
 
         });
     }
+
+    /**
+     * onClick register button
+     */
     public void onButtonRegisterClick(View view){
 
 
@@ -263,21 +272,21 @@ public class Authorization extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        Log.i("fg", "onResume Auth");
+       // Log.i("fg", "onResume Auth");
         getOneSignalValid();
     }
 
 
+
+    /**
+     *  get OneSignal User ID for push notifications
+     */
     public void getOneSignalValid(){
         OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
             @Override
             public void idsAvailable(String userId, String registrationId) {
-                Log.i("fg", "User:" + userId);
+             //   Log.i("fg", "User:" + userId);
                 oneSignaluserId = userId;
-
-                if (registrationId != null)
-                    Log.i("fg", "registrationId:" + registrationId);
-
             }
         });
     }

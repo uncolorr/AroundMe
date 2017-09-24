@@ -62,6 +62,9 @@ public class ListViewRoomsAdapter extends BaseAdapter {
         return view;
     }
 
+    /**
+     * Correct distance format for others values
+     */
     private String getDistanceFormat(int distance) {
 
         String result = "";

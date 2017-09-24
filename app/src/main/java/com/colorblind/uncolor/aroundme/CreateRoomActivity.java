@@ -42,13 +42,13 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         new FlurryAgent.Builder()
                 .withLogEnabled(true)
-                .build(this, "BY7KTGZPH9TS8924KJTR");
+                .build(this, getString(R.string.flurry_agent_key));
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         checkLocationEnabled();
-        isEdit = getIntent().getBooleanExtra("isEdit", false);
-        user = getIntent().getParcelableExtra("user");
+        isEdit = getIntent().getBooleanExtra(getString(R.string.is_edit), false);
+        user = getIntent().getParcelableExtra(getString(R.string.user));
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarCreateRoom = inflater.inflate(R.layout.create_room_action_bar, null);
         imageButtonUpdate = (ImageButton) actionBarCreateRoom.findViewById(R.id.imageButtonUpdate);
@@ -63,12 +63,12 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         if (isEdit){
 
-            room_name = getIntent().getStringExtra("room_name");
-            room_id = getIntent().getStringExtra("room_id");
-            radius = getIntent().getIntExtra("radius", 1);
-            createRoom.getArguments().putString("room_name", room_name);
-            createRoom.getArguments().putInt("radius", radius);
-            createRoom.getArguments().putBoolean("isEdit", isEdit);
+            room_name = getIntent().getStringExtra(getString(R.string.room_name));
+            room_id = getIntent().getStringExtra(getString(R.string.room_id));
+            radius = getIntent().getIntExtra(getString(R.string.radius), 1);
+            createRoom.getArguments().putString(getString(R.string.room_name), room_name);
+            createRoom.getArguments().putInt(getString(R.string.radius), radius);
+            createRoom.getArguments().putBoolean(getString(R.string.is_edit), isEdit);
         }
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -76,7 +76,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(actionBarCreateRoom);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
 
-        createRoom.getArguments().putParcelable("user", user);
+        createRoom.getArguments().putParcelable(getString(R.string.user), user);
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.replace(R.id.createRoomMainLayout, createRoom);
@@ -92,6 +92,10 @@ public class CreateRoomActivity extends AppCompatActivity {
         finish();
     }
 
+
+    /**
+     * onClick button for create room
+     */
     public void onClickImageButtonCreateRoom(View view) {
 
         if (createRoom.isGoodData() && !isEdit) {
@@ -105,6 +109,9 @@ public class CreateRoomActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * onClick for reset to previous settings of circle's radius
+     */
     public void onClickImageButtonUpdate(View view) {
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -115,6 +122,10 @@ public class CreateRoomActivity extends AppCompatActivity {
         checkLocationEnabled();
     }
 
+
+    /**
+     * Open locations settings if GPS is disabled
+     */
     private void checkLocationEnabled() {
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {

@@ -118,14 +118,14 @@ public class Dialog extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("fg", "onCreate");
+      //  Log.i("fg", "onCreate");
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.dialog);
 
         new FlurryAgent.Builder()
                 .withLogEnabled(true)
-                .build(this, "BY7KTGZPH9TS8924KJTR");
+                .build(this, getString(R.string.flurry_agent_key));
 
         webSocketFactory = new WebSocketFactory().setConnectionTimeout(5000);
         messagesList = (MessagesList) findViewById(R.id.messagesList);
@@ -174,13 +174,13 @@ public class Dialog extends AppCompatActivity {
             }
         };
 
-        user = getIntent().getParcelableExtra("user");
-        room = getIntent().getParcelableExtra("room");
+        user = getIntent().getParcelableExtra(getString(R.string.user));
+        room = getIntent().getParcelableExtra(getString(R.string.room));
 
-        Log.i("fg", "Longitude: " + Double.toString(room.getLongitude()));
-        room_name = getIntent().getStringExtra("room_name");
-        latitude = getIntent().getDoubleExtra("latitude", 0.0);
-        longitude = getIntent().getDoubleExtra("longitude", 0.0);
+      //  Log.i("fg", "Longitude: " + Double.toString(room.getLongitude()));
+        room_name = getIntent().getStringExtra(getString(R.string.room_name));
+        latitude = getIntent().getDoubleExtra(getString(R.string.latitude), 0.0);
+        longitude = getIntent().getDoubleExtra(getString(R.string.longitude), 0.0);
 
         adapter = new MessagesListAdapter<IMessage>(user.getUser_id(), imageLoader);
         messagesList.setAdapter(adapter);
@@ -217,7 +217,7 @@ public class Dialog extends AppCompatActivity {
         getSupportActionBar().setCustomView(actionBarDialog);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
         try {
-            webSocket = webSocketFactory.createSocket("http://aroundme.lwts.ru/chat?room_id=" + room.getRoom_id(), 5000);
+            webSocket = webSocketFactory.createSocket(getString(R.string.domain) + getString(R.string.url_websocket) + room.getRoom_id(), 5000);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -256,34 +256,31 @@ public class Dialog extends AppCompatActivity {
                 final JSONObject data = new JSONObject(frame.getPayloadText());
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(messagesList.getLayoutManager());
                 final int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                Log.i("fg", "layout manager: " + Integer.toString(firstVisibleItemPosition));
+              //  Log.i("fg", "layout manager: " + Integer.toString(firstVisibleItemPosition));
 
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                        if (data.has("data")) {
+                        if (data.has(getString(R.string.data))) {
                             try {
-                                boolean isMyMessage = Objects.equals(data.getString("user_id"), user.getUser_id());
-                                switch (data.getString("type")) {
-                                    case "Text":
-                                        Log.i("fg", "type text");
-                                        MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                                        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                                boolean isMyMessage = Objects.equals(data.getString(getString(R.string.user_id)), user.getUser_id());
+                                switch (data.getString(getString(R.string.type))) {
+                                    case MSG_TYPE_TEXT:
+                                       // Log.i("fg", "type text");
+                                        MyMessage myMessage = new MyMessage(data.getString(getString(R.string.message_id)), data.getString(getString(R.string.data)),
+                                                data.getString(getString(R.string.login)), data.getString(getString(R.string.unix_time)), data.getString(getString(R.string.user_id)), data.getString(getString(R.string.avatar)));
                                         adapter.addToStart(myMessage, isMyMessage);
                                         break;
-                                    case "Location":
-                                        Log.i("fg", "type location");
-                                        MyLocationMessage myLocationMessage = new MyLocationMessage(data.getString("user_id"), data.getString("data"),
-                                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                                        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                                    case MSG_TYPE_LOCATION:
+                                    //    Log.i("fg", "type location");
+                                        MyLocationMessage myLocationMessage = new MyLocationMessage(data.getString(getString(R.string.message_id)), data.getString(getString(R.string.data)),
+                                            data.getString(getString(R.string.login)), data.getString(getString(R.string.unix_time)), data.getString(getString(R.string.user_id)), data.getString(getString(R.string.avatar)));
                                         adapter.addToStart(myLocationMessage, isMyMessage);
                                         break;
-                                    case "Photo":
-                                        Log.i("fg", "was here images");
-                                        MyImageMessage myImageMessage = new MyImageMessage(data.getString("user_id"), data.getString("data"),
-                                                data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
-                                        Log.i("fg", "before " + Integer.toString(adapter.getItemCount()));
+                                    case MSG_TYPE_PHOTO:
+                                     //   Log.i("fg", "was here images");
+                                        MyImageMessage myImageMessage = new MyImageMessage(data.getString(getString(R.string.message_id)), data.getString(getString(R.string.data)),
+                                                data.getString(getString(R.string.login)), data.getString(getString(R.string.unix_time)), data.getString(getString(R.string.user_id)), data.getString(getString(R.string.avatar)));
                                         adapter.addToStart(myImageMessage, isMyMessage);
                                         break;
                                 }
@@ -345,8 +342,8 @@ public class Dialog extends AppCompatActivity {
                 Log.i("fg", "after: " + Integer.toString(adapter.getItemCount()));
                 JSONObject data = new JSONObject(text);
 
-                if (data.has("user_id")) {
-                    if (Objects.equals(data.getString("user_id"), user.getUser_id())) {
+                if (data.has(getString(R.string.user_id))) {
+                    if (Objects.equals(data.getString(getString(R.string.user_id)), user.getUser_id())) {
                         messagesList.smoothScrollToPosition(0);
                     }
                 }
@@ -466,11 +463,11 @@ public class Dialog extends AppCompatActivity {
 
                     Log.i("fg", "connected");
                     try {
-                        message.put("user_id", user.getUser_id());
-                        message.put("room_id", room.getRoom_id());
-                        message.put("data", editTextMessage.getText().toString());
-                        message.put("token", user.getToken());
-                        message.put("type", "Text");
+                        message.put(getString(R.string.user_id), user.getUser_id());
+                        message.put(getString(R.string.room_id), room.getRoom_id());
+                        message.put(getString(R.string.data), editTextMessage.getText().toString());
+                        message.put(getString(R.string.token), user.getToken());
+                        message.put(getString(R.string.type), MSG_TYPE_TEXT);
                         webSocket.sendText(message.toString());
                         editTextMessage.getText().clear();
 
@@ -501,7 +498,7 @@ public class Dialog extends AppCompatActivity {
                 int totalItemCount = layoutManager.getItemCount();
                 firstVisible = layoutManager.findFirstVisibleItemPosition();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
-                Log.i("fg", "first visible: " + Integer.toString(firstVisible));
+              //  Log.i("fg", "first visible: " + Integer.toString(firstVisible));
                 boolean endHasBeenReached = (lastVisible + 1) >= totalItemCount;
                 if (totalItemCount > 0 && endHasBeenReached && dy < 0) {
                     buttonLoadMore.setVisibility(View.VISIBLE);
@@ -516,16 +513,17 @@ public class Dialog extends AppCompatActivity {
     public void loadDialog(final boolean isLoadMore) {
 
         final List<IMessage> listLoadMore = new ArrayList<IMessage>();
-        Log.i("fg", "room id  " + room.getRoom_id());
+       // Log.i("fg", "room id  " + room.getRoom_id());
+        //Log.i("fg", Integer.toString(adapter.getItemCount()));
 
-        Log.i("fg", Integer.toString(adapter.getItemCount()));
-        String URL = "http://aroundme.lwts.ru/getMessages?";
+
+        String URL = getString(R.string.domain) + getString(R.string.url_get_messages);
         final RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("room_id", room.getRoom_id());
-        params.put("offset", Integer.toString(adapter.getMessagesCount()));
-        params.put("limit", "20");
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.room_id), room.getRoom_id());
+        params.put(getString(R.string.offset), Integer.toString(adapter.getMessagesCount()));
+        params.put(getString(R.string.limit), "20");
 
 
         client.post(URL, params, new JsonHttpResponseHandler() {
@@ -533,16 +531,16 @@ public class Dialog extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
 
-                    Log.i("fg", "response mes: " + response.toString());
-                    JSONArray responseArray = response.getJSONArray("messages");
+                    //Log.i("fg", "response mes: " + response.toString());
+                    JSONArray responseArray = response.getJSONArray(getString(R.string.messages));
                     for (int i = 0; i < responseArray.length(); i++) {
 
                         JSONObject data = responseArray.getJSONObject(i);
 
-                        if (Objects.equals(data.getString("type"), MSG_TYPE_PHOTO)) {
-                            if (data.has("data")) {
-                                MyImageMessage myImageMessage = new MyImageMessage(data.getString("user_id"), data.getString("data"),
-                                        data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                        if (Objects.equals(data.getString(getString(R.string.type)), MSG_TYPE_PHOTO)) {
+                            if (data.has(getString(R.string.data))) {
+                                MyImageMessage myImageMessage = new MyImageMessage(data.getString(getString(R.string.message_id)), data.getString(getString(R.string.data)),
+                                        data.getString(getString(R.string.login)), data.getString(getString(R.string.unix_time)), data.getString(getString(R.string.user_id)), data.getString(getString(R.string.avatar)));
                                 if (isLoadMore) {
                                     listLoadMore.add(myImageMessage);
                                 } else {
@@ -551,21 +549,20 @@ public class Dialog extends AppCompatActivity {
 
                             }
 
-                        } else if (Objects.equals(data.getString("type"), MSG_TYPE_TEXT)) {
-                            if (data.has("data")) {
-                                MyMessage myMessage = new MyMessage(data.getString("user_id"), data.getString("data"),
-                                        data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                        } else if (Objects.equals(data.getString(getString(R.string.type)), MSG_TYPE_TEXT)) {
+                            if (data.has(getString(R.string.data))) {
+                                MyMessage myMessage = new MyMessage(data.getString(getString(R.string.message_id)), data.getString(getString(R.string.data)),
+                                        data.getString(getString(R.string.login)), data.getString(getString(R.string.unix_time)), data.getString(getString(R.string.user_id)), data.getString(getString(R.string.avatar)));
                                 if (isLoadMore) {
                                     listLoadMore.add(myMessage);
                                 } else {
                                     adapter.addToStart(myMessage, true);
                                 }
                             }
-                        } else if (Objects.equals(data.getString("type"), MSG_TYPE_LOCATION)) {
-
-                            if (data.has("data")) {
-                                MyLocationMessage myLocationMessage = new MyLocationMessage(data.getString("user_id"), data.getString("data"),
-                                        data.getString("login"), data.getString("unix_time"), data.getString("user_id"), data.getString("avatar"));
+                        } else if (Objects.equals(data.getString(getString(R.string.type)), MSG_TYPE_LOCATION)) {
+                            if (data.has(getString(R.string.data))) {
+                                MyLocationMessage myLocationMessage = new MyLocationMessage(data.getString(getString(R.string.message_id)), data.getString(getString(R.string.data)),
+                                        data.getString(getString(R.string.login)), data.getString(getString(R.string.unix_time)), data.getString(getString(R.string.user_id)), data.getString(getString(R.string.avatar)));
                                 if (isLoadMore) {
                                     listLoadMore.add(myLocationMessage);
                                 } else {
@@ -631,15 +628,6 @@ public class Dialog extends AppCompatActivity {
         return list;
     }
 
-
-    private static File getTempFile(Context context) {
-        File imageFile = new File(context.getExternalCacheDir(), "tempImage");
-        imageFile.getParentFile().mkdirs();
-
-        return imageFile;
-    }
-
-
     public void onClickImageButtonAddMultimedia(View view) {
 
         new AlertDialog.Builder(this).setAdapter(listViewMultimediaAdapter, new DialogInterface.OnClickListener() {
@@ -647,18 +635,14 @@ public class Dialog extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case MENU_SEND_IMAGE:
-
-
                         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                         photoPickerIntent.setType("image/*");
                         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
-
-
                         break;
                     case MENU_SEND_LOCATION:
 
-                        String URL = "https://maps.googleapis.com/maps/api/staticmap?";
+                        String URL = getString(R.string.url_static_map);
                         RequestParams params = new RequestParams();
                         params.put("center", Double.toString(latitude) + "," + Double.toString(longitude));
                         params.put("zoom", "17");
@@ -669,21 +653,19 @@ public class Dialog extends AppCompatActivity {
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                Log.i("fg", "STATUS CODE " + statusCode);
+
                             }
 
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, File file) {
-                                Log.i("fg", "STATUS CODE " + statusCode);
                                 JSONObject message = new JSONObject();
-
                                 try {
 
-                                    message.put("user_id", user.getUser_id());
-                                    message.put("room_id", room.getRoom_id());
-                                    message.put("data", Double.toString(latitude) + " " + Double.toString(longitude));
-                                    message.put("token", user.getToken());
-                                    message.put("type", "Location");
+                                    message.put(getString(R.string.user_id), user.getUser_id());
+                                    message.put(getString(R.string.room_id), room.getRoom_id());
+                                    message.put(getString(R.string.data), Double.toString(latitude) + " " + Double.toString(longitude));
+                                    message.put(getString(R.string.token), user.getToken());
+                                    message.put(getString(R.string.type), MSG_TYPE_LOCATION);
                                     webSocket.sendText(message.toString());
 
                                 } catch (JSONException e) {
@@ -793,27 +775,27 @@ public class Dialog extends AppCompatActivity {
 
     public void addToFavs() {
 
-        String URL = "https://aroundme.lwts.ru/favs?";
+        String URL = getString(R.string.domain) + getString(R.string.url_favs);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("room_id", room.getRoom_id());
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.room_id), room.getRoom_id());
 
         client.get(URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    Log.i("fg", "add to favs " + response.toString());
-                    String status = response.getString("status");
+                    //Log.i("fg", "add to favs " + response.toString());
+                    String status = response.getString(getString(R.string.status));
                     if (Objects.equals(status, STATUS_FAIL)) {
                         Toast.makeText(Dialog.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
-                        String roomStatus = response.getString("response");
-                        if (Objects.equals(roomStatus, "added")) {
+                        String roomStatus = response.getString(getString(R.string.response));
+                        if (Objects.equals(roomStatus, getString(R.string.added))) {
                             Toast.makeText(Dialog.this, getString(R.string.add_to_favs_msg), Toast.LENGTH_LONG).show();
                             room.setInFavs(true);
-                        } else if (Objects.equals(roomStatus, "deleted")) {
+                        } else if (Objects.equals(roomStatus, getString(R.string.deleted))) {
                             Toast.makeText(Dialog.this, getString(R.string.del_from_favs_msg), Toast.LENGTH_LONG).show();
                             room.setInFavs(false);
                         }
@@ -830,19 +812,19 @@ public class Dialog extends AppCompatActivity {
     public void editRoom() {
 
         Intent intent = new Intent(Dialog.this, CreateRoomActivity.class);
-        intent.putExtra("user", user);
-        intent.putExtra("room_name", room.getTitle());
-        intent.putExtra("radius", room.getRadius());
-        intent.putExtra("isEdit", true);
-        intent.putExtra("room_id", room.getRoom_id());
+        intent.putExtra(getString(R.string.user), user);
+        intent.putExtra(getString(R.string.room_name), room.getTitle());
+        intent.putExtra(getString(R.string.radius), room.getRadius());
+        intent.putExtra(getString(R.string.is_edit), true);
+        intent.putExtra(getString(R.string.room_id), room.getRoom_id());
         startActivity(intent);
     }
 
     public void showPeoples() {
 
         Intent intent = new Intent(Dialog.this, UserGrid.class);
-        intent.putExtra("user", user);
-        intent.putExtra("room", room);
+        intent.putExtra(getString(R.string.user), user);
+        intent.putExtra(getString(R.string.room), room);
         startActivity(intent);
     }
 
@@ -963,23 +945,23 @@ public class Dialog extends AppCompatActivity {
 
     public void deleteRoom() {
 
-        String URL = "http://aroundme.lwts.ru/deleteRoom?";
+        String URL = getString(R.string.domain) + getString(R.string.url_delete_room);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("room_id", room.getRoom_id());
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.room_id), room.getRoom_id());
 
         client.post(URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    Log.i("fg", "delete room" + response.toString());
-                    String status = response.getString("status");
+                  //  Log.i("fg", "delete room" + response.toString());
+                    String status = response.getString(getString(R.string.status));
                     if (Objects.equals(status, STATUS_FAIL)) {
                         Toast.makeText(Dialog.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
-                        String str = response.getString("response");
+                        String str = response.getString(getString(R.string.response));
                         if (Objects.equals(str, "You have not admin's rights")) {
                             Toast.makeText(Dialog.this, "У вас нет прав для этого", Toast.LENGTH_LONG).show();
                         } else {
@@ -1001,32 +983,29 @@ public class Dialog extends AppCompatActivity {
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
-        Log.i("fg", "was on Activity Result");
-        Log.i("fg", Integer.toString(reqCode));
-
         if (data != null) {
 
             if (reqCode == RESULT_LOAD_IMAGE) {
                 try {
                     final Uri imageUri = data.getData();
 
-                    Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
+                   // Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
                     File file = new File(getRealPathFromURI(imageUri));
 
-                    String URL = "http://aroundme.lwts.ru/sendPhoto?";
+                    String URL = getString(R.string.domain) + getString(R.string.url_send_photo);
                     RequestParams requestParams = new RequestParams();
-                    requestParams.put("photo", file);
-                    requestParams.put("token", user.getToken());
-                    requestParams.put("room_id", room.getRoom_id());
-                    requestParams.put("user_id", user.getUser_id());
+                    requestParams.put(getString(R.string.photo), file);
+                    requestParams.put(getString(R.string.token), user.getToken());
+                    requestParams.put(getString(R.string.room_id), room.getRoom_id());
+                    requestParams.put(getString(R.string.user_id), user.getUser_id());
 
                     client.post(URL, requestParams, new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.i("fg", "send photo " + response.toString());
+                            //Log.i("fg", "send photo " + response.toString());
                             try {
-                                String status = response.getString("status");
+                                String status = response.getString(getString(R.string.status));
                                 if (Objects.equals(status, STATUS_FAIL)) {
 
                                 } else if (Objects.equals(status, STATUS_SUCCESS)) {
@@ -1049,6 +1028,11 @@ public class Dialog extends AppCompatActivity {
         }
     }
 
+
+
+    /**
+     *  Get path for load picture from gallery
+     */
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);

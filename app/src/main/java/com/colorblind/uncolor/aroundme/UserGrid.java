@@ -53,44 +53,44 @@ public class UserGrid extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
 
-        user = getIntent().getParcelableExtra("user");
-        room = getIntent().getParcelableExtra("room");
+        user = getIntent().getParcelableExtra(getString(R.string.user));
+        room = getIntent().getParcelableExtra(getString(R.string.room));
         final UsersListAdapter usersListAdapter = new UsersListAdapter(UserGrid.this, userItems);
 
 
         Log.i("fg", "room_id: " + room.getRoom_id());
-        String URL = "http://aroundme.lwts.ru/usersList?";
+        String URL = getString(R.string.domain) + getString(R.string.url_users_list);
         RequestParams params = new RequestParams();
-        params.put("token", user.getToken());
-        params.put("user_id", user.getUser_id());
-        params.put("room_id", room.getRoom_id());
-        params.put("offset", "0");
-        params.put("limit", "200");
+        params.put(getString(R.string.token), user.getToken());
+        params.put(getString(R.string.user_id), user.getUser_id());
+        params.put(getString(R.string.room_id), room.getRoom_id());
+        params.put(getString(R.string.offset), "0");
+        params.put(getString(R.string.limit), "200");
 
         client.get(URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     Log.i("fg", "show peoples " + response.toString());
-                    String status = response.getString("status");
+                    String status = response.getString(getString(R.string.status));
                     if (Objects.equals(status, STATUS_FAIL)) {
                         Toast.makeText(UserGrid.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 
                     } else if (Objects.equals(status, STATUS_SUCCESS)) {
 
-                        if (response.has("response")) {
-                            JSONArray responseArray = response.getJSONArray("response");
+                        if (response.has(getString(R.string.response))) {
+                            JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                             count = responseArray.length();
                             getSupportActionBar().setTitle(getString(R.string.users_count) + Integer.toString(count));
                             for (int i = 0; i < responseArray.length(); i++) {
 
                                 UserItem userItem = new UserItem();
                                 JSONObject data = responseArray.getJSONObject(i);
-                                if (data.has("login")) {
-                                    userItem.setLogin(data.getString("login"));
+                                if (data.has(getString(R.string.login))) {
+                                    userItem.setLogin(data.getString(getString(R.string.login)));
                                 }
-                                if (data.has("avatar_url")) {
-                                    userItem.setAvatar_url(data.getString("avatar_url"));
+                                if (data.has(getString(R.string.avatar_url))) {
+                                    userItem.setAvatar_url(data.getString(getString(R.string.avatar_url)));
                                 }
                                 userItems.add(userItem);
                             }

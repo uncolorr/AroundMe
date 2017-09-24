@@ -7,6 +7,10 @@ import android.os.Parcelable;
  * Created by uncolor on 14.06.17.
  */
 
+/**
+ *  Class for your avatar, id, token and etc
+ */
+
 public class User implements Parcelable{
 
     private String user_id;

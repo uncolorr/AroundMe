@@ -13,12 +13,7 @@
     <string name="status">status</string>
     <string name="oneSignalUserId">oneSignalUserId</string>  
     <string name="response">response</string>
-
     <string name="sharedPrefKeys">com.example.aroundme.KEYS</string>
-
-
-
-
     <string name="failed">failed</string>
     <string name="success">success</string>
     <string name="domain">https://aroundme.lwts.ru/</string>
@@ -26,8 +21,47 @@
     <string name="url_register">register?</string>
 
 
-
-
+    <string name="title">title</string>
+    <string name="radius">radius</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="room_id">room_id</string>
+    <string name="is_edit">isEdit</string>
+    <string name="photo">photo</string>
+    <string name="flurry_agent_key">BY7KTGZPH9TS8924KJTR</string>
+    <string name="url_edit_room">editRoom?</string>
+    <string name="url_add_room">addroom?</string>
+    <string name="url_websocket">chat?room_id=</string>
+    <string name="url_get_messages">getMessages?</string>
+    <string name="room">room</string>
+    <string name="room_name">room_name</string>
+    <string name="msg_type_text">Text</string>
+    <string name="msg_type_photo">Photo</string>
+    <string name="msg_type_location">Location</string>
+    <string name="data">data</string>
+    <string name="offset">offset</string>
+    <string name="limit">limit</string>
+    <string name="unix_time">unix_time</string>
+    <string name="avatar">avatar</string>
+    <string name="message_id">message_id</string>
+    <string name="messages">messages</string>
+    <string name="url_static_map">https://maps.googleapis.com/maps/api/staticmap?</string>
+    <string name="url_favs">favs?</string>
+    <string name="added">added</string>
+    <string name="deleted">deleted</string>
+    <string name="url_delete_room">deleteRoom?</string>
+    <string name="url_send_photo">sendPhoto?</string>
+    <string name="url_get_favs">getFavs?</string>
+    <string name="in_favs">inFavs</string>
+    <string name="usersCount">usersCount</string>
+    <string name="is_admin">isAdmin</string>
+    <string name="meters">meters</string>
+    <string name="url_all_rooms">allrooms?</string>
+    <string name="url_change_password">changepassword?</string>
+    <string name="new_pass">new_password</string>
+    <string name="url_change_avatar">changeavatar?</string>
+    <string name="url_logout">logout?</string>
+    <string name="url_users_list">usersList?</string>
 
 
     <string name="previous_messages">Previous messages</string> 

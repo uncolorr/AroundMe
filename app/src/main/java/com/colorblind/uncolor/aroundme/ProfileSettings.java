@@ -85,14 +85,14 @@ public class ProfileSettings extends AppCompatActivity {
 
         new FlurryAgent.Builder()
                 .withLogEnabled(true)
-                .build(this, "BY7KTGZPH9TS8924KJTR");
+                .build(this, getString(R.string.flurry_agent_key));
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
         imageLoader = ImageLoader.getInstance();
 
 
-        user = getIntent().getParcelableExtra("user");
+        user = getIntent().getParcelableExtra(getString(R.string.user));
         Log.i("fg", "user avatar: " + user.getAvatar_url());
         imageViewAvatar = (CircleImageView) findViewById(R.id.imageViewAvatar);
         imageLoader.loadImage(user.getAvatar_url(), new SimpleImageLoadingListener() {
@@ -102,7 +102,7 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
 
-        login = getIntent().getStringExtra("login");
+        login = getIntent().getStringExtra(getString(R.string.login));
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarProfile = inflater.inflate(R.layout.profile_action_bar, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -111,13 +111,13 @@ public class ProfileSettings extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a20022")));
         imageButtonChangePassword = (ImageButton) findViewById(R.id.imageButtonChangePassword);
         switchShowNews = (Switch) findViewById(R.id.switchShowNews);
-        SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
         switchShowNews.setChecked(sharedPref.getBoolean(getString(R.string.showNews), false));
 
         switchShowNews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean("showNews", isChecked);
@@ -218,19 +218,19 @@ public class ProfileSettings extends AppCompatActivity {
             Toast.makeText(ProfileSettings.this, getString(R.string.fields_should_not_be_empty), Toast.LENGTH_LONG).show();
         } else if (Objects.equals(editTextNewPassword.getText().toString(), editTextRepeatPassword.getText().toString())) {
 
-            String URL = "http://aroundme.lwts.ru/changepassword?";
+            String URL = getString(R.string.domain) + getString(R.string.url_change_password);
             RequestParams params = new RequestParams();
-            params.put("token", user.getToken());
-            params.put("user_id", user.getUser_id());
-            params.put("new_password", editTextRepeatPassword.getText().toString());
+            params.put(getString(R.string.token), user.getToken());
+            params.put(getString(R.string.user_id), user.getUser_id());
+            params.put(getString(R.string.new_pass), editTextRepeatPassword.getText().toString());
 
 
             client.post(URL, params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Log.i("fg", response.toString());
+               //     Log.i("fg", response.toString());
                     try {
-                        String status = response.getString("status");
+                        String status = response.getString(getString(R.string.status));
                         if (Objects.equals(status, STATUS_FAIL)) {
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileSettings.this);
@@ -270,12 +270,19 @@ public class ProfileSettings extends AppCompatActivity {
 
     }
 
+    /**
+     *  onClick method for open image gallery for change avatar
+     */
     public void onClickImageViewAvatar(View view) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
     }
 
+
+    /**
+     *  callback method for channge avatar
+     */
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
@@ -285,40 +292,35 @@ public class ProfileSettings extends AppCompatActivity {
 
                 final Uri imageUri = data.getData();
 
-                Log.i("fg", "real path: " + getRealPathFromURI(imageUri));
-
-
-                Log.i("fg", "picture " + imageUri.getEncodedPath());
-                Log.i("fg", "scheme " + imageUri.getScheme());
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 File file = new File(getRealPathFromURI(imageUri));
 
-                String URL = "http://aroundme.lwts.ru/changeavatar?";
+                String URL = getString(R.string.domain)+ getString(R.string.url_change_avatar);
                 RequestParams requestParams = new RequestParams();
-                requestParams.put("photo", file);
-                requestParams.put("token", user.getToken());
-                requestParams.put("user_id", user.getUser_id());
+                requestParams.put(getString(R.string.photo), file);
+                requestParams.put(getString(R.string.token), user.getToken());
+                requestParams.put(getString(R.string.user_id), user.getUser_id());
 
                 client.post(URL, requestParams, new JsonHttpResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        Log.i("fg", "change avatar " + response.toString());
+                        //Log.i("fg", "change avatar " + response.toString());
                         try {
-                            String status = response.getString("status");
+                            String status = response.getString(getString(R.string.status));
                             if (Objects.equals(status, STATUS_FAIL)) {
 
 
                             } else if (Objects.equals(status, STATUS_SUCCESS)) {
                                 imageViewAvatar.setImageBitmap(selectedImage);
-                                JSONArray responseArray = response.getJSONArray("response");
+                                JSONArray responseArray = response.getJSONArray(getString(R.string.response));
                                 JSONObject data = responseArray.getJSONObject(0);
-                                user.setAvatar_url(data.getString("avatar_url"));
-                                SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
+                                user.setAvatar_url(data.getString(getString(R.string.avatar_url)));
+                                SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
 
                                 SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString(getString(R.string.avatar_url), data.getString("avatar_url"));
+                                editor.putString(getString(R.string.avatar_url), data.getString(getString(R.string.avatar_url)));
                                 editor.apply();
 
                                 Toast.makeText(ProfileSettings.this, getString(R.string.avatar_successfully_uploaded), Toast.LENGTH_LONG).show();
@@ -354,22 +356,21 @@ public class ProfileSettings extends AppCompatActivity {
 
     public void onClickImageButtonExit(View view) {
 
+        final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.sharedPrefKeys), Context.MODE_PRIVATE);
 
-        final SharedPreferences sharedPref = getSharedPreferences("com.example.aroundme.KEYS", Context.MODE_PRIVATE);
-
-        String URL = "http://aroundme.lwts.ru/logout?";
+        String URL = getString(R.string.domain) + getString(R.string.url_logout);
         RequestParams params = new RequestParams();
-        params.put("oneSignalUserId", sharedPref.getString(getString(R.string.oneSignalUserId), ""));
-        params.put("user_id", sharedPref.getString(getString(R.string.user_id), ""));
-        params.put("token", sharedPref.getString(getString(R.string.token), ""));
+        params.put(getString(R.string.oneSignalUserId), sharedPref.getString(getString(R.string.oneSignalUserId), ""));
+        params.put(getString(R.string.user_id), sharedPref.getString(getString(R.string.user_id), ""));
+        params.put(getString(R.string.token), sharedPref.getString(getString(R.string.token), ""));
 
 
         client.post(URL, params, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("fg", response.toString());
+            //    Log.i("fg", response.toString());
                 try {
-                    String resp = response.getString("response");
+                    String resp = response.getString(getString(R.string.response));
                     if(Objects.equals(resp, "ok")){
 
                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -392,6 +393,10 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     *  Get path for load picture from gallery
+     */
 
     private String getRealPathFromURI(Uri contentURI) {
         String result;
